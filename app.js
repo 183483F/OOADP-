@@ -1,5 +1,5 @@
 zhijian1
 jing yuan
-alex is gay?
-
-no
+alex
+choon wee
+zhan yu
