@@ -1,0 +1,25 @@
+{
+  "name": "ooadp-",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/183483F/OOADP-.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/183483F/OOADP-/issues"
+  },
+  "homepage": "https://github.com/183483F/OOADP-#readme",
+  "dependencies": {
+    "cookie-parser": "^1.4.4",
+    "express": "^4.16.4",
+    "express-handlebars": "^3.0.2",
+    "method-override": "^3.0.0"
+  }
+}
