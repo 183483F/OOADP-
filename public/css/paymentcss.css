@@ -1,7 +1,7 @@
 .payButton{
     background-color:#00DDDC
 }
-.payButton:hover{
+.payButton:visited{
     background-color: #37D657
 }
 #containerpay{

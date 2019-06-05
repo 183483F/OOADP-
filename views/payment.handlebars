@@ -1,6 +1,6 @@
 <link rel="stylesheet" href="/css/paymentcss.css">
 <script type="text/javascript" src="jquery-3.3.1.js"><{{!}}/script>
-<script src="js/payment.js"></script>
+<script src="/js/payment.js"></script>
 
 <div id="time">
     <p><span id="datetime">test</span></p>
@@ -15,7 +15,7 @@
     <div class="card">
         <div class="card-header" id="headingOne">
         <h5 class="mb-0">
-            <button class="btn" data-toggle="collapse" data-target="#collapseCredit" aria-expanded="true" aria-controls="collapsecredit" style="text-align: center">
+            <button class="btn" data-toggle="collapse" data-target="#collapseCredit" aria-expanded="false" aria-controls="collapsecredit" style="text-align: center">
             Citybank Card
             </button>
             <p class="card-text balanceText">$11,235</p>
@@ -78,6 +78,14 @@
 
 
 <script>
-    var dt = new Date();
-    document.getElementbyId("datetime").innerHTML = dt.toLocaleString();
+    function changeText() {
+    var element = document.getElementById('paylink');
+    if (element.innerHTML === 'Pay') element.innerHTML = 'Paid';
+    else{
+        element.innerHTML = 'Pay';
+        }
+    }
+
+var dt = new Date();
+document.getElementbyId("datetime").innerHTML = dt.toLocaleString();
 </script>
