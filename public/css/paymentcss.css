@@ -1,7 +1,7 @@
 .payButton{
     background-color:#00DDDC
 }
-.payButton:visited{
+.payButton:focus{
     background-color: #37D657
 }
 #containerpay{
