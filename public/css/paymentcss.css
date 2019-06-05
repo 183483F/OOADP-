@@ -1,11 +1,23 @@
 .payButton{
     background-color:#00DDDC
 }
-.payButton:visited{
+.payButton:focus{
     background-color: #37D657
 }
 #containerpay{
     float:right;
     height:800px;
     width:500px;
+}
+#containercredit{
+    float:left;
+}
+#time{
+    text-align: center;
+    height:50px;
+    font-size: 30px;
+    font-family: Quicksand;
+}
+.balanceText{
+    color: #37D657;
 }
