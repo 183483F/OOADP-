@@ -1,0 +1,11 @@
+.payButton{
+    background-color:#00DDDC
+}
+.payButton:visited{
+    background-color: #37D657
+}
+#containerpay{
+    float:right;
+    height:800px;
+    width:500px;
+}

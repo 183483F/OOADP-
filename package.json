@@ -17,15 +17,19 @@
   },
   "homepage": "https://github.com/183483F/OOADP-#readme",
   "dependencies": {
-<<<<<<< HEAD
+    "bcryptjs": "^2.4.3",
     "body-parser": "^1.18.3",
+    "connect-flash": "^0.1.1",
     "cookie-parser": "^1.4.4",
     "express": "^4.16.4",
-=======
-    "cookie-parser": "^1.4.4",
-    "express": "^4.16.4",
-    "express-handlebars": "^3.0.2",
->>>>>>> f6a82e11dba6d01922623b51658cd674a7b2276c
-    "method-override": "^3.0.0"
+    "express-handlebars": "^3.1.0",
+    "express-mysql-session": "^2.1.0",
+    "flash-messenger": "^1.1.1",
+    "method-override": "^3.0.0",
+    "moment": "^2.24.0",
+    "mysql2": "^1.6.5",
+    "passport": "^0.4.0",
+    "passport-local": "^1.0.0",
+    "sequelize": "^5.8.7"
   }
 }

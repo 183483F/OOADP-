@@ -1,0 +1,53 @@
+<link rel="stylesheet" href="/css/paymentcss.css">
+
+<div id="containerpay">
+    <div class="card text-center">
+    <div class="card-header">
+        Bills Due This Week
+    </div>
+    <div id="accordion">
+    <div class="card">
+        <div class="card-header" id="headingOne">
+        <h5 class="mb-0">
+            <button class="btn" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne" style="text-align: center">
+            Overdue
+            </button>
+        </h5>
+        </div>
+
+        <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
+        <div class="card-body">
+            <h5 class="card-title">Singtel Phone Bill</h5>
+            <p class="card-text">$145</p>
+            <a href="#" class="btn btn-primary payButton" onclick="pay()">Pay</a>
+        </div>
+        </div>
+    </div>
+    </div>
+        <div class="card-header" id="headingTwo">
+        <h5 class="mb-0">
+            <button class="btn" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo" style="text-align: center">
+            Due Today
+            </button>
+        </h5>
+        </div>
+        <div id="collapseTwo" class="collapse show" aria-labelledby="headingTwo" data-parent="#accordion">
+        <div class="card-body">
+            <h5 class="card-title">Water & Electicity Bills</h5>
+            <p class="card-text">$165</p>
+            <a href="#" class="btn btn-primary payButton" onclick="this.innerHTML = 'Paid'">Pay</a>
+        </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+<script>
+    function pay()
+    {
+        document.getElementsByClassName('payButton').innerHTML = "<a href="#" class="btn btn-primary payButton" onclick="pay()">Paid</a>";
+    }
+</script>
