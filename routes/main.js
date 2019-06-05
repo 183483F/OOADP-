@@ -9,4 +9,9 @@ router.get('/payment', (req, res) =>{
     res.render('payment');
 });
 
+router.get('/transactionH', (req, res) => {
+    res.render('transactionH');
+});
+
+
 module.exports = router;
