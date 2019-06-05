@@ -1,6 +1,6 @@
-#payButton{
+.payButton{
     color:#00DDDC
 }
-#payButton:visited{
+.payButton:visited{
     color: #37D657
 }

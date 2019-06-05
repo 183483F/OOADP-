@@ -17,7 +17,7 @@
       <div class="card-body">
         <h5 class="card-title">Singtel Phone Bill</h5>
         <p class="card-text">$145</p>
-        <a href="#" class="btn btn-primary" id="payButton" onclick="pay()">Pay</a>
+        <a href="#" class="btn btn-primary payButton" onclick="pay()">Pay</a>
       </div>
     </div>
 
@@ -41,10 +41,9 @@
 
 
 <script>
-function pay(){
-    var elem = document.getElementById("payButton");
-    if (elem.value=="Pay") elem.value = "Paid";
-    else elem.value = "Pay";
-}
-
+    function pay()
+    {
+        
+        document.getElementsByClassName("payButton").value="paid";
+    }
 </script>
