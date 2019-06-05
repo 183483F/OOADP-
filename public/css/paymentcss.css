@@ -1,11 +1,21 @@
 .payButton{
     background-color:#00DDDC
 }
-.payButton:visited{
+.payButton:hover{
     background-color: #37D657
 }
 #containerpay{
     float:right;
     height:800px;
     width:500px;
+}
+#containercredit{
+    float:left;
+}
+#time{
+    
+    height:50px;
+}
+.balanceText{
+    color: #37D657;
 }

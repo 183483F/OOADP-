@@ -5,3 +5,8 @@ function changeText() {
         element.innerHTML = 'Pay';
     }
 }
+
+var dt = new Date();
+document.getElementbyId("datetime").innerHTML = dt.toLocaleString();
+
+alert("Hello world");
