@@ -7,6 +7,6 @@ function changeText() {
 }
 
 var dt = new Date();
-document.getElementbyId("datetime").innerHTML = dt.toLocaleString();
+document.getElementbyId("datetime").innerHTML = dt;
 
 alert("Hello world");

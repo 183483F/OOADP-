@@ -3,7 +3,7 @@
 <script src="/js/payment.js"></script>
 
 <div id="time">
-    <p><span id="datetime"></span></p>
+    <p id="datetime"></p>
 </div>
 
 <div id="containercredit">
@@ -82,10 +82,10 @@
     var element = document.getElementById('paylink');
     if (element.innerHTML === 'Pay') element.innerHTML = 'Paid';
     else{
-        element.innerHTML = 'Pay';
+        element.innerHTML = 'Paid';
         }
     }
 
-    var dt = new Date();
-    document.getElementbyId("datetime").innerHTML = dt.toLocaleString();
+    var d = new Date();
+    document.getElementById("datetime").innerHTML = d.toDateString();
 </script>
