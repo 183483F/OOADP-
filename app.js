@@ -1,13 +1,22 @@
 const express = require('express');
-const exphbs = require('express-handlebars');
+const session = require('express-session');
 const path = require('path');
+const exphbs = require('express-handlebars');
+const methodOverride = require('method-override');
+const cookieParser = require('cookie-parser');
+const bodyParser = require('body-parser');
+const flash = require('connect-flash');
+const FlashMessenger = require('flash-messenger');// Library to use MySQL to store session objects
+const MySQLStore = require('express-mysql-session');
+const db = require('./config/db'); // db.js config file
+const passport = require('passport');
 
 const app = express();
 
 
 const mainRoute = require('./routes/main');
+const userRoute = require('./routes/user');
 
-app.use('/', mainRoute);
 
 
 
@@ -16,14 +25,51 @@ app.engine('handlebars', exphbs({
 }));
 app.set('view engine', 'handlebars');
 
+// Body parser middleware to parse HTTP body in order to read HTTP data
+app.use(bodyParser.urlencoded({
+	extended: false
+}));
+app.use(bodyParser.json());
+
 // Creates static folder for publicly accessible HTML, CSS and Javascript files
 app.use(express.static(path.join(__dirname, 'public')));
 
+// Method override middleware to use other HTTP methods such as PUT and DELETE
+app.use(methodOverride('_method'));
 
+// Enables session to be stored using browser's Cookie ID
+app.use(cookieParser());
+// Creates static folder for publicly accessible HTML, CSS and Javascript files
+app.use(express.static(path.join(__dirname, 'public')));
+
+// To store session information. By default it is stored as a cookie on browser
+app.use(session({
+	key: 'vidjots_session',
+	secret: 'tojiv',
+	store: new MySQLStore({
+		host: db.host,
+		port: 3306,
+		user: db.username,
+		password: db.password,
+		database: db.database,
+		Age: db.Age,
+		clearExpired: true,
+		// How frequently expired sessions will be cleared; milliseconds:
+		checkExpirationInterval: 900000,
+		// The maximum age of a valid session; milliseconds:
+		expiration: 900000,
+	}),
+
+	resave: false,
+	saveUninitialized: false,
+}));
 /*	
 * Creates a unknown port 5000 for express server since we don't want our app to clash with well known
 * ports such as 80 or 8080.
 * */
+app.use('/', mainRoute);
+app.use('/user', userRoute);
+
 const port = 5000;
 
 // Starts the server and listen to port 5000
