@@ -15,36 +15,36 @@
     }
 </script>
 
-
-<div id="containerNetWorth">
-    <div class="card text-center">
-        <div class="card-header NetWorthHeader">
-            Net Worth
-            <!-- Insert Total of all amount here -->
-        </div>
-        <div id="accordion">
-            <div class="card">
-                <div class="card-header" id="headingOne">
-                    <h5 class="mb-0">
-                        <button class="btn" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true"
-                            aria-controls="collapseOne" style="text-align: center">
-                            Bank Account (Total Amount)
-                            <!--Insert Total Amount here -->
-                        </button>
-                    </h5>
-                </div>
-
-                <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
-
-                    <div class="card-body">
-                        <h5 class="card-title">Savings</h5>
-                        <p class="card-text">$145.00</p>
-
+<div id="BigDiv">
+    <div id="containerNetWorth">
+        <div class="card text-center">
+            <div class="card-header NetWorthHeader">
+                Net Worth
+                <!-- Insert Total of all amount here -->
+            </div>
+            <div id="accordion">
+                <div class="card">
+                    <div class="card-header" id="headingOne">
+                        <h5 class="mb-0">
+                            <button class="btn" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true"
+                                aria-controls="collapseOne" style="text-align: center">
+                                Bank Account (Total Amount)
+                                <!--Insert Total Amount here -->
+                            </button>
+                        </h5>
                     </div>
-                    <div class="card-body">
-                        <h5 class="card-title">Checking</h5>
-                        <p class="card-text">$145.00</p>
-                        <!--  ===When user clicks to add something under Bank Account===
+
+                    <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
+
+                        <div class="card-body">
+                            <h5 class="card-title">Savings</h5>
+                            <p class="card-text">$145.00</p>
+
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title">Checking</h5>
+                            <p class="card-text">$145.00</p>
+                            <!--  ===When user clicks to add something under Bank Account===
         </div>
                 </div>
                <div class="card-body">
@@ -53,56 +53,139 @@
            
         </div>
         -->
+                        </div>
+
                     </div>
-
                 </div>
-            </div>
 
+            </div>
         </div>
     </div>
-</div>
 
 
-<div id="NewTransactionBox">
-    <!-- Tab links -->
-    <div class="tab">
-        <button class="tablinks" onclick="openCity(event, 'Expense')">Expense</button>
-        <div class="buttonspacing"></div>
-        <button class="tablinks" onclick="openCity(event, 'Transfer')">Transfer</button>
-        <div class="buttonspacing"></div>
-        <button class="tablinks" onclick="openCity(event, 'Income')">Income</button>
-    </div>
+    <div id="NewTransactionBox">
+        <!-- Tab links -->
+        <div class="tab">
+            <button class="tablinks" onclick="openCity(event, 'Expense')">Expense</button>
+            <div class="buttonspacing"></div>
+            <button class="tablinks" onclick="openCity(event, 'Transfer')">Transfer</button>
+            <div class="buttonspacing"></div>
+            <button class="tablinks" onclick="openCity(event, 'Income')">Income</button>
+        </div>
 
-    <!-- Tab content -->
-    <div id="Expense" class="tabcontent">
-        <p>From<p>
-                <form action="/action_page.php">
-                    <select name="">
-                        <option value="">Checking</option>
-                        <option value="">Savings</option>
-                        <!-- <option value=""></option>
-                        <option value=""></option> -->
-                    </select>
-                    <br><br>
-
-                </form>
-                <p>Tags</p>
-                <form action="/action_page.php">
-                    <select name="">
-                        <option value="">Groceries</option>
-                        <option value="">Clothes</option>
-                        <!-- <option value=""></option>
-                        <option value=""></option> -->
-                    </select>
-                    <br><br>
+        <!-- Tab content -->
+        <div id="Expense" class="tabcontent">
+            <p>From<p>
                     <form action="/action_page.php">
-                       
-                        <input type="text" name="firstname" value="Mickey">
-                        <br>
-                      
- 
+                        <select name="">
+                            <option value="">Checking</option>
+                            <option value="">Savings</option>
+                            <!-- <option value=""></option>
+                        <option value=""></option> -->
+                        </select>
+                        <br><br>
+
                     </form>
-                </form>
+                      <form action="/action_page.php">
+                            <input type="text" name="" value="Amount">
+                            <br>
+                        </form>
+                    <p>Tags</p>
+                    <form action="/action_page.php">
+                        <select name="">
+                            <option value="">Groceries</option>
+                            <option value="">Clothes</option>
+                            <!-- <option value=""></option>
+                        <option value=""></option> -->
+                        </select>
+                        <br><br>
+                        <form action="/action_page.php">
+                            <input type="text" name="" value="Notes">
+                            <br>
+                        </form>
+                    </form>
+                      <form action="/action_page.php">
+                            <input type="text" name="" value="Date">
+                            <br>
+                        </form>
+                        <button type="submit" form="form1" value="Submit">Submit</button>
+        </div>
+          <!-- Tab content -->
+        <div id="Transfer" class="tabcontent">
+            <p>From<p>
+                    <form action="/action_page.php">
+                        <select name="">
+                            <option value="">Checking</option>
+                            <option value="">Savings</option>
+                            <!-- <option value=""></option>
+                        <option value=""></option> -->
+                        </select>
+                        <br><br>
+
+                    </form>
+                      <form action="/action_page.php">
+                            <input type="text" name="" value="Amount">
+                            <br>
+                        </form>
+                    <p>Tags</p>
+                    <form action="/action_page.php">
+                        <select name="">
+                            <option value="">Groceries</option>
+                            <option value="">Clothes</option>
+                            <!-- <option value=""></option>
+                        <option value=""></option> -->
+                        </select>
+                        <br><br>
+                        <form action="/action_page.php">
+                            <input type="text" name="" value="Notes">
+                            <br>
+                        </form>
+                    </form>
+                      <form action="/action_page.php">
+                            <input type="text" name="" value="Date">
+                            <br>
+                        </form>
+                        <button type="submit" form="form1" value="Submit">Submit</button>
+        </div>
+          <!-- Tab content -->
+        <div id="Income" class="tabcontent">
+            <p>From<p>
+                    <form action="/action_page.php">
+                        <select name="">
+                            <option value="">Checking</option>
+                            <option value="">Savings</option>
+                            <!-- <option value=""></option>
+                        <option value=""></option> -->
+                        </select>
+                        <br><br>
+
+                    </form>
+                      <form action="/action_page.php">
+                            <input type="text" name="" value="Amount">
+                            <br>
+                        </form>
+                    <p>Tags</p>
+                    <form action="/action_page.php">
+                        <select name="">
+                            <option value="">Groceries</option>
+                            <option value="">Clothes</option>
+                            <!-- <option value=""></option>
+                        <option value=""></option> -->
+                        </select>
+                        <br><br>
+                        <form action="/action_page.php">
+                            <input type="text" name="" value="Notes">
+                            <br>
+                        </form>
+                    </form>
+                      <form action="/action_page.php">
+                            <input type="text" name="" value="Date">
+                            <br>
+                        </form>
+                        <button type="submit" form="form1" value="Submit">Submit</button>
+        </div>
+        
+
     </div>
 
 </div>
