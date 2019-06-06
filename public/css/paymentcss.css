@@ -11,6 +11,7 @@
 }
 #containercredit{
     float:left;
+    width:300px;
 }
 #time{
     text-align: center;
@@ -20,4 +21,7 @@
 }
 .balanceText{
     color: #37D657;
+}
+.billtotaltext{
+    color:red;
 }
