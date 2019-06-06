@@ -1,17 +1,22 @@
 const express = require('express');
 const session = require('express-session');
 const path = require('path');
+const exphbs = require('express-handlebars');
+const methodOverride = require('method-override');
 const db = require('./config/db');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
-const methodOverride = require('method-override');
+const flash = require('connect-flash');
+const FlashMessenger = require('flash-messenger');// Library to use MySQL to store session objects
 const MySQLStore = require('express-mysql-session');
-const session = require('express-session');
+//const session = require('express-session');
 const { formatDate } = require('./helpers/hbs');
+const passport = require('passport');
 const app = express();
 
 
 const mainRoute = require('./routes/main');
+const userRoute = require('./routes/user')
 const billRoute = require('./routes/bills');
 
 
@@ -68,7 +73,6 @@ app.use('/bills', billRoute);
 * Creates a unknown port 5000 for express server since we don't want our app to clash with well known
 * ports such as 80 or 8080.
 * */
-app.use('/', mainRoute);
 app.use('/user', userRoute);
 
 const port = 5000;
