@@ -1,4 +1,3 @@
-
 const express = require('express');
 const exphbs = require('express-handlebars');
 const path = require('path');
@@ -31,4 +30,10 @@ const port = 5000;
 app. listen(port, () => {
 	console.log(`Server started on port ${port}`);
 });
-
+// Bring in database connection
+const vidjotDB = require('./config/DBConnection');
+// Connects to MySQL database
+vidjotDB.setUpDB(false); // To set up database with new tables set (true)
+// Passport Config
+const authenticate = require('./config/passport');
+//authenticate.localStrategy(passport);
