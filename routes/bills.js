@@ -1,6 +1,7 @@
 const Bills = require('../models/Bills');
 const express = require('express');
 const router = express.Router();
+const moment = require('moment');
 
 // List videos belonging to current logged in user
 router.get('/payment',(req, res) => {
@@ -38,9 +39,8 @@ router.post('/addbills',(req, res) => {
         title,
         billCost,
         dateRelease
-        /*userId*/
-    }).then((bills) => {
-        res.redirect('/bills/payment');
+    }).then((video) => {
+        res.redirect('/bills/addbills');
     })
         .catch(err => console.log(err))
 

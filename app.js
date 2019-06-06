@@ -2,19 +2,26 @@ const express = require('express');
 const exphbs = require('express-handlebars');
 const path = require('path');
 const db = require('./config/db');
-
+const bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser');
+const methodOverride = require('method-override');
+const MySQLStore = require('express-mysql-session');
+const session = require('express-session');
+const { formatDate } = require('./helpers/hbs');
 const app = express();
 
 
 const mainRoute = require('./routes/main');
 const billRoute = require('./routes/bills');
 
-app.use('/', mainRoute);
-app.use('/bills', billRoute);
+
 
 
 
 app.engine('handlebars', exphbs({
+	helpers: {
+		formatDate: formatDate,
+	},
 	defaultLayout: 'main' // Specify default template views/layout/main.handlebar 
 }));
 app.set('view engine', 'handlebars');
@@ -25,10 +32,7 @@ app.use(bodyParser.urlencoded({
 }));
 app.use(bodyParser.json());
 
-// parse the raw data
-app.use(bodyParser.raw());
-// parse text
-app.use(bodyParser.text());
+
 
 // Method override middleware to use other HTTP methods such as PUT and DELETE
 app.use(methodOverride('_method'));
@@ -57,8 +61,10 @@ app.use(session({
 
 	resave: false,
 	saveUninitialized: false,
-}));
+})); 
 
+app.use('/', mainRoute);
+app.use('/bills', billRoute);
 /*	
 * Creates a unknown port 5000 for express server since we don't want our app to clash with well known
 * ports such as 80 or 8080.
