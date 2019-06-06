@@ -6,8 +6,10 @@ const app = express();
 
 
 const mainRoute = require('./routes/main');
+const billRoute = require('./routes/bills');
 
 app.use('/', mainRoute);
+app.use('/bills', billRoute);
 
 
 
