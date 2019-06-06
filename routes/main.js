@@ -5,7 +5,7 @@ router.get('/', (req, res) => {
     res.render('index');
 });
 
-router.get('/payment', (req, res) =>{
+router.get('/bills/payment', (req, res) =>{
     res.render('payment');
 });
 
