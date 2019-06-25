@@ -16,6 +16,7 @@ const app = express();
 const mainRoute = require('./routes/main');
 const userRoute = require('./routes/user')
 const billRoute = require('./routes/bills');
+const dashboardRoute = require('./routes/dashboard')
 
 app.engine('handlebars', exphbs({
 	helpers: {
@@ -67,6 +68,7 @@ app.use(function (req, res, next) {
 app.use('/', mainRoute);
 app.use('/bills', billRoute);
 app.use('/user', userRoute);
+app.use('/dashboard', dashboardRoute)
 
 const port = 5000;
 
