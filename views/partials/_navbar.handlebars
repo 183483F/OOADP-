@@ -11,9 +11,16 @@
 				<li class="nav-item">
 					<a class="nav-link" href="/dashboard">Dashboard</a>
 				</li>
-				<li class="nav-item">
-					<a class="nav-link" href="/payment">Bills</a>
-				</li>
+			<ul class="navbar-nav ml-auto">
+					<li class="nav-item dropdown">
+						<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" id="navbarDropdownMenuLink">Bills</a>
+						<div class="dropdown-menu">
+							{{!-- Note: ".." move 1 folder up. "." is the current folder. start with the "/" to indicte root directory --}}
+							<a href="/bills/payment" class="dropdown-item">Bills</a>
+							<a href= "/bills/addbills" class="dropdown-item">Add Bills</a>
+						</div>
+					</li>
+			</ul>
         <li class="nav-item">
 					<a class="nav-link" href="/payment">Expenditure</a>
 				</li><li class="nav-item">
