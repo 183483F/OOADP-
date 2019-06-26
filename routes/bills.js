@@ -2,12 +2,12 @@ const Bills = require('../models/Bills');
 const express = require('express');
 const router = express.Router();
 const moment = require('moment');
-
+const alertMessage = require('../helpers/messenger')
 // List videos belonging to current logged in user
 router.get('/payment',(req, res) => {
     Bills.findAll({
         /*where: {
-            user: req.user
+            user: req.user.id
         },*/
         order: [
             ['title', 'ASC']
@@ -38,8 +38,9 @@ router.post('/addbills',(req, res) => {
     Bills.create({
         title,
         billCost,
-        dateRelease
-    }).then((video) => {
+        dateRelease,
+        
+    }).then((bills) => {
         res.redirect('/bills/addbills');
     })
         .catch(err => console.log(err))
@@ -74,14 +75,13 @@ router.put('/saveEditedBills/:id',(req, res) => {
     let title = req.body.title;
     let billCost = req.body.billCost.slice(0, 50);
     let dateRelease = moment(req.body.dateRelease, 'DD/MM/YYYY');
-    let userId = req.user.id;
     var billID = req.params.id;
     // Retrieves edited values from req.body
     Bills.update({
         // Set variables here to save to the videos table
         title,
         billCost,
-        dateRelease
+        dateRelease,
     }, {
             where: {
                 id: billID
@@ -92,6 +92,35 @@ router.put('/saveEditedBills/:id',(req, res) => {
             res.redirect('/bills/payment');
         }).catch(err => console.log(err));
 });
+
+router.get('/delete/:id',(req, res) => {
+    var billsId = req.params.id;
+    Bills.findOne({
+        where: {
+            id: billsId
+        }
+    }).then((bills) => {
+        console.log("billsIDToDelete.userId : " + bills.userId);
+        console.log("req.user.id : " + req.user.id);
+        if (video.userId === req.user.id) {
+            Bills.destroy({
+                where: {
+                    id: billsId
+                }
+            }).then((bills) => {
+                // For icons to use, go to https://glyphsearch.com/
+                alertMessage(res, 'success', 'Bills ID ' + billsId + ' successfully deleted.', 'fa fa-hand-peace-o', true);
+                res.redirect('/bills/payment');
+            }).catch(err => console.log(err));
+        } else {
+            // Video does not belong to the current user
+            alertMessage(res, 'danger', 'Unauthorized Access.', 'fas fa-exclamation-circle', true);
+            req.logout();
+            res.redirect('/');
+        }
+    })
+});
+
 
 
 module.exports = router;
