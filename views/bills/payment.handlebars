@@ -35,7 +35,7 @@
 
     
 
-<div id="containerpay">
+{{!--<div id="containerpay">
     <div class="card text-center">
     <div class="card-header">
         Bills Due This Week
@@ -77,7 +77,7 @@
         </div>
         </div>
     </div>
-</div>
+</div> --}}
 
 <div class="container">
 	{{#if bills}}
@@ -90,27 +90,30 @@
 			</div>
 			<div class="card-body">
 				<div class="row">
+                    <div class="col-sm-12 col-md-12 col-lg-2">
+						<p class="font-italic">Bill Cost</p>
+						<p class="text-info">{{billCost}}</p>
+					</div>
 					<div class="col-sm-12 col-md-12 col-lg-2">
-						<p class="font-italic">Date Release</p>
-						<p class="text-info">{{formatDate dateRelease 'DD MMM YYYY'}}</p>
+						<p class="font-italic">Date of Payment</p>
+						<p class="text-info">{{formatDate dateRelease 'DD MMM '}}</p>
 					</div>
 					{{!-- Uncomment this to see the {{id}} tag values from Database --}}
-					{{!-- <div class="col-sm-12 col-md-12 col-lg-2">
+					{{!--<div class="col-sm-12 col-md-12 col-lg-2">
 						<p class="font-italic">ID</p>
 						<p class="text-info">{{id}}</p>
 					</div> --}}
-					{{!--<div class="col-sm-12 col-md-12 col-lg-2">
+					<div class="col-sm-12 col-md-12 col-lg-2">
 						<p class="font-italic"></p>
-						<a href="/video/edit/{{id}}" class="card-link">
+						<a href="/bills/edit/{{id}}" class="card-link icons">
 							<i class="fas fa-pencil-alt"></i>
 							Edit
 						</a>
-						<a href="/video/delete/{{id}}" class="card-link" data-toggle="confirmation"
-							data-title="Confirm delete?">
+						<a href="/bills/delete/{{id}}" class="card-link icons" data-toggle="confirmation" data-title="Confirm delete?">
 							<i class="far fa-trash-alt"></i>
 							Delete
 						</a>
-					</div> --}}
+					</div> 
 				</div>
 			</div>
         	</div>
