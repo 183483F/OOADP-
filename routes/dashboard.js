@@ -12,26 +12,16 @@ router.get('/dashboard', (req, res) =>{
         raw:true
     }).then((dashboard) => {
         res.render('alex/dashboard', {
-            dashboard: dashboard
+            dashboard: dashboard[dashboard.length - 1]
         });
     }).catch(err => console.log(err));
 });
 
-router.get('/dashboard2', (req, res) =>{
-    Dashboard.findAll({
-        raw: true
-    }).then((dashboard) => {
-        // pass object to listVideos.handlebar
-        res.render('alex/dashboard2', {
-            dashboard: dashboard
-        });
-    }).catch(err => console.log(err));
-});
+
 
 router.post('/dashboard', (req, res) => {
-    let { CheckorSave, Amount, Tags, Notes, Date } = req.body;
+    let { Amount, Tags, Notes, Date } = req.body;
     Dashboard.create({
-        CheckorSave,
         Amount,
         Tags,
         Notes,
