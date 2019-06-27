@@ -35,13 +35,23 @@
                     </div>
 
                     <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
+                                
+                            {{#if dashboard}}
+                                    {{!-- {{#each dashboard}} --}}
+                                    <div class="card border-primary mb-2 w-100 mx-auto">
+                                        <div class="card-header">
+                                            <p class="card-title">Savings</p>
+                                            <p class="card-title">Amount: {{dashboard.Amount}}</p>
+                                        </div>
+                                        </div>
+                                        {{!-- {{/each}} --}}
 
-                        <div class="card-body">
-                            <h5 class="card-title">Savings</h5>
-                            <p class="card-text">$145.00</p>
-
-                        </div>
-                        <div class="card-body">
+                                    {{else}}
+                                    <h3>No payments yet</h3>
+                            
+                                
+                            {{/if}}
+                      {{!--   <div class="card-body">
                             <h5 class="card-title">Checking</h5>
                             <p class="card-text">$145.00</p>
                             <!--  ===When user clicks to add something under Bank Account===
@@ -53,7 +63,7 @@
            
         </div>
         -->
-                        </div>
+                        </div> --}}
 
                     </div>
                 </div>
@@ -75,40 +85,25 @@
 
         <!-- Tab content -->
         <div id="Expense" class="tabcontent">
-            <p>From<p>
-                    <form action="/action_page.php">
-                        <select name="">
-                            <option value="">Checking</option>
-                            <option value="">Savings</option>
-                            <!-- <option value=""></option>
-                        <option value=""></option> -->
-                        </select>
-                        <br><br>
-
-                    </form>
-                      <form action="/action_page.php">
-                            <input type="text" name="" value="Amount">
-                            <br>
-                        </form>
-                    <p>Tags</p>
-                    <form action="/action_page.php">
-                        <select name="">
-                            <option value="">Groceries</option>
-                            <option value="">Clothes</option>
-                            <!-- <option value=""></option>
-                        <option value=""></option> -->
-                        </select>
-                        <br><br>
-                        <form action="/action_page.php">
-                            <input type="text" name="" value="Notes">
-                            <br>
-                        </form>
-                    </form>
-                      <form action="/action_page.php">
-                            <input type="text" name="" value="Date">
-                            <br>
-                        </form>
-                        <button type="submit" form="form1" value="Submit">Submit</button>
+                <form method="post" action="../dashboard/dashboard"> 
+                    <div class="form-group">
+                        <label for="name">Amount</label>
+                        <input type="text" class="" name="Amount" value="{{Amount}}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="name">Tags</label>
+                        <input type="text" class="" name="Tags" value="{{Tags}}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="name">Notes</label>
+                        <input type="text" class="" name="Notes" value="{{Notes}}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="name">Date</label>
+                        <input type="text" class="" name="Date" value="{{Date}}" required>
+                    </div>
+                        <button type="submit" class="btn btn-primary">Submit</button> 
+                </form>
         </div>
           <!-- Tab content -->
         <div id="Transfer" class="tabcontent">
@@ -184,7 +179,6 @@
                         </form>
                         <button type="submit" form="form1" value="Submit">Submit</button>
         </div>
-        
 
     </div>
 
