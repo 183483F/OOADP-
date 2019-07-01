@@ -2,6 +2,7 @@ const Bills = require('../models/Bills');
 const express = require('express');
 const router = express.Router();
 const moment = require('moment');
+moment().format();
 const alertMessage = require('../helpers/messenger')
 // List videos belonging to current logged in user
 router.get('/payment',(req, res) => {
@@ -67,7 +68,7 @@ router.get('/edit/:id', (req, res) => {
             req.logout();
             res.redirect('/');
         }
-    }).catch(err => console.log(err)); // To catch no video ID
+    }).catch(err => console.log(err)); // To catch no bills id
 });
 
 // Save edited video
