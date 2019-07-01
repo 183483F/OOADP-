@@ -40,9 +40,24 @@
     <div class="card-header">
         Bills Due This Week
     </div>
-    <div class="card-body">
-    <p class="card-text billtotaltext">$421</p>
-  </div>
+    {{#if bills}}
+	<div class="card card-body">
+		<h3 class="text-primary">Bills</h3>
+		{{#each bills}}
+		<div class="card border-primary mb-2 w-100 mx-auto">
+			<div class="card-header">
+				<h5 class="card-title">{{title}}</h5>
+			</div>
+			<div class="card-body">
+				<div class="row">
+                    <div class="col-sm-12 col-md-12 col-lg-2">
+						<p class="font-italic">Bill Cost</p>
+						<p class="text-info">${{billCost}}</p>
+					</div>
+					<div class="col-sm-12 col-md-12 col-lg-2">
+						<p class="font-italic">Date of Payment</p>
+						<p class="text-info">{{formatDate dateRelease 'DD MMM '}}</p>
+					</div>
     <div id="accordion">
     <div class="card">
         <div class="card-header" id="headingOne">
