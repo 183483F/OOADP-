@@ -98,6 +98,7 @@ router.get('/delete/:id',(req, res) => {
     var billsId = req.params.id;
     Bills.findOne({
         where: {
+            id: billsId
         }
     }).then((bills) => {
         console.log("billsIDToDelete.userId : " + bills.userId);
@@ -105,6 +106,7 @@ router.get('/delete/:id',(req, res) => {
         if (video.userId === req.user.id) {
             Bills.destroy({
                 where: {
+                    id: billsId
                 }
             }).then((bills) => {
                 // For icons to use, go to https://glyphsearch.com/
