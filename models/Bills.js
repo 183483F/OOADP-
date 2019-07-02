@@ -9,7 +9,10 @@ const Bills = db.define('bills', {
     },
     billCost: {
         type: Sequelize.STRING
-    }
+    },
+    /*userId:{
+        type: Sequelize.STRING
+    }*/
 });
 
 module.exports = Bills;

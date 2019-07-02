@@ -24,8 +24,8 @@
 
         <div id="collapseCredit" class="collapse show" aria-labelledby="headingcredit" data-parent="#accordion">
         <div class="card-body">
-            <h5 class="card-title">-l</h5>
-            <p class="card-text">-</p>
+            <h5 class="card-title">Total Amount due:</h5>
+            <p class="card-text">lopre ipsum</p>
         </div>
         </div>
     </div>
@@ -97,20 +97,20 @@
 <div class="container">
 	{{#if bills}}
 	<div class="card card-body">
-		<h3 class="text-primary">Bills</h3>
+		<h3 class="text-success">Bills</h3>
 		{{#each bills}}
-		<div class="card border-primary mb-2 w-100 mx-auto">
+		<div class="card border border-success mb-2 w-100 mx-auto">
 			<div class="card-header">
 				<h5 class="card-title">{{title}}</h5>
 			</div>
 			<div class="card-body">
 				<div class="row">
                     <div class="col-sm-12 col-md-12 col-lg-2">
-						<p class="font-italic">Bill Cost</p>
+						<p class="titlename">Bill Cost</p>
 						<p class="text-info">${{billCost}}</p>
 					</div>
 					<div class="col-sm-12 col-md-12 col-lg-2">
-						<p class="font-italic">Date of Payment</p>
+						<p class="titlename">Date of Payment</p>
 						<p class="text-info">{{formatDate dateRelease 'DD MMM '}}</p>
 					</div>
 					{{!-- Uncomment this to see the {{id}} tag values from Database --}}
@@ -124,7 +124,7 @@
 							<i class="fas fa-pencil-alt"></i>
 							Edit
 						</a>
-						<a href="/bills/delete/{{id}}" class="card-link icons" data-toggle="confirmation" data-title="Confirm delete?">
+						<a href="/bills/delete/{{id}}" class="card-link text-danger icons" data-toggle="confirmation" data-title="Confirm delete?">
 							<i class="far fa-trash-alt"></i>
 							Delete
 						</a>
