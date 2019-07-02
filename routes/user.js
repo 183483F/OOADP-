@@ -22,7 +22,7 @@ router.get('/budget2', (req, res) =>{
     }).then((users) => {
         // pass object to listVideos.handlebar
         res.render('BudgetandRetirement/budget2', {
-            users: users
+            users: users[users.length - 1]
         });
     }).catch(err => console.log(err));
 });
