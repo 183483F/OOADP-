@@ -13,13 +13,17 @@ module.exports = {
         }
     },
 
-    replaceCommas: function (value) {
-        var result = "none";
-        if (value !== null && value !== "") {
-            var a = value.toString();
-            var regex = /,/gi; //To perform a case insensitive replacement, use the i option in the regex:
-            result = a.replace(regex, ' | ');
-        }
-        return result;
+    compareDate: function (date, targetFormat) {
+        var today = moment();
+        var dueDate = moment(req.body.dateRelease, 'DD/MM/YYYY');
+        var difference = a.diff(b, 'days');
+        if (difference == 0) {
+
+        } 
+        
+    },
+
+    getDate: function (date) {
+        return moment(date).format("dddd MMMM Do YYYY, h:mm:ss a");
     }
 };
