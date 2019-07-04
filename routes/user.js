@@ -38,7 +38,7 @@ router.post('/budgetretire', (req, res) => {
     //let Food = req.body.Food;
     //let Hobbies = req.body.Hobbies;
     let { Age, MonthlyIncome, MonthlySave, Living, Food, Hobbies } = req.body;
-    let userId = req.user.id;
+    // let userId = req.user.id;
     // Multi-value components return array of strings or undefined
     User.create({
         Age,
@@ -47,7 +47,7 @@ router.post('/budgetretire', (req, res) => {
         Living,
         Food,
         Hobbies,
-        userId
+        // userId
     }).then((user) => {
         res.redirect('/user/budget2');
     })
@@ -65,7 +65,7 @@ router.post('/login', (req, res, next) => {
         if (user) {
             if (user.verified === true) {
                 passport.authenticate('local', {
-                    successRedirect: '/video/listVideos', // Route to /video/listVideos URL
+                    successRedirect: '/', // Route to /home page
                     failureRedirect: '/showLogin', // Route to /login URL
                     failureFlash: true
                     /* Setting the failureFlash option to true instructs Passport to flash an error
