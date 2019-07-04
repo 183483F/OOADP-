@@ -38,7 +38,7 @@ router.post('/budgetretire', (req, res) => {
     //let Food = req.body.Food;
     //let Hobbies = req.body.Hobbies;
     let { Age, MonthlyIncome, MonthlySave, Living, Food, Hobbies } = req.body;
-    //let userId = req.user.id;
+    let userId = req.user.id;
     // Multi-value components return array of strings or undefined
     User.create({
         Age,
@@ -46,8 +46,8 @@ router.post('/budgetretire', (req, res) => {
         MonthlySave,
         Living,
         Food,
-        Hobbies
-       // userId
+        Hobbies,
+        userId
     }).then((user) => {
         res.redirect('/user/budget2');
     })
@@ -102,7 +102,7 @@ router.post('/register', (req, res) => {
     }
 
     // Checks that password length is more than 4
-    if (password.length < 4) {
+    if (password.length < 10) {
         errors.push({ text: 'Password must be at least 4 characters' });
     }
     if (errors.length > 0) {
