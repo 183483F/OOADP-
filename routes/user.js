@@ -102,8 +102,8 @@ router.post('/register', (req, res) => {
     }
 
     // Checks that password length is more than 4
-    if (password.length < 10) {
-        errors.push({ text: 'Password must be at least 4 characters' });
+    if (password.length < 6) {
+        errors.push({ text: 'Password must be at least 6 characters' });
     }
     if (errors.length > 0) {
         res.render('user/register', {
