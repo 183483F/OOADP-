@@ -45,4 +45,4 @@ function localStrategy(passport) {
     });
 }
 
-//module.exports = { localStrategy };
+module.exports = { localStrategy };
