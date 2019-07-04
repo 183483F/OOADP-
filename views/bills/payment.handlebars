@@ -1,0 +1,152 @@
+<link rel="stylesheet" href="/css/paymentcss.css">
+<script type="text/javascript" src="jquery-3.3.1.js"></script>
+<script src="/js/payment.js"></script>
+
+<div id="time">
+    <p id="datetime">{{getDate}}</p>
+</div>
+
+<div id="containercredit">
+    <div class="card text-center">
+    <div class="card-header">
+        Balance
+    </div>
+    <div id="accordion">
+    <div class="card">
+        <div class="card-header" id="headingOne">
+        <h5 class="mb-0">
+            <button class="btn" data-toggle="collapse" data-target="#collapseCredit" aria-expanded="false" aria-controls="collapsecredit" style="text-align: center">
+            Citybank Card
+            </button>
+            <p class="card-text balanceText">$11,235</p>
+        </h5>
+        </div>
+
+        <div id="collapseCredit" class="collapse show" aria-labelledby="headingcredit" data-parent="#accordion">
+        <div class="card-body">
+            <h5 class="card-title">Total Amount due:</h5>
+            <p class="card-text">lopre ipsum</p>
+        </div>
+        </div>
+    </div>
+    </div>
+    </div>
+</div>
+
+    
+
+{{!--<div id="containerpay">
+    <div class="card text-center">
+    <div class="card-header">
+        Bills Due This Week
+    </div>
+    {{#if bills}}
+	<div class="card card-body">
+		<h3 class="text-primary">Bills</h3>
+		{{#each bills}}
+		<div class="card border-primary mb-2 w-100 mx-auto">
+			<div class="card-header">
+				<h5 class="card-title">{{title}}</h5>
+			</div>
+			<div class="card-body">
+				<div class="row">
+                    <div class="col-sm-12 col-md-12 col-lg-2">
+						<p class="font-italic">Bill Cost</p>
+						<p class="text-info">${{billCost}}</p>
+					</div>
+					<div class="col-sm-12 col-md-12 col-lg-2">
+						<p class="font-italic">Date of Payment</p>
+						<p class="text-info">{{formatDate dateRelease 'DD MMM '}}</p>
+					</div>
+    <div id="accordion">
+    <div class="card">
+        <div class="card-header" id="headingOne">
+        <h5 class="mb-0">
+            <button class="btn" data-toggle="collapse" data-target="#collapseOne" aria-expanded="tue" aria-controls="collapseOne" style="text-align: center">
+            Overdue
+            </button>
+        </h5>
+        </div>
+
+        <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
+        <div class="card-body">
+            <h5 class="card-title">Singtel Phone Bill</h5>
+            <p class="card-text">$145</p>
+            <a href="#" class="btn btn-primary payButton" onclick="javascript:changeText()">Pay</a>
+        </div>
+        </div>
+    </div>
+    </div>
+        <div class="card-header" id="headingTwo">
+        <h5 class="mb-0">
+            <button class="btn" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="falsed" aria-controls="collapseTwo" style="text-align: center">
+            Due Today
+            </button>
+        </h5>
+        </div>
+        <div id="collapseTwo" class="collapse show" aria-labelledby="headingTwo" data-parent="#accordion">
+        <div class="card-body">
+            <h5 class="card-title">Water & Electicity Bills</h5>
+            <p class="card-text">$165</p>
+            <a href="#" class="btn btn-primary payButton" id="paylink" onclick="javascirpt:changeText()">Pay</a>
+        </div>
+        </div>
+    </div>
+</div> --}}
+
+<div class="container">
+	{{#if bills}}
+	<div class="card card-body">
+		<h3 class="text-success">Bills</h3>
+		{{#each bills}}
+		<div class="card border border-success mb-2 w-100 mx-auto">
+			<div class="card-header">
+				<h5 class="card-title">{{title}}</h5>
+			</div>
+			<div class="card-body">
+				<div class="row">
+                    <div class="col-sm-12 col-md-12 col-lg-2">
+						<p class="titlename">Bill Cost</p>
+						<p class="text-info">${{billCost}}</p>
+					</div>
+					<div class="col-sm-12 col-md-12 col-lg-2">
+						<p class="titlename">Date of Payment</p>
+						<p class="text-info">{{formatDate dateRelease 'DD MMM '}}</p>
+					</div>
+					{{!-- Uncomment this to see the {{id}} tag values from Database --}}
+					{{!--<div class="col-sm-12 col-md-12 col-lg-2">
+						<p class="font-italic">ID</p>
+						<p class="text-info">{{id}}</p>
+					</div> --}}
+					<div class="col-sm-12 col-md-12 col-lg-2">
+						<p class="font-italic"></p>
+						<a href="/bills/edit/{{id}}" class="card-link icons">
+							<i class="fas fa-pencil-alt"></i>
+							Edit
+						</a>
+						<a href="/bills/delete/{{id}}" class="card-link text-danger icons" data-toggle="confirmation" data-title="Confirm delete?">
+							<i class="far fa-trash-alt"></i>
+							Delete
+						</a>
+					</div> 
+				</div>
+			</div>
+        	</div>
+            {{/each}}
+        </div>
+	    {{else}}
+	    <h3>No bills registered</h3>
+	{{/if}}
+</div>
+
+
+<script>
+    function changeText() {
+    var element = document.getElementById('paylink');
+    if (element.innerHTML === 'Pay') element.innerHTML = 'Paid';
+    else{
+        element.innerHTML = 'Paid';
+        }
+    }
+    
+</script>

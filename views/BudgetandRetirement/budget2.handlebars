@@ -1,0 +1,23 @@
+<!--.col-	.col-sm-	.col-md-	.col-lg-	.col-xl- -->
+
+<div class="container">
+	{{#if users}}
+	<div class="card card-body">
+		<h3 class="text-primary">Budget</h3>
+{{!-- 		{{#each users}} --}}
+		<div class="card border-primary mb-2 w-100 mx-auto">
+			<div class="card-header">
+				<h5 class="card-title">Age: {{users.Age}}</h5>
+                <h5 class="card-title">Monthly income: {{users.MonthlyIncome}}</h5>
+                <h5 class="card-title">Plan to save monthly: {{users.MonthlySave}}</h5>
+                <h5 class="card-title">Living expense: {{users.Living}}</h5>
+                <h5 class="card-title">Food expense: {{users.Food}}</h5>
+                <h5 class="card-title">Hobbies/Others: {{users.Hobbies}}</h5>	
+		    </div>
+        	</div>
+{{!--             {{/each}} --}}
+        </div>
+	    {{else}}
+	    <h3>No budgeting set up</h3>
+	{{/if}}
+</div>

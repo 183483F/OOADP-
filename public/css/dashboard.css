@@ -1,5 +1,5 @@
 #containerNetWorth{
-    
+    padding-top: 100px;
     height:800px;
     width:500px;
     
@@ -12,11 +12,12 @@
 }
 
 #NewTransactionBox{
-    padding-top:100px;
+    padding-top: 100px;
     background-color: white;
     height:500px;
     width: 500px;
     display: inline-block;
+    float:right;
 }
 
 /* Style the tab */

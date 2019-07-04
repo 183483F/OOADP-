@@ -9,21 +9,11 @@ router.get('/payment', (req, res) =>{
     res.render('payment');
 });
 
-router.get('/dashboard', (req, res) =>{
-    res.render('dashboard');
-});
-
-module.exports = router;
 router.get('/transactionH', (req, res) => {
     res.render('transactionH');
 });
 
-router.get('/retirement', (req, res) =>{
-    res.render('retirement');
+router.get('/alex', (req, res) => {
+    res.render('alex/dashboard');
 });
-
-router.get('/budget', (req, res) =>{
-    res.render('budget');
-});
-
 module.exports = router;
