@@ -198,12 +198,12 @@ function sendEmail(userId, email, token) {
 
     const message = {
         to: email,
-        from: 'Do Not Reply <admin@video-jotter.sg>',
-        subject: 'Verify Video Jotter Account',
-        text: 'Video Jotter Email Verification',
+        from: 'Do Not Reply <admin@StrawberryMoneyTracker.sg>',
+        subject: 'Verify Strawberry Money Tracker Account',
+        text: 'Strawberry Money Tracker Email Verification',
         html: `Thank you registering with Video Jotter.<br><br>
             Please <a href="http://localhost:5000/user/verify/${userId}/${token}">
-                <strong>verify</strong></a>your account.`
+                <strong>verify</strong></a> your account by clicking the link.`
     };
     // Returns the promise from SendGrid to the calling function
     return new Promise((resolve, reject) => {
