@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/183483F/OOADP-#readme",
   "dependencies": {
+    "@sendgrid/mail": "^6.4.0",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",
     "connect-flash": "^0.1.1",
@@ -26,6 +27,7 @@
     "express-mysql-session": "^2.1.0",
     "flash-messenger": "^1.1.1",
     "handlebars.moment": "^1.0.4",
+    "jsonwebtoken": "^8.5.1",
     "method-override": "^3.0.0",
     "moment": "^2.24.0",
     "mysql2": "^1.6.5",
