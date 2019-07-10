@@ -4,18 +4,18 @@
 		<form action="../bills/addbills" method="post" id="addbills">
 			<div class="form-group">
 				<label class="font-italic" for="bill">Bill Name</label>
-				<textarea class="form-control" id="title" name="title" rows="1">{{title}}</textarea>
+				<textarea class="form-control" id="title" name="title" rows="1" required>{{title}}</textarea>
 			</div>
 			<div class="form-group mb-4">
 				<label class="font-italic" for="bill">Cost</label>
-				<textarea class="form-control" id="billCost" name="billCost" rows="1">{{billCost}}</textarea>
+				<input type="number" class="form-control" id="billCost" name="billCost" rows="7" required>{{billCost}}</textarea>
 			</div>
 
 			<div class="form-group">
 				<div class="row mb-2">
 					<div class="col-12 col-sm-12 col-md-12 col-lg-6 mb-4">
-						<label class="font-italic">Date of release</label>
-						<input id="datepicker" width="200" name="dateRelease" value="{{dateRelease}}" readonly />
+						<label class="font-italic">Date of payment</label>
+						<input id="datepicker" width="200" name="dateRelease" value="{{dateRelease}}" readonly required/>
 					</div>
 				</div>
 			</div>

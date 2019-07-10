@@ -6,7 +6,7 @@ const bill = require('../models/Bills');
 const setUpDB = (drop) => {
     mySQLDB.authenticate()
         .then(() => {
-            console.log('Vidjot database connected');
+            console.log('Strawberry database connected');
         })
         .then(() => {
             /*

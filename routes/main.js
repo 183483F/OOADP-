@@ -1,7 +1,10 @@
 const express = require('express');
 const router = express.Router();
+<<<<<<< HEAD
 const User = require('../models/User');
 const Dashboard = require('../models/Dashboard')
+=======
+>>>>>>> b6b08cd6e17409d1fd72f6296fdd7809040a387f
 
 router.get('/', (req, res) => {
     res.render('index');

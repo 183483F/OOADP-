@@ -4,9 +4,6 @@ const db = require('../config/DBConfig');
 Note that Sequelize automatically pleuralizes the entity name as the table name
 */
 const Dashboard = db.define('dashboard', {
-    CheckorSave: {
-        type: Sequelize.STRING
-    },
     Amount: {
         type: Sequelize.STRING
     },

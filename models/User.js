@@ -26,4 +26,4 @@ const User = db.define('user', {
 module.exports = User;
 verified: {
     type: Sequelize.BOOLEAN
-   }
+}
