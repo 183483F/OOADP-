@@ -7,6 +7,9 @@ moment().format();
 /* get from table and display on allfeedback */
 router.get('/AllFeedback', (req, res) => {
     Feedback.findAll({ /* from models */
+        order: [
+            ['title', 'ASC']
+        ],
         raw:true
     }).then((feedbacks) => {
         res.render('feedback/AllFeedback', {

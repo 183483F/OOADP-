@@ -13,10 +13,7 @@ const Feedback = db.define('feedbacks', {
     },
     Suggestion: {
         type: Sequelize.STRING(2000)
-    },
-    Date: {
-        type: Sequelize.STRING
-    },
+    }
 });
 module.exports = Feedback;
 /* verified: {
