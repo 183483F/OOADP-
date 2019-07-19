@@ -18,6 +18,7 @@ const userRoute = require('./routes/user')
 const billRoute = require('./routes/bills');
 const dashboardRoute = require('./routes/dashboard')
 const transactionH = require('./routes/transactionH')
+const feedback = require('./routes/Feedback')
 
 app.engine('handlebars', exphbs({
 	helpers: {
@@ -72,6 +73,7 @@ app.use('/bills', billRoute);
 app.use('/user', userRoute);
 app.use('/dashboard', dashboardRoute)
 app.use('/transactionH', transactionH)
+app.use('/Feedback', feedback)
 
 const port = 5000;
 
@@ -82,7 +84,10 @@ app.listen(port, () => {
 // Bring in database connection
 const vidjotDB = require('./config/DBConnection');
 // Connects to MySQL database
-vidjotDB.setUpDB(true); // To set up database with new tables set (true)
+vidjotDB.setUpDB(false); // To set up database with new tables set (true)
+
 // Passport Config
 const authenticate = require('./config/passport');
-//authenticate.localStrategy(passport);
+authenticate.localStrategy(passport);
+app.use(passport.initialize());
+app.use(passport.session());
