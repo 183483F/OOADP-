@@ -4,7 +4,7 @@ const db = require('../config/DBConfig');
 Note that Sequelize automatically pleuralizes the entity name as the table name
 */
 
-const Feedback = db.define('feedback', {
+const Feedback = db.define('feedbacks', {
     Title: {
         type: Sequelize.STRING
     },
@@ -19,6 +19,6 @@ const Feedback = db.define('feedback', {
     },
 });
 module.exports = Feedback;
-verified: {
+/* verified: {
     type: Sequelize.BOOLEAN
-   }
+   } */

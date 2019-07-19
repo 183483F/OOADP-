@@ -3,10 +3,10 @@
 
 
 <div class="container">
-	{{#if feedback}}    {{!-- from models feedback ,db.define('feedback') --}}
+	{{#if feedbacks}}    {{!-- from models feedback ,db.define('feedback') --}}
 	<div class="card card-body">
 		<h3 class="text-primary">Transaction HHH</h3>
-		{{#each feedback}}
+		{{#each feedbacks}}
 		<div class="card border-primary mb-2 w-100 mx-auto">
 			
 			<div class="card-body">
@@ -61,6 +61,8 @@
 		</div>
 		{{/each}}
 	</div>
+	{{else}}
+	<h3>No Transaction History</h3>
+</div>
 	{{/if}}
 
-</div>

@@ -1,16 +1,16 @@
 const express = require('express');
 const router = express.Router();
-const feedback = require('../models/feedback');
+const Feedback = require('../models/feedback');
 const moment = require('moment');
 moment().format();
 
 /* get from table and display on allfeedback */
-router.get('/Allfeedback', (req, res) => {
-    feedback.findAll({ /* from models */
+router.get('/AllFeedback', (req, res) => {
+    Feedback.findAll({ /* from models */
         raw:true
-    }).then((feedback) => {
+    }).then((feedbacks) => {
         res.render('feedback/AllFeedback', {
-            feedback: feedback  /* models feedback */
+            feedbacks: feedbacks  /* models feedback */
         });
     }).catch(err => console.log(err));
 });
@@ -20,7 +20,7 @@ router.get('/Allfeedback', (req, res) => {
 // get inputs on addfeedback
 router.get('/Addfeedback',(req, res) => {
     res.render('feedback/Addfeedback', { // pass object to listVideos.handlebar
-        feedback: 'list of feedback'
+        feedbacks: 'list of feedback'
     });
 });
 
@@ -31,12 +31,12 @@ router.post('/Addfeedback', (req, res) => {
     let Suggestion = req.body.Suggestion.slice(0, 2000);
     let Date = moment(req.body.Date, 'DD/MM/YYYY');
   /*   let { Title, Textfeed, Suggestion, Date } = req.body; */
-    feedback.create({   /* from models */
+    Feedback.create({   /* from models */
         Title,
         Textfeed,
         Suggestion,
         Date,
-    }).then((feedback) => {
+    }).then((feedbacks) => {
         res.redirect('/feedback/AllFeedback');
     })
         .catch(err => console.log(err))
