@@ -10,6 +10,9 @@ const Bills = db.define('bills', {
     billCost: {
         type: Sequelize.STRING
     },
+    dateDue: {
+        type: Sequelize.DATE
+    }
     /*userId:{
         type: Sequelize.STRING
     }*/
