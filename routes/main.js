@@ -3,7 +3,7 @@ const router = express.Router();
 
 const User = require('../models/User');
 const Dashboard = require('../models/Dashboard')
-const feedback = require('../models/feedback');
+const feedback = require('../models/feedback'); 
 /* >>>>>>> b6b08cd6e17409d1fd72f6296fdd7809040a387f */
 
 router.get('/', (req, res) => {
@@ -27,7 +27,7 @@ router.get('/transactionH', (req, res) => {
 router.get('/alex', (req, res) => {
     res.render('alex/dashboard');
 });
-
+ 
 router.get('/feedback', (req, res) =>{
     feedback.findAll({
         raw:true
@@ -37,5 +37,5 @@ router.get('/feedback', (req, res) =>{
         });
     }).catch(err => console.log(err));
 
-});
+}); 
 module.exports = router;
