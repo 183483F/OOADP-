@@ -10,15 +10,15 @@
 			</div>
 			<div class="form-group mb-4">
 				<label class="font-italic" for="billCost">Bill Cost</label>
-				<textarea class="form-control" id="billCost" name="billCost" rows="7">{{bills.billCost}}</textarea>
+				<input type="number" class="form-control" id="billCost" name="billCost" rows="7">{{bills.billCost}}</textarea>
 			</div>
 
 			<div class="form-group">
 				<div class="row mb-2">
 					<div class="col-12 col-sm-12 col-md-12 col-lg-6 mb-4">
 						<label class="font-italic">Date of Payment</label>
-						<input id="datepicker" width="200" name="dateRelease"
-							value="{{formatDate bills.dateRelease 'DD/MM/YYYY'}}" readonly />
+						<input id="datepicker" width="200" name="DateDue"
+							value="{{formatDate bills.dateDue 'DD/MM/YYYY'}}" readonly />
 					</div>
 					</div>
 			</div>

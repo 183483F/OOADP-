@@ -26,11 +26,19 @@
 				</li><li class="nav-item">
 					<a class="nav-link" href="/user/budget">Budgeting</a>
 				</li><li class="nav-item">
-					<a class="nav-link" href="/payment">Transaction History</a>
-				</li><li class="nav-item">
-					<a class="nav-link" href="/payment">Currency</a>
+					<a class="nav-link" href="/transactionH">Transaction History</a>
 				</li>
-        
+				
+        <ul class="navbar-nav ml-auto">
+					<li class="nav-item dropdown">
+						<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" id="navbarDropdownMenuLink">Feedback</a>
+						<div class="dropdown-menu">
+							{{!-- Note: ".." move 1 folder up. "." is the current folder. start with the "/" to indicte root directory --}}
+							<a href="/feedback/AllFeedback" class="dropdown-item">All Feedbacks</a>
+							<a href= "/feedback/Addfeedback" class="dropdown-item">Add Feedback</a>
+						</div>
+					</li>
+			</ul>
 			</ul>
 			<ul class="navbar-nav ml-auto">
 				{{#if user}}

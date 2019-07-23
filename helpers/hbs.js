@@ -28,12 +28,12 @@ module.exports = {
 
     compareDate: function (date, targetFormat) {
         var today = moment();
-        var dueDate = moment(req.body.dateRelease, 'DD/MM/YYYY');
-        var difference = a.diff(b, 'days');
+        var dueDate = moment(date, targetFormat);
+        var difference = today.diff(dueDate, 'days');
         if (difference == 0) {
-            return this.formatDate(dueDate)
+            return "Today";
         } else if (difference == 1){
-            return this.formatDate(dueDate)
+            return "Tomorrow";
         } else if (difference > 1 ){
             return this.formatDate(dueDate)
         } else {

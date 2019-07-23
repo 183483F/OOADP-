@@ -33,13 +33,13 @@ router.get('/addbills',(req, res) => {
 router.post('/addbills',(req, res) => {
     let title = req.body.title;
     let billCost = req.body.billCost.slice(0, 50);
-    let dateRelease = moment(req.body.dateRelease, 'DD/MM/YYYY');
+    let dateDue = moment(req.body.dateDue, 'DD/MM/YYYY');
     /*let userId = req.user.id;*/
     // Multi-value components return array of strings or undefined
     Bills.create({
         title,
         billCost,
-        dateRelease,
+        dateDue,
         
     }).then((bills) => {
         res.redirect('/bills/payment');
@@ -55,8 +55,12 @@ router.get('/edit/:id', (req, res) => {
             id: req.params.id
         }
     }).then((bills) => {
-
-        if (req.user.id === bills.userId) {
+        res.render('bills/editbills',{
+            bills
+        });
+    })
+});
+        /*if (req.user.id === bills.userId) {
             checkOptions(bills);
             // call views/video/editVideo.handlebar to render the edit video page
             res.render('bills/editbills', {
@@ -68,21 +72,20 @@ router.get('/edit/:id', (req, res) => {
             req.logout();
             res.redirect('/');
         }
-    }).catch(err => console.log(err)); // To catch no bills id
-});
+    }).catch(err => console.log(err)); // To catch no bills id*/
 
 // Save edited video
 router.put('/saveEditedBills/:id',(req, res) => {
     let title = req.body.title;
     let billCost = req.body.billCost.slice(0, 50);
-    let dateRelease = moment(req.body.dateRelease, 'DD/MM/YYYY');
+    let dateDue = moment(req.body.dateDue, 'DD MM');
     var billID = req.params.id;
     // Retrieves edited values from req.body
     Bills.update({
         // Set variables here to save to the videos table
         title,
         billCost,
-        dateRelease,
+        dateDue,
     }, {
             where: {
                 id: billID
@@ -95,16 +98,17 @@ router.put('/saveEditedBills/:id',(req, res) => {
 });
 
 router.get('/delete/:id',(req, res) => {
-    var billsId = req.params.id;
     Bills.findOne({
         where: {
+            id: req.params.id
         }
     }).then((bills) => {
         console.log("billsIDToDelete.userId : " + bills.userId);
         console.log("req.user.id : " + req.user.id);
-        if (video.userId === req.user.id) {
+        if (bills.userId === req.user.id) {
             Bills.destroy({
                 where: {
+                    id: billsId
                 }
             }).then((bills) => {
                 // For icons to use, go to https://glyphsearch.com/
