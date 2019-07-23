@@ -12,7 +12,6 @@ const MySQLStore = require('express-mysql-session');
 const { formatDate, getDate } = require('./helpers/hbs');
 const passport = require('passport');
 const app = express();
-
 const mainRoute = require('./routes/main');
 const userRoute = require('./routes/user')
 const billRoute = require('./routes/bills');

@@ -201,7 +201,7 @@ function sendEmail(userId, email, token) {
         from: 'Do Not Reply <admin@StrawberryMoneyTracker.sg>',
         subject: 'Verify Strawberry Money Tracker Account',
         text: 'Strawberry Money Tracker Email Verification',
-        html: `Thank you registering with Video Jotter.<br><br>
+        html: `Thank you registering with Strawberry Money.<br><br>
             Please <a href="http://localhost:5000/user/verify/${userId}/${token}">
                 <strong>verify</strong></a> your account by clicking the link.`
     };
