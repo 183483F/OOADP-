@@ -8,15 +8,15 @@
 		<form action="../feedback/Addfeedback" method="post" id="Addfeedback">{{!-- path --}}
 			<div class="form-group">
 				<label class="font-italic" for="Title">Title</label>
-				<textarea class="form-control" id="Title" name="Title" rows="1" placeholder = "Title" required>{{Title}}</textarea>
+				<textarea class="form-control" id="Title" name="Title" rows="1" placeholder = "Title" maxlength="300" required>{{Title}}</textarea>
 			</div>
 			<div class="form-group mb-4">
 				<label class="font-italic" for="Textfeed">Body</label>
-				<textarea class="form-control" id="Textfeed" name="Textfeed" rows="6" placeholder = "Your feedback" required>{{Textfeed}}</textarea>
+				<textarea class="form-control" id="Textfeed" name="Textfeed" rows="6" placeholder = "Your feedback" maxlength="2000" required>{{Textfeed}}</textarea>
 			</div>
             <div class="form-group mb-4">
 				<label class="font-italic" for="Suggestion">How can we improve our service? Suggestion?</label>
-				<textarea class="form-control" id="Suggestion" name="Suggestion" rows="6" placeholder = "Sugeestion" required>{{Suggestion}}</textarea>
+				<textarea class="form-control" id="Suggestion" name="Suggestion" rows="6" placeholder = "Sugeestion" maxlength="2000" required>{{Suggestion}}</textarea>
 			</div>
 
 			<div class="form-group">
