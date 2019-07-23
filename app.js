@@ -7,7 +7,7 @@ const db = require('./config/db');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const flash = require('connect-flash');
-const FlashMessenger = require('flash-messenger');// Library to use MySQL to store session objectsss
+const FlashMessenger = require('flash-messenger');// Library to use MySQL to store session objects
 const MySQLStore = require('express-mysql-session');
 const { formatDate, getDate } = require('./helpers/hbs');
 const passport = require('passport');
@@ -17,7 +17,7 @@ const mainRoute = require('./routes/main');
 const userRoute = require('./routes/user')
 const billRoute = require('./routes/bills');
 const dashboardRoute = require('./routes/dashboard')
-const transactionH = require('./routes/transactionH')
+/* const transactionH = require('./user/transactionH') */
 const feedback = require('./routes/Feedback')
 
 app.engine('handlebars', exphbs({
@@ -87,7 +87,7 @@ app.use('/', mainRoute);
 app.use('/bills', billRoute);
 app.use('/user', userRoute);
 app.use('/dashboard', dashboardRoute)
-app.use('/transactionH', transactionH)
+/* app.use('/transactionH', transactionH) */
 app.use('/Feedback', feedback)
 
 const port = 5000;
