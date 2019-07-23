@@ -1,5 +1,7 @@
 const express = require('express');
 const router = express.Router();
+const User = require('../models/User');
+const ensureAuthenticated = require('../helpers/auth');
 
 const User = require('../models/User');
 const Dashboard = require('../models/Dashboard')
@@ -27,6 +29,34 @@ router.get('/transactionH', (req, res) => {
 router.get('/alex', (req, res) => {
     res.render('alex/dashboard');
 });
+<<<<<<< HEAD
+
+router.get('/showProfile',ensureAuthenticated, (req, res) =>{
+	//findone*
+    User.findAll({
+        where: {
+            id: req.user.id
+        },
+        order: [
+            ['name', 'ASC']
+        ],
+        raw: true
+    }).then((users) => {
+        // pass object to listVideos.handlebar
+        res.render('user/profile', {
+            users: users
+        });
+    }).catch(err => console.log(err));
+});
+
+router.get('/showLogin', (req, res) => {
+	res.render('user/login') // renders views/user/login.handlebars
+});
+
+router.get('/showRegister', (req, res) => {
+	res.render('user/register') // renders views/register.handlebars
+});
+=======
  
 router.get('/feedback', (req, res) =>{
     feedback.findAll({
@@ -38,4 +68,5 @@ router.get('/feedback', (req, res) =>{
     }).catch(err => console.log(err));
 
 }); 
+>>>>>>> 376ec44222e64eac5f6b59b27e28759eda30c727
 module.exports = router;
