@@ -99,12 +99,6 @@ app.listen(port, () => {
 // Bring in database connection
 const vidjotDB = require('./config/DBConnection');
 // Connects to MySQL database
-<<<<<<< HEAD
-vidjotDB.setUpDB(false); // To set up database with new tables set (true)
-// Passport Config
-const authenticate = require('./config/passport');
-authenticate.localStrategy(passport);
-=======
 vidjotDB.setUpDB(true); // To set up database with new tables set (true)
 
 // Passport Config
@@ -112,4 +106,3 @@ const authenticate = require('./config/passport');
 authenticate.localStrategy(passport);
 app.use(passport.initialize());
 app.use(passport.session());
->>>>>>> 376ec44222e64eac5f6b59b27e28759eda30c727
