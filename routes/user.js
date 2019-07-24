@@ -6,6 +6,9 @@ var bcrypt = require('bcryptjs');
 const passport = require('passport');
 const sgMail = require('@sendgrid/mail');
 const jwt = require('jsonwebtoken');
+const ensureAuthenticated = require('../helpers/auth');
+const fs = require('fs')
+const upload = require('../helpers/imageUpload')
 //const upload = require('../helpers/imageUpload');
 
 
@@ -201,7 +204,7 @@ function sendEmail(userId, email, token) {
         from: 'Do Not Reply <admin@StrawberryMoneyTracker.sg>',
         subject: 'Verify Strawberry Money Tracker Account',
         text: 'Strawberry Money Tracker Email Verification',
-        html: `Thank you registering with Video Jotter.<br><br>
+        html: `Thank you registering with Strawberry Money.<br><br>
             Please <a href="http://localhost:5000/user/verify/${userId}/${token}">
                 <strong>verify</strong></a> your account by clicking the link.`
     };
@@ -220,5 +223,64 @@ router.get('/', (req, res) => {
     const title = 'I\'m at the user router!';
     res.render('index', { title: title }) // renders views/index.handlebars
 });
+
+router.get('/edit/:id', ensureAuthenticated, (req, res) => {
+    User.findOne({
+        where: {
+            id: req.params.id
+        }
+    }).then((user) => {
+        if (req.user.id === user.id){
+        // call views/video/editVideo.handlebar to render the edit video page
+        
+            res.render('user/updateprofile', {
+                user // passes video object to handlebar
+            });
+        } else{
+            alertMessage(res, 'danger', 'Access denied', 'fas fa-exclamation-circle', true);
+            res.redirect('/');
+        }
+    }).catch(err => console.log(err)); // To catch no video ID
+});
+
+router.put('/saveEditedProfile/:id', ensureAuthenticated, (req,res)=>{
+    let name = req.body.name;
+    let userId = req.user.id;
+    let imgURL = req.body.imgURL;
+    let email = req.body.email;
+    var userID = req.params.id;
+    User.update({
+        name,
+        userId,
+        imgURL,
+        email,
+    },{
+        where:{
+            id: userID
+        }
+    }).then(()=>{
+        res.redirect('/showProfile');
+    }).catch(err => console.log(err));
+});
+
+router.post('/upload', ensureAuthenticated, (req, res) => {
+    // Creates user id directory for upload if not exist
+    if (!fs.existsSync('./public/uploads/' + req.user.id)) {
+        fs.mkdirSync('./public/uploads/' + req.user.id);
+    }
+
+    upload(req, res, (err) => {
+        if (err) {
+            res.json({ file: '/img/no-image.jpg', err: err });
+        } else {
+            if (req.file === undefined) {
+                res.json({ file: '/img/no-image.jpg', err: err });
+            } else {
+                res.json({ file: `/uploads/${req.user.id}/${req.file.filename}` });
+            }
+        }
+    });
+})
+
 
 module.exports = router;
