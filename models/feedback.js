@@ -14,9 +14,9 @@ const Feedback = db.define('feedbacks', {
     Suggestion: {
         type: Sequelize.STRING
     },
-    Date: {
-        type: Sequelize.DATE
-    },
+    /*feedbackDate: {
+        type: Sequelize.Date
+    },*/
  
 });
 module.exports = Feedback;
