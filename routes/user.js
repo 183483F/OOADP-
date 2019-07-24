@@ -221,4 +221,5 @@ router.get('/', (req, res) => {
     res.render('index', { title: title }) // renders views/index.handlebars
 });
 
+
 module.exports = router;

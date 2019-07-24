@@ -40,11 +40,12 @@
 
 <body>
 	{{> _navbar }} <!—Add this to include views/partials/_navbar.handlebars -->
-	<div class="container">  
+	<div id="divA" class="container">  
 		{{>_flashmsg}} {{!-- views/partials/_flashmsg.handlebars --}}
 		{{>_msg}}
 		{{>_errors}}
 		{{{body}}}
+		
 	</div>
 
 	<!-- Optional JavaScript -->
@@ -58,6 +59,7 @@
 		$('[data-toggle=confirmation]').confirmation({
 			rootSelector: '[data-toggle=confirmation]',
 		});
+		
 	</script>
 
 </body>

@@ -14,7 +14,7 @@ router.get('/payment', (req, res) =>{
     res.render('payment');
 });
 
-router.get('/transactionH', (req, res) => {
+router.get('/transactionH', ensureAuthenticated,(req, res) => {
     Dashboard.findAll({
         raw:true
     }).then((dashboard) => {
@@ -64,13 +64,10 @@ router.get('/feedback', (req, res) =>{
     }).catch(err => console.log(err));
 
 }); 
-<<<<<<< HEAD
-=======
 
 router.get('/logout', (req, res) => {
 	req.logout();
 	res.redirect('/');
 });
 
->>>>>>> aa1e3f90f7b3a8451f1f4f1f13ef53dd07f1217b
 module.exports = router;
