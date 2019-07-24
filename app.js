@@ -9,10 +9,9 @@ const cookieParser = require('cookie-parser');
 const flash = require('connect-flash');
 const FlashMessenger = require('flash-messenger');// Library to use MySQL to store session objectsss
 const MySQLStore = require('express-mysql-session');
-const { formatDate, getDate } = require('./helpers/hbs');
+const { formatDate, getDate, ifEquals } = require('./helpers/hbs');
 const passport = require('passport');
 const app = express();
-
 const mainRoute = require('./routes/main');
 const userRoute = require('./routes/user')
 const billRoute = require('./routes/bills');
@@ -23,8 +22,9 @@ const feedback = require('./routes/Feedback')
 app.engine('handlebars', exphbs({
 	helpers: {
 		formatDate: formatDate,
-		getDate: getDate
-	},
+		getDate: getDate,
+		ifEquals: ifEquals,
+		},
 	defaultLayout: 'main' // Specify default template views/layout/main.handlebar 
 }));
 app.set('view engine', 'handlebars');
@@ -76,10 +76,6 @@ app.use(function (req, res, next) {
 	res.locals.error_msg = req.flash('error_msg');
 	res.locals.error = req.flash('error');
 	res.locals.user = req.user || null;
-	next();
-});
-
-app.use(function (req, res, next) {
 	next();
 });
 

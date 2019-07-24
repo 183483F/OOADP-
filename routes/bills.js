@@ -2,16 +2,18 @@ const Bills = require('../models/Bills');
 const express = require('express');
 const router = express.Router();
 const moment = require('moment');
-moment().format();
+const ensureAuthenticated = require('../helpers/auth');
 const alertMessage = require('../helpers/messenger')
+
+moment().format();
 // List videos belonging to current logged in user
-router.get('/payment',(req, res) => {
+router.get('/payment',ensureAuthenticated,(req, res) => {
     Bills.findAll({
-        /*where: {
-            user: req.user.id
-        },*/
+        where: {
+            userId: req.user.id
+        },
         order: [
-            ['title', 'ASC']
+            ['dateDue', 'ASC']
         ],
         raw: true
     }).then((bills) => {
@@ -23,23 +25,24 @@ router.get('/payment',(req, res) => {
 });
 
 // Route to the page for User to add a new video
-router.get('/addbills',(req, res) => {
+router.get('/addbills',ensureAuthenticated,(req, res) => {
     res.render('bills/addbills', { // pass object to listVideos.handlebar
         bills: 'List of bills'
     });
 });
 
 // Adds new video jot from /video/addVideo
-router.post('/addbills',(req, res) => {
+router.post('/addbills',ensureAuthenticated,(req, res) => {
     let title = req.body.title;
     let billCost = req.body.billCost.slice(0, 50);
     let dateDue = moment(req.body.dateDue, 'DD/MM/YYYY');
-    /*let userId = req.user.id;*/
+    let userId = req.user.id;
     // Multi-value components return array of strings or undefined
     Bills.create({
         title,
         billCost,
         dateDue,
+        userId
         
     }).then((bills) => {
         res.redirect('/bills/payment');
@@ -49,7 +52,7 @@ router.post('/addbills',(req, res) => {
 });
 
 // Shows edit video page
-router.get('/edit/:id', (req, res) => {
+router.get('/edit/:id',ensureAuthenticated, (req, res) => {
     Bills.findOne({
         where: {
             id: req.params.id
@@ -75,17 +78,19 @@ router.get('/edit/:id', (req, res) => {
     }).catch(err => console.log(err)); // To catch no bills id*/
 
 // Save edited video
-router.put('/saveEditedBills/:id',(req, res) => {
+router.put('/saveEditedBills/:id',ensureAuthenticated,(req, res) => {
     let title = req.body.title;
     let billCost = req.body.billCost.slice(0, 50);
     let dateDue = moment(req.body.dateDue, 'DD MM');
     var billID = req.params.id;
+    let userId = req.user.id;
     // Retrieves edited values from req.body
     Bills.update({
         // Set variables here to save to the videos table
         title,
         billCost,
         dateDue,
+        userId
     }, {
             where: {
                 id: billID
@@ -97,7 +102,7 @@ router.put('/saveEditedBills/:id',(req, res) => {
         }).catch(err => console.log(err));
 });
 
-router.get('/delete/:id',(req, res) => {
+router.get('/delete/:id',ensureAuthenticated,(req, res) => {
     Bills.findOne({
         where: {
             id: req.params.id

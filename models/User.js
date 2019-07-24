@@ -34,5 +34,8 @@ const User = db.define('user', {
     verified: {
         type: Sequelize.BOOLEAN
     },
+    imgURL:{
+        type: Sequelize.STRING,
+    },
 });
 module.exports = User;
