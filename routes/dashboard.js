@@ -20,8 +20,9 @@ router.get('/dashboard', (req, res) =>{
 
 
 router.post('/dashboard', (req, res) => {
-    let { Amount, Tags, Notes, Date } = req.body;
+    let {Name, Amount, Tags, Notes, Date } = req.body;
     Dashboard.create({
+        Name,
         Amount,
         Tags,
         Notes,
