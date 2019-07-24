@@ -11,7 +11,7 @@ const Sequelize = require('sequelize');
 router.get('/AllFeedback', (req, res) => {
     Feedback.findAll({ /* from models */
         raw:true
-    }).then((feedbacks) => {
+    }).then((feedbacks) => { 
         res.render('feedback/AllFeedback', {
             feedbacks: feedbacks  /* models feedback */
         });
