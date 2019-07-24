@@ -9,10 +9,10 @@ const Feedback = db.define('feedbacks', {
         type: Sequelize.STRING
     },
     Textfeed: {
-        type: Sequelize.STRING(2000)
+        type: Sequelize.STRING
     },
     Suggestion: {
-        type: Sequelize.STRING(2000)
+        type: Sequelize.STRING
     },
     /*feedbackDate: {
         type: Sequelize.Date

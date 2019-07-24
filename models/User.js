@@ -22,8 +22,17 @@ const User = db.define('user', {
     Hobbies: {
         type: Sequelize.STRING
     },
+    name:{
+        type: Sequelize.STRING
+    },
+    email: {
+        type: Sequelize.STRING
+    },
+    password: {
+        type: Sequelize.STRING
+    },
+    verified: {
+        type: Sequelize.BOOLEAN
+    },
 });
 module.exports = User;
-verified: {
-    type: Sequelize.BOOLEAN
-}

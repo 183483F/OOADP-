@@ -41,7 +41,9 @@
 <body>
 	{{> _navbar }} <!—Add this to include views/partials/_navbar.handlebars -->
 	<div class="container">  
-	
+		{{>_flashmsg}} {{!-- views/partials/_flashmsg.handlebars --}}
+		{{>_msg}}
+		{{>_errors}}
 		{{{body}}}
 	</div>
 
