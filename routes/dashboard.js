@@ -6,8 +6,9 @@ const Dashboard = require('../models/Dashboard');
 //const ensureAuthenticated = require('../helpers/auth');
 //const fs = require('fs');
 //const upload = require('../helpers/imageUpload');
-
+//Dashboard.findAll
 router.get('/dashboard', (req, res) =>{
+    //Dashboard.findAll
     Dashboard.findAll({
         raw:true
     }).then((dashboard) => {
