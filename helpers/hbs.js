@@ -13,6 +13,11 @@ module.exports = {
             return "";
         }
     },
+
+    ifEquals: function (a, b, options) {
+        if (a == b) { return options.fn(this); }
+        return options.inverse(this);
+    },
     /*calculateCost: function (value) {
         var totalCost = req.params.id
         Bills.findOne({
@@ -44,5 +49,5 @@ module.exports = {
 
     getDate: function (date) {
         return moment(date).format("dddd MMMM Do YYYY, h:mm:ss a");
-    }
+    },
 };
