@@ -10,7 +10,7 @@ moment().format();
 router.get('/payment',ensureAuthenticated,(req, res) => {
     Bills.findAll({
         where: {
-            user: req.user.id
+            userId: req.user.id
         },
         order: [
             ['dateDue', 'ASC']
@@ -36,12 +36,13 @@ router.post('/addbills',ensureAuthenticated,(req, res) => {
     let title = req.body.title;
     let billCost = req.body.billCost.slice(0, 50);
     let dateDue = moment(req.body.dateDue, 'DD/MM/YYYY');
-    /*let userId = req.user.id;*/
+    let userId = req.user.id;
     // Multi-value components return array of strings or undefined
     Bills.create({
         title,
         billCost,
         dateDue,
+        userId
         
     }).then((bills) => {
         res.redirect('/bills/payment');
@@ -82,12 +83,14 @@ router.put('/saveEditedBills/:id',ensureAuthenticated,(req, res) => {
     let billCost = req.body.billCost.slice(0, 50);
     let dateDue = moment(req.body.dateDue, 'DD MM');
     var billID = req.params.id;
+    let userId = req.user.id;
     // Retrieves edited values from req.body
     Bills.update({
         // Set variables here to save to the videos table
         title,
         billCost,
         dateDue,
+        userId
     }, {
             where: {
                 id: billID
