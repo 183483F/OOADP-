@@ -14,8 +14,12 @@ const Dashboard = db.define('dashboard', {
         type: Sequelize.STRING
     },
     Date: {
+        type: Sequelize.DATE
+    },
+    Name: {
         type: Sequelize.STRING
     },
+    
 });
 module.exports = Dashboard;
 verified: {

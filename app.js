@@ -7,7 +7,7 @@ const db = require('./config/db');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const flash = require('connect-flash');
-const FlashMessenger = require('flash-messenger');// Library to use MySQL to store session objects
+const FlashMessenger = require('flash-messenger');// Library to use MySQL to store session objectsss
 const MySQLStore = require('express-mysql-session');
 const { formatDate, getDate } = require('./helpers/hbs');
 const passport = require('passport');
@@ -17,6 +17,8 @@ const mainRoute = require('./routes/main');
 const userRoute = require('./routes/user')
 const billRoute = require('./routes/bills');
 const dashboardRoute = require('./routes/dashboard')
+const transactionH = require('./routes/transactionH')
+const feedback = require('./routes/Feedback')
 
 app.engine('handlebars', exphbs({
 	helpers: {
@@ -62,6 +64,21 @@ app.use(session({
 	saveUninitialized: false,
 })); 
 
+app.use(passport.initialize());
+app.use(passport.session());
+
+
+app.use(flash());
+
+app.use(FlashMessenger.middleware); // add this statement after flash()
+app.use(function (req, res, next) {
+	res.locals.success_msg = req.flash('success_msg');
+	res.locals.error_msg = req.flash('error_msg');
+	res.locals.error = req.flash('error');
+	res.locals.user = req.user || null;
+	next();
+});
+
 app.use(function (req, res, next) {
 	next();
 });
@@ -70,6 +87,8 @@ app.use('/', mainRoute);
 app.use('/bills', billRoute);
 app.use('/user', userRoute);
 app.use('/dashboard', dashboardRoute)
+app.use('/transactionH', transactionH)
+app.use('/Feedback', feedback)
 
 const port = 5000;
 
@@ -80,7 +99,10 @@ app.listen(port, () => {
 // Bring in database connection
 const vidjotDB = require('./config/DBConnection');
 // Connects to MySQL database
-vidjotDB.setUpDB(true); // To set up database with new tables set (true)
+vidjotDB.setUpDB(false); // To set up database with new tables set (true)
+
 // Passport Config
 const authenticate = require('./config/passport');
-//authenticate.localStrategy(passport);
+authenticate.localStrategy(passport);
+app.use(passport.initialize());
+app.use(passport.session());

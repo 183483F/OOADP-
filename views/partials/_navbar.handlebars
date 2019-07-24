@@ -1,9 +1,9 @@
 <nav class="navbar navbar-expand-sm navbar-dark navbar-custom mb-3">
+	{{#if user}}
 	<div class="container">
 		<a class="navbar-brand" href="/">Strawberry</a>
-		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav"
-				  aria-expanded="false"
-				  aria-label="Toggle navigation">
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+			aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
 			<span class="navbar-toggler-icon"></span>
 		</button>
 		<div class="collapse navbar-collapse" id="navbarNav">
@@ -11,51 +11,71 @@
 				<li class="nav-item">
 					<a class="nav-link" href="/dashboard">Dashboard</a>
 				</li>
-			<ul class="navbar-nav ml-auto">
+				<ul class="navbar-nav ml-auto">
 					<li class="nav-item dropdown">
-						<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" id="navbarDropdownMenuLink">Bills</a>
+						<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown"
+							id="navbarDropdownMenuLink">Bills</a>
 						<div class="dropdown-menu">
 							{{!-- Note: ".." move 1 folder up. "." is the current folder. start with the "/" to indicte root directory --}}
 							<a href="/bills/payment" class="dropdown-item">Bills</a>
-							<a href= "/bills/addbills" class="dropdown-item">Add Bills</a>
+							<a href="/bills/addbills" class="dropdown-item">Add Bills</a>
 						</div>
 					</li>
-			</ul>
-        <li class="nav-item">
+				</ul>
+				<li class="nav-item">
 					<a class="nav-link" href="/payment">Expenditure</a>
-				</li><li class="nav-item">
-					<a class="nav-link" href="/user/budget">Budgeting</a>
-				</li><li class="nav-item">
-					<a class="nav-link" href="/payment">Transaction History</a>
-				</li><li class="nav-item">
-					<a class="nav-link" href="/payment">Currency</a>
 				</li>
-        
+				<li class="nav-item">
+					<a class="nav-link" href="/user/budget">Budgeting</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="/transactionH">Transaction History</a>
+				</li>
+
+				<ul class="navbar-nav ml-auto">
+					<li class="nav-item dropdown">
+						<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown"
+							id="navbarDropdownMenuLink">Feedback</a>
+						<div class="dropdown-menu">
+							{{!-- Note: ".." move 1 folder up. "." is the current folder. start with the "/" to indicte root directory --}}
+							<a href="/feedback/AllFeedback" class="dropdown-item">All Feedbacks</a>
+							<a href="/feedback/Addfeedback" class="dropdown-item">Add Feedback</a>
+						</div>
+					</li>
+				</ul>
 			</ul>
 			<ul class="navbar-nav ml-auto">
-				{{#if user}}
-					<li class="nav-item dropdown">
-						<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" id="navbarDropdownMenuLink">Video
-							Jots</a>
-					<li class="nav-item">
-						<a href="/logout" class="nav-link">Logout</a>
-					</li>
-				{{else}}
+				<li class="nav-item dropdown">
+					<a href="/showProfile" class="nav-link">Profile
+					</a>
+				<li class="nav-item">
+					<a href="/logout" class="nav-link">Logout</a>
+				</li>
+			</ul>
+			{{else}}
+			<div class="container">
+				<a class="navbar-brand" href="/">Strawberry</a>
+				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+					aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+				<ul class="navbar-nav ml-auto">
 					<li class="nav-item">
 						<a href="/showLogin" class="nav-link">Login</a>
 					</li>
 					<li class="nav-item">
 						<a href="/showRegister" class="nav-link">Register</a>
 					</li>
-				{{/if}}
-			</ul>
+				</ul>
+			</div>
+			{{/if}}
 		</div>
 	</div>
 </nav>
 
 
 <style>
-  .navbar-custom{
-    background-color:#37d657;
-  }
+	.navbar-custom {
+		background-color: #37d657;
+	}
 </style>
