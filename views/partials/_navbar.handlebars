@@ -45,7 +45,22 @@
 				</ul>
 			</ul>
 			<ul class="navbar-nav ml-auto">
-				<li class="nav-item dropdown">
+				{{#ifEquals imgURL ""}}
+				<li class="nav-item">
+					<a href="/showProfile" class="nav-link">
+						<img src="/img/no-img.jpg"
+							style="width: 10%; float:right">
+					</a>
+				</li>
+				{{else}}
+				<li class="nav-item">
+					<a href="/showProfile" class="nav-link">
+						<img src="{{user.imgURL}}"
+							style="width: 10%; float:right">
+					</a>
+				</li>
+				{{/ifEquals}}
+				<li class="nav-item dropdown" style="float:right">
 					<a href="/showProfile" class="nav-link">Profile
 					</a>
 				<li class="nav-item">

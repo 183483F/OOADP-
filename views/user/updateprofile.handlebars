@@ -58,16 +58,28 @@
 <br>
 <form action="/user/saveEditedProfile/{{user.id}}?_method=PUT" method="post">
     <div>
+        {{#ifEquals imgURL ""}}
         <!--left col-->
         <div class="col-sm-3" style=float:left>
             <input type="file" id="imgUpload" name="imgUpload" accept="image/png,
 					image/jpeg,image/jpg,image/gif">
-            <img id="img" src="/img/no-image.jpg" alt="" class="border img-thumbnail img-fluid"
+            <img id="img" src="public\img\no-image.jpg" alt="" class="border img-thumbnail img-fluid"
                 style="height:95%;width:100%">
             <h6>Choose your own profile picture!</h6>
             <input id="imgURL" type="hidden" name="imgURL">
             <div class="font-weight-bold text-danger small" id="imgErr" style="display: :none"></div>
         </div>
+        {{else}}
+        <div class="col-sm-3" style=float:left>
+            <input type="file" id="imgUpload" name="imgUpload" accept="image/png,
+					image/jpeg,image/jpg,image/gif">
+            <img id="img" src={{user.imgURL}} alt="" class="border img-thumbnail img-fluid"
+                style="height:95%;width:100%">
+            <h6>Choose your own profile picture!</h6>
+            <input id="imgURL" type="hidden" name="imgURL">
+            <div class="font-weight-bold text-danger small" id="imgErr" style="display: :none"></div>
+        </div>
+        {{/ifEquals}}
 
         <div class="row">
 

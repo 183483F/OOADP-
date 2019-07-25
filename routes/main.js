@@ -4,7 +4,6 @@ const User = require('../models/User');
 const ensureAuthenticated = require('../helpers/auth');
 const Dashboard = require('../models/Dashboard')
 const feedback = require('../models/feedback'); 
-/* >>>>>>> b6b08cd6e17409d1fd72f6296fdd7809040a387f */
 
 router.get('/', (req, res) => {
     res.render('index');

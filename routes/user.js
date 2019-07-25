@@ -98,6 +98,7 @@ router.post('/register', (req, res) => {
     let errors = [];
     // Retrieves fields from register page from request body
     let { name, email, password, password2 } = req.body;
+    let {imgURL} = ""
 
     // Checks if both passwords entered are the same
     if (password !== password2) {
@@ -114,7 +115,8 @@ router.post('/register', (req, res) => {
             name,
             email,
             password,
-            password2
+            password2,
+            imgURL
         });
     } else {
         // If all is well, checks if user is already registered
@@ -128,7 +130,8 @@ router.post('/register', (req, res) => {
                         name,
                         email,
                         password,
-                        password2
+                        password2,
+                        imgURL
                     });
                 } else {
                     // Encrypt the password
@@ -142,7 +145,7 @@ router.post('/register', (req, res) => {
                     password = hashedPassword;
 
                     // Create new user record
-                    User.create({ name, email, password, verified: 0, })
+                    User.create({ name, email, password, verified: 0, imgURL: "", })
                         .then(user => {
                             sendEmail(user.id, user.email, token)
                                 .then(msg => {
@@ -273,14 +276,40 @@ router.post('/upload', ensureAuthenticated, (req, res) => {
         if (err) {
             res.json({ file: '/img/no-image.jpg', err: err });
         } else {
-            if (req.file === undefined) {
+            if (req.file === undefined){
                 res.json({ file: '/img/no-image.jpg', err: err });
-            } else {
+            } 
+            else {
                 res.json({ file: `/uploads/${req.user.id}/${req.file.filename}` });
             }
         }
     });
 })
+
+router.get('/delete/:id', ensureAuthenticated, (req, res) => {
+    let userId = req.user.id;
+    User.findOne({
+        where: {
+            id: userId
+        }
+    }).then((user) => {
+        if(user){
+            User.destroy({
+                where :{
+                    id:userId
+                }
+            }).then((user) =>{
+                alertMessage(res, 'success', 'User deleted', 'fas fa-exclamation-circle', true)
+                res.redirect("/logout")
+            }).catch((err) => {console.log(err)})
+        }  else{
+            alertMessage(res, 'danger', 'Unauthorized access to account', 'fas fa-exclamation-circle', true)
+            res.redirect("/logout")
+        }      
+    }).catch((err) => {
+        console.log(err)
+    })
+});
 
 
 module.exports = router;
