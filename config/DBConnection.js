@@ -18,7 +18,10 @@ const setUpDB = (drop) => {
             */
             user.hasMany(video);
             user.hasMany(bill);
+<<<<<<< HEAD
             user.hasMany(feedback);
+=======
+>>>>>>> 156ce87e8290c826521eac72edfffe8ed746bcbf
             mySQLDB.sync({ // Creates table if none exists
                 force: drop
             }).then(() => {
