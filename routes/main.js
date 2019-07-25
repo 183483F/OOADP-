@@ -3,10 +3,9 @@ const router = express.Router();
 const User = require('../models/User');
 const ensureAuthenticated = require('../helpers/auth');
 const Dashboard = require('../models/Dashboard')
-const feedback = require('../models/feedback'); 
 
 router.get('/', (req, res) => {
-    res.render('index');
+    res.render('index')
 });
 
 router.get('/payment', (req, res) =>{

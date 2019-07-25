@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const Feedback = require('../models/feedback');
+const Feedback = require('../models/Feedback');
 const moment = require('moment');
 moment().format();
 

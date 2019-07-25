@@ -1,7 +1,16 @@
 <div class="jumbotron text-center">
 	<div class="container">
-		<h1 class="display-4">{{title}}</h1>
+		<h1 class="display-4"></h1>
 		<H1>Strawberry Money Tracker etc</H1>
 	</div>
 	<br>
 </div>
+{{#if users}}
+{{#each users}}
+	<p>user confirmed</p>
+{{/each}}
+{{else}}
+<div>
+	<p> hello there unconfirmed user</p>
+</div>
+{{/if}}
