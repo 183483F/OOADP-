@@ -11,6 +11,7 @@ const FlashMessenger = require('flash-messenger');// Library to use MySQL to sto
 const MySQLStore = require('express-mysql-session');
 const { formatDate, getDate, ifEquals, compareDate } = require('./helpers/hbs');
 const passport = require('passport');
+const sequelize = require('sequelize');
 const app = express();
 const mainRoute = require('./routes/main');
 const userRoute = require('./routes/user')

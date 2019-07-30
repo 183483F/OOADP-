@@ -4,18 +4,22 @@ const router = express.Router();
 const moment = require('moment');
 const ensureAuthenticated = require('../helpers/auth');
 const alertMessage = require('../helpers/messenger')
+const sequelize = require('sequelize');
+const getDate = require('../helpers/hbs');
 
-moment().format();
+
+
+
 // List videos belonging to current logged in user
 router.get('/payment',ensureAuthenticated,(req, res) => {
     Bills.findAll({
         where: {
             userId: req.user.id,
-            dueDate: req.bills.dueDate > Date
-            
+            dateDue:{ $lt : sequelize.col('date')}
+          
         },
         order: [
-            ['dateDue', 'asc']
+            ['dateDue', 'desc']
         ],
         raw: true
     }).then((bills) => {
@@ -38,12 +42,14 @@ router.post('/addbills',ensureAuthenticated,(req, res) => {
     let title = req.body.title;
     let billCost = req.body.billCost.slice(0, 50);
     let dateDue = moment(req.body.dateDue, 'DD/MM/YYYY');
+    let date = moment().format();
     let userId = req.user.id;
     // Multi-value components return array of strings or undefined
     Bills.create({
         title,
         billCost,
         dateDue,
+        date,
         userId
         
     }).then((bills) => {
