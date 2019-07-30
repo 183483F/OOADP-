@@ -9,7 +9,7 @@ const cookieParser = require('cookie-parser');
 const flash = require('connect-flash');
 const FlashMessenger = require('flash-messenger');// Library to use MySQL to store session objectsss
 const MySQLStore = require('express-mysql-session');
-const { formatDate, getDate, ifEquals } = require('./helpers/hbs');
+const { formatDate, getDate, ifEquals, compareDate } = require('./helpers/hbs');
 const passport = require('passport');
 const app = express();
 const mainRoute = require('./routes/main');
@@ -24,6 +24,7 @@ app.engine('handlebars', exphbs({
 		formatDate: formatDate,
 		getDate: getDate,
 		ifEquals: ifEquals,
+		compareDate: compareDate
 		},
 	defaultLayout: 'main' // Specify default template views/layout/main.handlebar 
 }));

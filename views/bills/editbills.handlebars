@@ -1,7 +1,7 @@
 
 <div class="container">
 	<div class="card card-body">
-		<h3>Edit Bill Info - ID {{bills.id}}</h3>
+		<h3>Edit Bill Info - {{bills.title}}</h3>
 		<form action="/bills/saveEditedBills/{{bills.id}}?_method=PUT" method="post">
 			<div class="form-group">
 				{{!-- Practical 5 Exercise 2: Add a title input text here named 'title'--}}
@@ -17,8 +17,8 @@
 				<div class="row mb-2">
 					<div class="col-12 col-sm-12 col-md-12 col-lg-6 mb-4">
 						<label class="font-italic">Date of Payment</label>
-						<input id="datepicker" width="200" name="DateDue"
-							value="{{formatDate bills.dateDue 'DD/MM/YYYY'}}" readonly />
+						<input id="datepicker" width="200" name="dateDue"
+							value="{{formatDate bills.dateDue 'DD MMM'}}" readonly />
 					</div>
 					</div>
 			</div>
@@ -32,6 +32,7 @@
 <script>
 	$('#datepicker').datepicker({
 		format: 'dd/mm/yyyy',
+		value: new Date().toLocaleDateString('en-SG'),
 		uiLibrary: 'bootstrap4',
 	});
 </script>
