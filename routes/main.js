@@ -19,7 +19,7 @@ router.get('/payment', (req, res) => {
     res.render('payment');
 });
 
-router.get('/transactionH', (req, res) => {
+router.get('/transactionH', ensureAuthenticated,(req, res) => {
     Dashboard.findAll({
         raw: true
     }).then((dashboard) => {
