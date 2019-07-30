@@ -1,29 +1,47 @@
 const express = require('express');
 const router = express.Router();
-const Feedback = require('../models/Feedback');
+const Feedback = require('../models/feedback');
 const moment = require('moment');
 moment().format();
+const Sequelize = require('sequelize');
+
+
 
 /* get from table and display on allfeedback */
 router.get('/AllFeedback', (req, res) => {
     Feedback.findAll({ /* from models */
-        order: [
-            ['title', 'ASC']
-        ],
+
+     /*    where : {
+            userId: req.user.id, 
+            Title: Sequelize.where(Sequelize.fn('LOWER', Sequelize.col("Title")),{ $like: ` %${req.query.AllFeedback}% `} )
+        }, 
+
+     /*    LOWER(Title) LIKE %INPUT%;*/
+
         raw:true
     }).then((feedbacks) => {
+
         res.render('feedback/AllFeedback', {
             feedbacks: feedbacks  /* models feedback */
         });
     }).catch(err => console.log(err));
 });
 
-
-
-// get inputs on addfeedback
 router.get('/Addfeedback',(req, res) => {
     res.render('feedback/Addfeedback', { // pass object to listVideos.handlebar
         feedbacks: 'list of feedback'
+    });
+});
+
+
+// get Ratings
+router.get('/AllFeedback',(req, res) => {
+    feedbacks.findAll({
+        group: ['Rating'],
+        attributes: ['Rating', [Sequelize.fn('COUNT', 'Rating'), 'TagCount']],
+    }).then((counts) => {
+        let p = counts[0].dataValue
+        return res.json(counts)
     });
 });
 
@@ -33,12 +51,14 @@ router.post('/Addfeedback', (req, res) => {
     let Textfeed = req.body.Textfeed.slice(0, 2000);
     let Suggestion = req.body.Suggestion.slice(0, 2000);
     let Date = moment(req.body.Date, 'DD/MM/YYYY');
+    let Rating = req.body.Rating;
   /*   let { Title, Textfeed, Suggestion, Date } = req.body; */
     Feedback.create({   /* from models */
         Title,
         Textfeed,
         Suggestion,
         Date,
+        Rating,
     }).then((feedbacks) => {
         res.redirect('/feedback/AllFeedback');
     })
