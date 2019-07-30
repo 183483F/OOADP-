@@ -2,7 +2,7 @@ const mySQLDB = require('./DBConfig');
 const user = require('../models/User');
 const video = require('../models/Video');
 const bill = require('../models/Bills');
-const feedback =  require('../models/feedback');
+const feedback =  require('../models/Feedback');
 
 // If drop is true, all existing tables are dropped and recreated
 const setUpDB = (drop) => {
@@ -18,6 +18,7 @@ const setUpDB = (drop) => {
             */
             user.hasMany(video);
             user.hasMany(bill);
+            user.hasMany(feedback);
             mySQLDB.sync({ // Creates table if none exists
                 force: drop
             }).then(() => {

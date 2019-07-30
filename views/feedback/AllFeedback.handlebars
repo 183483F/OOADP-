@@ -1,13 +1,21 @@
-<h1> test</h1>
+<script>
+	$('divA'.removeClass("container"));
+</script>
+
+
+<h1> test</h1> 
 <!--.col-	.col-sm-	.col-md-	.col-lg-	.col-xl- -->
 
 
-<div {{!-- class="container" --}}>
 	{{#if feedbacks}}    {{!-- from models feedback ,db.define('feedback') --}}
 	<div class="card card-body">
 		
 		<h3 class="text-primary">All Feedbacks</h3>
 
+		<div>
+        	<canvas id="myChart" width="500" height="500"></canvas>
+    	</div>
+  
 
 		<div class="mb-2">
 		<input type="text" id="titles" onkeyup="showHint(this.value)">
@@ -24,26 +32,33 @@
 				
 					<div class="col-sm-12 col-md-12 col-lg-12">
 						<div class="row"> 
-							<div class="col-sm-12 col-md-6 col-lg-2">
+							<div class="col-sm-12 col-md-6 col-lg-1">
 								<p class="font-italic">Title</p>
 								<p class="text-info" id="titles">
 									{{Title}}
-								</p>
+								</p>	
 							</div>
 							<div class="col-sm-12 col-md-6 col-lg-4">
 								<p class="font-italic">Body</p>
-								<p class="text-info">
-								<p> 	{{Textfeed}} </p>
-								</p>
+								<p class="text-info"> {{Textfeed}} </p>
+								
 							</div>
 							<div class="col-sm-12 col-md-6 col-lg-4">
 								<p class="font-italic">Suggestion</p>
 								<p class="text-info">{{Suggestion}}</p>
 							</div>
+						{{!-- ratings  --}}
+							<div class="col-sm-12 col-md-6 col-lg-1">
+								<p class="font-italic">Ratings</p>
+								<p class="text-info">{{Rating}} / 5</p>
+							</div>
+
+
 							<div class="col-sm-12 col-md-6 col-lg-2">
 								<p class="font-italic">Date</p>
 								<p class="text-info" >{{formatDate Date 'DD/MM/YYYY' }}</p>  {{!-- formatDate Date 'DD/MM/YYYY' --}}
 							</div>
+
 						</div>
 					</div>
 					{{!-- <div class="col-sm-12 col-md-6 col-lg-2">
@@ -66,7 +81,7 @@
 	</div>
 	{{else}}
 	<h3>No Transaction History</h3>
-</div>
+
 	{{/if}}
 
 <div class="btn-toolbar" role="toolbar" style="margin: 0;">
@@ -79,7 +94,7 @@
     </div>
 </div>
 
-
+{{!-- 
 <script>
 function showHint(str) {
   var xhttp;
@@ -96,4 +111,4 @@ function showHint(str) {
   xhttp.open("GET", "gethint.asp?q="+str, true);
   xhttp.send();
 }
-</script>
+</script> --}}

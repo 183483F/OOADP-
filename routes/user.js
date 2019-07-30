@@ -145,7 +145,7 @@ router.post('/register', (req, res) => {
                     password = hashedPassword;
 
                     // Create new user record
-                    User.create({ name, email, password, verified: 0, imgURL: "", })
+                    User.create({ name, email, password, verified: 0, imgURL: "/img/no-image.jpg", })
                         .then(user => {
                             sendEmail(user.id, user.email, token)
                                 .then(msg => {
@@ -200,7 +200,7 @@ router.get('/verify/:userId/:token', (req, res, next) => {
 
 
 function sendEmail(userId, email, token) {
-    sgMail.setApiKey('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');
+    sgMail.setApiKey('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');
 
     const message = {
         to: email,

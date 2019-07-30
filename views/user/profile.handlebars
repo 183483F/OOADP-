@@ -61,21 +61,12 @@
 <div>
     <!--left col-->
     <h6> Profile Image</h6>
-    {{#ifEquals imgURL ""}}
-    <div class="col-sm-3" style=float:left>
-        <img id="img" src="/img/no-image.jpg" alt="" class="border img-thumbnail img-fluid"
-            style="height:95%;width:100%">
-        <input id="imgURL" type="hidden" name="imgURL">
-        <p> choose your own image when updating your profile!</p>
-    </div>
-    {{else}}
     <div class="col-sm-12 col-md-12 col-lg-2" style=float:left>
         <a href="{{imgURL}}" data-toggle="lightbox">
             <img src="{{imgURL}}" alt="Image unavailable" class="img-thumbnail img-fluid">
         </a>
         <p>You can update your profile picture when you update your profile!</p>
     </div>
-    {{/ifEquals}}
     
 
     <div class="row" style="padding-left: 100px">
