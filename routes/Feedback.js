@@ -17,8 +17,10 @@ router.get('/AllFeedback', (req, res) => {
         }, 
 
      /*    LOWER(Title) LIKE %INPUT%;*/
+
         raw:true
-    }).then((feedbacks) => { 
+    }).then((feedbacks) => {
+
         res.render('feedback/AllFeedback', {
             feedbacks: feedbacks  /* models feedback */
         });
@@ -43,6 +45,18 @@ router.get('/AllFeedback',(req, res) => {
 router.get('/Addfeedback',(req, res) => {
     res.render('feedback/Addfeedback', { // pass object to listVideos.handlebar
         feedbacks: 'list of feedback'
+    });
+});
+
+
+// get Ratings
+router.get('/AllFeedback',(req, res) => {
+    feedbacks.findAll({
+        group: ['Rating'],
+        attributes: ['Rating', [Sequelize.fn('COUNT', 'Rating'), 'TagCount']],
+    }).then((counts) => {
+        let p = counts[0].dataValue
+        return res.json(counts)
     });
 });
 
