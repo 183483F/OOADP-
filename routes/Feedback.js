@@ -17,23 +17,16 @@ router.get('/AllFeedback', (req, res) => {
         }, 
 
      /*    LOWER(Title) LIKE %INPUT%;*/
-<<<<<<< HEAD
 
         raw:true
     }).then((feedbacks) => {
 
-=======
-        raw:true
-    }).then((feedbacks) => { 
->>>>>>> 40a3e91b4a41ae5653e9bfff7ead73c44d7ccdb4
         res.render('feedback/AllFeedback', {
             feedbacks: feedbacks  /* models feedback */
         });
     }).catch(err => console.log(err));
 });
 
-<<<<<<< HEAD
-=======
 router.get('/AllFeedback',(req, res) => {
     Feedback.findAll({ /* from models */
         group:["Rating"],
@@ -49,7 +42,6 @@ router.get('/AllFeedback',(req, res) => {
 
 
 // get inputs on addfeedback
->>>>>>> 40a3e91b4a41ae5653e9bfff7ead73c44d7ccdb4
 router.get('/Addfeedback',(req, res) => {
     res.render('feedback/Addfeedback', { // pass object to listVideos.handlebar
         feedbacks: 'list of feedback'
