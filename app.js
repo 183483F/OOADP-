@@ -9,14 +9,15 @@ const cookieParser = require('cookie-parser');
 const flash = require('connect-flash');
 const FlashMessenger = require('flash-messenger');// Library to use MySQL to store session objectsss
 const MySQLStore = require('express-mysql-session');
-const { formatDate, getDate, ifEquals } = require('./helpers/hbs');
+const { formatDate, getDate, ifEquals, compareDate } = require('./helpers/hbs');
 const passport = require('passport');
+const sequelize = require('sequelize');
 const app = express();
 const mainRoute = require('./routes/main');
 const userRoute = require('./routes/user')
 const billRoute = require('./routes/bills');
 const dashboardRoute = require('./routes/dashboard')
-const transactionH = require('./routes/transactionH')
+/* const transactionH = require('./user/transactionH') */
 const feedback = require('./routes/Feedback')
 
 app.engine('handlebars', exphbs({
@@ -24,6 +25,7 @@ app.engine('handlebars', exphbs({
 		formatDate: formatDate,
 		getDate: getDate,
 		ifEquals: ifEquals,
+		compareDate: compareDate
 		},
 	defaultLayout: 'main' // Specify default template views/layout/main.handlebar 
 }));
@@ -83,7 +85,7 @@ app.use('/', mainRoute);
 app.use('/bills', billRoute);
 app.use('/user', userRoute);
 app.use('/dashboard', dashboardRoute)
-app.use('/transactionH', transactionH)
+/* app.use('/transactionH', transactionH) */
 app.use('/Feedback', feedback)
 
 const port = 5000;
