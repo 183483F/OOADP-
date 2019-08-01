@@ -6,34 +6,42 @@ const Dashboard = require('../models/Dashboard');
 const ensureAuthenticated = require('../helpers/auth');
 
 router.get('/dashboard', (req, res) => {
+    let userId = req.user.id
     Dashboard.findAll({
         where: {
-
+            userId: userId
         },
-        SUM: [
-            ['Amount']
-        ],
         raw: true
-
     }).then((dashboard) => {
+        var total = getSum(dashboard)
         res.render('alex/dashboard', {
+            sum: total,
             dashboard: dashboard[dashboard.length - 1]
         });
-    }).catch(err => console.log(err));
+      /*   Dashboard.sum('Amount').then(sum => {
+            res.render('alex/dashboard', {
+                sum: sum
+            }).catch(err => console.log(err)); 
+
+
+        })*/
+    })
+
 });
 
 
 
 router.post('/dashboard', (req, res) => {
-    let { Name, Amount, Tags, Notes, } = req.body;
+    let { Name, Amount, Tags, Notes } = req.body;
     let Date = moment(req.body.Date, 'DD/MM/YYYY');
-
+    let userId = req.user.id;
     Dashboard.create({
         Name,
         Amount,
         Tags,
         Notes,
         Date,
+        userId
 
     }).then((dashboard) => {
         res.redirect('/dashboard/dashboard');
@@ -42,6 +50,13 @@ router.post('/dashboard', (req, res) => {
 
 });
 
+function getSum(dashboard){
+    var sum = 0;
+    for(var i = 0; i < dashboard.length; i++){
+        sum += dashboard[i].Amount;
+    }
+    return sum
+}
 
 /* delete for transaction history */
 router.get('/delete/:id', ensureAuthenticated, (req, res) => {
