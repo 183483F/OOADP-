@@ -1,81 +1,286 @@
 <!--.col-	.col-sm-	.col-md-	.col-lg-	.col-xl- -->
+{{!-- <link rel="stylesheet" href="/css/ModalsTransaction"> --}}
+{{!-- 
+
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>  --}}
+<!------ Include the above in your HEAD tag ---------->
+{{!-- 
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css" rel='stylesheet'
+	type='text/css'> --}}
 
 
-<div class="container">
-	{{#if dashboard}}
+{{!-- 
+<script> // script for modals
+	// Get the modal
+	var modal = document.getElementById("myModal");
+
+	// Get the button that opens the modal
+	var btn = document.getElementById("myBtn");
+
+	// Get the <span> element that closes the modal
+	var span = document.getElementsByClassName("close")[0];
+
+	// When the user clicks the button, open the modal 
+	btn.onclick = function () {
+		modal.style.display = "block";
+	}
+
+	// When the user clicks on <span> (x), close the modal
+	span.onclick = function () {
+		modal.style.display = "none";
+	}
+
+	// When the user clicks anywhere outside of the modal, close it
+	window.onclick = function (event) {
+		if (event.target == modal) {
+			modal.style.display = "none";
+		}
+	}
+</script> --}}
+<body style="background-color:#5cdb95;">
+{{!-- <div class="container"> --}}
+{{#if dashboard}}
+<!-- Trigger/Open The Modal -->
+{{!-- <button id="myBtn">Open Modal</button>
+
+<!-- The Modal -->
+<div id="myModal" class="modal">
+
+	<!-- Modal content -->
+	<div class="modal-content">
+		<span class="close">&times;</span>
+		<p>Some text in the Modal..</p>
+	</div>
+
+</div> --}}
+
+<div class="card card-body" style="background-color:#ebeae4;"{{!-- outer grey colored box --}}>
+
+	<h3 class="text-primary">Transaction History</h3>
+	<div class="form-group">
+		<div class="row mb-2">
+			<div class="col-12 col-sm-12 col-md-12 col-lg-3 mb-4">
+				<label class="font-italic">Date </label>
+				<input style="border-color:blue;" id="datepicker" width="200" name="Date" value="{{Date}}" readonly required />
+			</div>
+			{{!-- in between --}}
+			<div class="col-12 col-sm-12 col-md-12 col-lg-3 mb-4">
+				<label class="font-italic">Date </label>
+				<input style="border-color:blue;" id="datepicker2" width="200" name="Date" value="{{Date}}" readonly required />
+			</div>
+		</div>
+	</div>
+
+	{{!-- 	<div class="mb-2">
+			<input type="Search" id="titles" onkeyup="showHint(this.value)">
+		</div>
+		 --}}
+	<div class="row">
+		<input id="query" class="col-sm-12 col-md-12 col-lg-2" placeholder="Search Name"></input>
+		<input id="search" type="button" value="search" />
+	</div>
+
 	<div class="card card-body">
-		<h3 class="text-primary">Transaction HHH</h3>
-		{{#each dashboard}}
-		<div class="card border-primary mb-2 w-100 mx-auto">
-			{{!-- <div class="card-header">
-				<h5 class="card-title">{{title}}</h5>
-			</div> --}}
-			<div class="card-body">
-				{{!-- Practical 09 Exercise 02 --}}
-				<div class="row">
-					{{!-- <div class="col-sm-12 col-md-12 col-lg-2">
-						<a href="{{posterURL}}" data-title="{{title}}" data-toggle="lightbox">
-							<img src="{{posterURL}}" alt="Poster unavailable" class="img-thumbnail img-fluid">
-						</a>
-					</div> --}}
-					<div class="col-sm-12 col-md-12 col-lg-8">
-						<div class="row"> {{!-- subtitles, language... --}}
-							<div class="col-sm-12 col-md-6 col-lg-3">
-								<p class="font-italic">Name</p>
-								<p class="text-info">
-									{{Name}}
-								</p>
-							</div>
-							<div class="col-sm-12 col-md-6 col-lg-4">
-								<p class="font-italic">Amount</p>
-								<p class="text-info">
-								<p> $	{{Amount}} </p>
-								</p>
-							</div>
-							<div class="col-sm-12 col-md-6 col-lg-2">
-								<p class="font-italic">Tags</p>
-								<p class="text-info">{{Tags}}</p>
-							</div>
-							<div class="col-sm-12 col-md-6 col-lg-3">
-								<p class="font-italic">Date</p>
-								<p class="text-info">{{Date}}</p>
-							</div>
-						</div>
-						<div class="row">
-							<div class="col-sm-12 col-md-6 col-lg-10">
-								<p class="font-italic">Notes</p>
-								<p class="text-info">{{Notes}}</p>
-							</div>
-						</div>
-					</div>
-					<div class="col-sm-12 col-md-6 col-lg-2">
-						<p class="font-italic"></p>
-						<a href="/video/edit/{{id}}" class="card-link">
-							<i class="fas fa-pencil-alt"></i>
-							Edit
-						</a>
-						<a href="/video/delete/{{id}}" class="card-link" data-toggle="confirmation"
-							data-title="Confirm delete?">
-							<i class="far fa-trash-alt"></i>
-							Delete
-						</a>
-					</div>
+		<h3 class="text-primary">Video Jodts</h3>
+		<div id="card" class="card border-primary mb-2 w-100 mx-auto">
+			{{!-- search output shown here --}}
+		</div>
+	</div>
+
+	{{!-- 
+<div class="col-md-10 col-md-offset-1"> --}}
+
+	<div class="panel panel-default panel-table">
+		<div class="panel-heading">
+			<div class="row">
+				<div class="col col-xs-6">
+					<h3 class="panel-title">Panel Heading</h3>
+				</div>
+				<div class="col col-xs-6 text-right">
+					<button type="button" class="btn btn-sm btn-primary btn-create">Create New</button>
 				</div>
 			</div>
-
-			{{!-- <div class="accordion" id="storyAccordion{{id}}">
-				<div class="card-header" id="headingOne{{id}}">
-					<button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne{{id}}"
-						aria-expanded="false" aria-controls="collapseOne{{id}}">
-						Story<i class="fas fa-chevron-down"></i>
-					</button>
-
-				</div>
-			</div> --}}
 		</div>
-		{{/each}}
+
+		<table class="table table-striped table-bordered table-list table-responsive">
+			<thead>
+				<tr>
+					<th><em class="fa fa-cog"></em></th>
+					<th>Name</th>
+					<th>Notes</th>
+					<th>Tags</th>
+					<th>Amount</th>
+					<th>Date</th>
+				</tr>
+			</thead>
+			<tbody>
+
+				{{!-- table below --}}
+				{{#each dashboard}}
+
+				<tr>
+					<td align="center">
+						{{!-- <i>
+							<a href="/dashboard/delete/{{id}}"  data-toggle="confirmation"
+                            data-title="Confirm delete?" class="btn btn-danger"><em class="fa fa-trash"></em></a>
+						</i> --}}
+						<a href="/dashboard/delete/{{id}}" class="card-link" data-toggle="confirmation"
+							data-title="Confirm delete?">
+							<i class="far fa-trash-alt" style="color:red;"></i>
+					</td>
+					<th>{{Name}}</th>
+					<th>{{Notes}}</th>
+					<th>{{Tags}}</th>
+					<th>${{Amount}}</th>
+					<th>{{formatDate Date 'DD/MM/YYYY'}}</th>
+				</tr>
+
+				{{/each}}
+			</tbody>
+		</table>
 	</div>
-	{{else}}
-	<h3>No Transaction History</h3>
-	{{/if}}
+	{{!-- </div>  --}}
 </div>
+
+<div class="panel-footer">
+	<div class="row">
+		<div class="col col-xs-4">Page 1 of 5
+		</div>
+		<div class="col col-xs-8">
+			<ul class="pagination hidden-xs pull-right">
+				<li><a href="#">1</a></li>
+				<li><a href="#">2</a></li>
+				<li><a href="#">3</a></li>
+				<li><a href="#">4</a></li>
+				<li><a href="#">5</a></li>
+			</ul>
+			<ul class="pagination visible-xs pull-right">
+				<li><a href="#">«</a></li>
+				<li><a href="#">»</a></li>
+			</ul>
+		</div>
+	</div>
+</div>
+{{!-- </div> --}}
+
+
+{{else}} <h3>No Transaction History</h3>
+{{/if}}
+
+</body>
+
+
+{{!-- 	<input id="query"></input>
+	<input id="search" type="button" value="search"/>
+	<div class="card card-body">
+		<h3 class="text-primary">Video Jodts</h3>
+		<div id="card" class="card border-primary mb-2 w-100 mx-auto">
+		{{!-- search output shown here --}}
+</div>
+</div> --}}
+
+{{!-- "/video/search/ajax/" + query --}}
+
+<script>
+	$('#datepicker').datepicker({
+		format: 'dd/mm/yyyy',
+		value: new Date().toLocaleDateString('en-SG'),
+		uiLibrary: 'bootstrap4',
+	});
+</script>
+<script>
+	$('#datepicker2').datepicker({
+		format: 'dd/mm/yyyy',
+		value: new Date().toLocaleDateString('en-SG'),
+		uiLibrary: 'bootstrap4',
+	});
+</script>
+
+<script>
+	$(document).ready(function () {
+
+		$("#search").click(function () {
+			console.log("hit");
+			var query = $("#query").val();
+			$.ajax({
+				url: "/transactionH/search/" + query,
+				type: "GET",
+				success: function (data) {
+					console.log(data);
+					var dashboards = data.dashboard;
+					$("#card").html("");
+					$.each(dashboards, function (index, dashboard) {
+						var row = `
+							<div class="card-header">
+								<h5 class="card-title">${dashboard.Name}</h5>
+							</div>
+							<div class="card-body">
+								{{!-- Practical 09 Exercise 02 --}}
+								<div class="row">
+									
+									<div class="col-sm-12 col-md-12 col-lg-8">
+										<div class="row"> {{!-- subtitles, language... --}}
+											<div class="col-sm-12 col-md-6 col-lg-3">
+												<p class="font-italic">Subtitles</p>
+												<p class="text-info">
+													${dashboard.Notes}
+												</p>
+											</div>
+											<div class="col-sm-12 col-md-6 col-lg-4">
+												<p class="font-italic">Language</p>
+												<p class="text-info">
+													${dashboard.Tags}
+												</p>
+											</div>
+											<div class="col-sm-12 col-md-6 col-lg-2">
+												<p class="font-italic">Class</p>
+												<p class="text-info">${dashboard.Amount}</p>
+											</div>
+											<div class="col-sm-12 col-md-6 col-lg-3">
+												<p class="font-italic">Date Release</p>
+												<p class="text-info">${dashboard.Date}</p>
+					
+											</div >
+										</div >
+						<div class="row">
+							<div class="col-sm-12 col-md-6 col-lg-10">
+								<p class="font-italic">Starring</p>
+								<p class="text-info">${dashboard.Name}</p>
+							</div>
+						</div>
+									</div >
+								</div >
+							</div >
+							
+
+							`
+							console.log(row);
+							$("#card").append(row);
+						})
+					}
+				})
+			})
+		})
+</script>
+
+
+
+
+{{!-- pagination --}}{{!-- 
+<div class="dataTables_paginate paging_simple_numbers" id="example_paginate">
+	<ul class="pagination">
+		<li class="paginate_button previous disabled" id="example_previous"><a href="#" aria-controls="example"
+				data-dt-idx="0" tabindex="0">Previous</a></li>
+		<li class="paginate_button active"><a href="#" aria-controls="example" data-dt-idx="1" tabindex="0">1</a>
+		</li>
+		<li class="paginate_button "><a href="#" aria-controls="example" data-dt-idx="2" tabindex="0">2</a></li>
+		<li class="paginate_button "><a href="#" aria-controls="example" data-dt-idx="3" tabindex="0">3</a></li>
+		<li class="paginate_button "><a href="#" aria-controls="example" data-dt-idx="4" tabindex="0">4</a></li>
+		<li class="paginate_button "><a href="#" aria-controls="example" data-dt-idx="5" tabindex="0">5</a></li>
+		<li class="paginate_button "><a href="#" aria-controls="example" data-dt-idx="6" tabindex="0">6</a></li>
+		<li class="paginate_button next" id="example_next"><a href="#" aria-controls="example" data-dt-idx="7"
+				tabindex="0">Next</a></li>
+	</ul>
+</div> --}}

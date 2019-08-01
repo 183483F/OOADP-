@@ -305,6 +305,7 @@ router.get('/', (req, res) => {
     res.render('index', { title: title }) // renders views/index.handlebars
 });
 
+<<<<<<< HEAD
 router.get('/edit/:id', ensureAuthenticated, (req, res) => {
     User.findOne({
         where: {
@@ -450,5 +451,7 @@ router.get('/delete/:id', ensureAuthenticated, (req, res) => {
     })
 });
 
+=======
+>>>>>>> cca8af00d44885995438ed73af3ea74718f202ad
 
 module.exports = router;

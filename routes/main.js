@@ -2,8 +2,11 @@ const express = require('express');
 const router = express.Router();
 const User = require('../models/User');
 const ensureAuthenticated = require('../helpers/auth');
-const Dashboard = require('../models/Dashboard')
-const Feedback = require('../models/Feedback')
+const Dashboard = require('../models/Dashboard');
+const feedback = require('../models/feedback');
+const alertMessage = require('../helpers/messenger');
+const Sequelize = require('sequelize');
+/* >>>>>>> b6b08cd6e17409d1fd72f6296fdd7809040a387f */
 
 router.get('/', (req, res) => {
     Feedback.findAll({ /* from models */
@@ -18,19 +21,68 @@ router.get('/', (req, res) => {
 router.get('/payment', (req, res) => {
     res.render('payment');
 });
-router.get('/overdue', (req, res) => {
-    res.render('overdue');
-});
-
-router.get('/transactionH', ensureAuthenticated,(req, res) => {
+/* search button transaction */
+router.get('/transactionH/dashboardID', ensureAuthenticated,(req, res) => {
+    let dashboardId = req.params.id;
     Dashboard.findAll({
-        raw: true
+        
+        where : {
+            id: dashboardId,
+            Name: Sequelize.where(Sequelize.fn('LOWER', Sequelize.col("Name")),{ $like: ` %${req.query.Name}% `} )
+        }, 
+        attributes: ['id', 'Name']
+        /* raw:true */
     }).then((dashboard) => {
         res.render('transactionH', {
             dashboard: dashboard
         });
     }).catch(err => console.log(err));
 });
+
+
+
+router.get('/transactionH', ensureAuthenticated,(req, res) => {
+    Dashboard.findAll({
+        raw:true 
+    }).then((dashboard) => {
+        res.render('transactionH', {
+            dashboard: dashboard
+        });
+    }).catch(err => console.log(err));
+});
+
+
+
+/* not confirm */
+router.get("/transactionH/search/:query", ensureAuthenticated, (req, res) => {     /*  search/ajax/:query */
+    let query = req.params.query;
+    Dashboard.findAll({ // select * from video where userid = ... and title like '%dark%';
+        where : {
+            /* userId: req.user.id, */
+            Name: Sequelize.where(Sequelize.fn('LOWER', Sequelize.col("Name")), 'LIKE', '%' + query + '%')
+          /*   Date: Sequelize.where(Sequelize.fn(Sequelize.col("Date"))) */
+        },
+        order: [
+            ['Name', 'ASC']
+        ],
+        raw: true
+    }).then((dashboard) => {
+        res.json({
+            dashboard : dashboard /* from transaction handlebar */
+
+        })
+    }).catch(err => console.log(err));
+})
+
+
+router.get('/search', ensureAuthenticated, (req, res) => {
+    res.render('transactionH', {});
+})
+/* not confirm */
+
+
+
+
 
 router.get('/alex', (req, res) => {
     res.render('alex/dashboard');
