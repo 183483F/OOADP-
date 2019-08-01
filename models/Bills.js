@@ -12,10 +12,10 @@ const Bills = db.define('bills', {
     },
     dateDue: {
         type: Sequelize.DATE
+    },
+    date:{
+        type: Sequelize.DATE
     }
-    /*userId:{
-        type: Sequelize.STRING
-    }*/
 });
 
 module.exports = Bills;

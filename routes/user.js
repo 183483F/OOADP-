@@ -173,6 +173,7 @@ router.post('/register', (req, res) => {
     let errors = [];
     // Retrieves fields from register page from request body
     let { name, email, password, password2 } = req.body;
+    let {imgURL} = ""
 
     // Checks if both passwords entered are the same
     if (password !== password2) {
@@ -189,7 +190,8 @@ router.post('/register', (req, res) => {
             name,
             email,
             password,
-            password2
+            password2,
+            imgURL
         });
     } else {
         // If all is well, checks if user is already registered
@@ -203,7 +205,8 @@ router.post('/register', (req, res) => {
                         name,
                         email,
                         password,
-                        password2
+                        password2,
+                        imgURL
                     });
                 } else {
                     // Encrypt the password
@@ -217,7 +220,7 @@ router.post('/register', (req, res) => {
                     password = hashedPassword;
 
                     // Create new user record
-                    User.create({ name, email, password, verified: 0, })
+                    User.create({ name, email, password, verified: 0, imgURL: "/img/no-image.jpg", })
                         .then(user => {
                             sendEmail(user.id, user.email, token)
                                 .then(msg => {
@@ -272,7 +275,7 @@ router.get('/verify/:userId/:token', (req, res, next) => {
 
 
 function sendEmail(userId, email, token) {
-    sgMail.setApiKey('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');
+    sgMail.setApiKey('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');
 
     const message = {
         to: email,
@@ -348,14 +351,40 @@ router.post('/upload', ensureAuthenticated, (req, res) => {
         if (err) {
             res.json({ file: '/img/no-image.jpg', err: err });
         } else {
-            if (req.file === undefined) {
+            if (req.file === undefined){
                 res.json({ file: '/img/no-image.jpg', err: err });
-            } else {
+            } 
+            else {
                 res.json({ file: `/uploads/${req.user.id}/${req.file.filename}` });
             }
         }
     });
 })
+
+router.get('/delete/:id', ensureAuthenticated, (req, res) => {
+    let userId = req.user.id;
+    User.findOne({
+        where: {
+            id: userId
+        }
+    }).then((user) => {
+        if(user){
+            User.destroy({
+                where :{
+                    id:userId
+                }
+            }).then((user) =>{
+                alertMessage(res, 'success', 'User deleted', 'fas fa-exclamation-circle', true)
+                res.redirect("/logout")
+            }).catch((err) => {console.log(err)})
+        }  else{
+            alertMessage(res, 'danger', 'Unauthorized access to account', 'fas fa-exclamation-circle', true)
+            res.redirect("/logout")
+        }      
+    }).catch((err) => {
+        console.log(err)
+    })
+});
 
 
 module.exports = router;

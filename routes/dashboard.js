@@ -9,6 +9,9 @@ const Dashboard = require('../models/Dashboard');
 
 router.get('/dashboard', (req, res) =>{
     Dashboard.findAll({
+        SUM: [
+            ['Amount']
+        ],
         raw:true
     }).then((dashboard) => {
         res.render('alex/dashboard', {
@@ -20,7 +23,8 @@ router.get('/dashboard', (req, res) =>{
 
 
 router.post('/dashboard', (req, res) => {
-    let {Name, Amount, Tags, Notes, Date } = req.body;
+    let {Name, Amount, Tags, Notes,  } = req.body;
+    let Date = moment(req.body.Date, 'DD/MM/YYYY');
     Dashboard.create({
         Name,
         Amount,

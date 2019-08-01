@@ -57,15 +57,14 @@
 <br>
 <br>
 <form action="/user/saveEditedProfile/{{user.id}}?_method=PUT" method="post">
-    <div>
-        <!--left col-->
+    <div> 
         <div class="col-sm-3" style=float:left>
             <input type="file" id="imgUpload" name="imgUpload" accept="image/png,
 					image/jpeg,image/jpg,image/gif">
-            <img id="img" src="/img/no-image.jpg" alt="" class="border img-thumbnail img-fluid"
+            <img id="img" src={{user.imgURL}} alt="" class="border img-thumbnail img-fluid"
                 style="height:95%;width:100%">
             <h6>Choose your own profile picture!</h6>
-            <input id="imgURL" type="hidden" name="imgURL">
+            <input id="imgURL" type="hidden" name="imgURL" value="{{user.imgURL}}">
             <div class="font-weight-bold text-danger small" id="imgErr" style="display: :none"></div>
         </div>
 
@@ -112,14 +111,14 @@
                         </div>
                     </div>
 
-                    <div class="form-group">
+                    <div class="form-group" style="float:right">
                         <div class="col-xs-12">
                             <br>
                             <button class="btn btn-lg btn-success" type="submit"><i
                                     class="glyphicon glyphicon-ok-sign"></i>
                                 Update</button>
 
-                            <button class="btn btn-lg" type="reset"><i class="glyphicon glyphicon-repeat"></i>
+                            <button class="btn btn-lg btn-success" type="reset"><i class="glyphicon glyphicon-repeat"></i>
                                 Reset</button>
                         </div>
                     </div>
