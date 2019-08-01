@@ -357,6 +357,19 @@ router.put('/saveEditedProfile/:id', ensureAuthenticated, (req, res) => {
                 if (errors.length > 0) {
                     res.render('user/profile', { errors, users: item })
                 }
+                if(id.email == email)
+                {
+                    User.update({
+                        "name": name,
+                        "imgURL": imgUrl
+                    },{
+                        where:{
+                            id:id
+                        }
+                    }).then(() =>{
+                        res.redirect('/showProfile');
+                    }).catch(err => { console.log(err) });
+                }
                 else {
                     User.update({
                         "name": name,
