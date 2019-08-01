@@ -1,23 +1,28 @@
 <!--.col-	.col-sm-	.col-md-	.col-lg-	.col-xl- -->
 
 <div class="container">
-	{{#if users}}
+	{{#if retires}}
 	<div class="card card-body">
-		<h3 class="text-primary">Budget</h3>
+		<h3 class="text-primary">Retirement</h3>
 {{!-- 		{{#each users}} --}}
 		<div class="card border-primary mb-2 w-100 mx-auto">
 			<div class="card-header">
-				<h5 class="card-title">Age: {{users.Age}}</h5>
-                <h5 class="card-title">Monthly income: {{users.MonthlyIncome}}</h5>
-                <h5 class="card-title">Plan to save monthly: {{users.MonthlySave}}</h5>
-                <h5 class="card-title">Living expense: {{users.Living}}</h5>
-                <h5 class="card-title">Food expense: {{users.Food}}</h5>
-                <h5 class="card-title">Hobbies/Others: {{users.Hobbies}}</h5>
+                <h5 class="card-title">Monthly Income: {{retires.MonthlyIncome}}</h5>
+                <h5 class="card-title">Retirement Age:  {{retires.RetirementAge}}</h5>
+                <h5 class="card-title">Retirement Goal: {{retires.RetirementGoal}}</h5>
 		    </div>
+					<div class="form-group">
+                    <div class="col-xs-12">
+                        <br>
+                        <a href="/retire/editretire/{{retire.id}}">
+						<button class="btn btn-lg btn-success"> <i class="glyphicon glyphicon-ok-sign"></i>Edit Retirement</button>
+                        </a>
+                    </div>
+                </div>
         	</div>
 {{!--             {{/each}} --}}
         </div>
 	    {{else}}
-	    <h3>No budgeting set up</h3>
+	    <h3>No retirement plan set up</h3>
 	{{/if}}
 </div>
