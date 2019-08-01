@@ -3,7 +3,7 @@ const router = express.Router();
 const User = require('../models/User');
 const ensureAuthenticated = require('../helpers/auth');
 const Dashboard = require('../models/Dashboard');
-const feedback = require('../models/feedback');
+const Feedback = require('../models/feedback');
 const alertMessage = require('../helpers/messenger');
 const Sequelize = require('sequelize');
 /* >>>>>>> b6b08cd6e17409d1fd72f6296fdd7809040a387f */
