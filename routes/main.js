@@ -2,16 +2,11 @@ const express = require('express');
 const router = express.Router();
 const User = require('../models/User');
 const ensureAuthenticated = require('../helpers/auth');
-<<<<<<< HEAD
 const Dashboard = require('../models/Dashboard');
 const feedback = require('../models/feedback');
 const alertMessage = require('../helpers/messenger');
 const Sequelize = require('sequelize');
 /* >>>>>>> b6b08cd6e17409d1fd72f6296fdd7809040a387f */
-=======
-const Dashboard = require('../models/Dashboard')
-const Feedback = require('../models/Feedback')
->>>>>>> 23041df3ebc1f5e129e735c6b9af44402868ded8
 
 router.get('/', (req, res) => {
     Feedback.findAll({ /* from models */
@@ -26,7 +21,6 @@ router.get('/', (req, res) => {
 router.get('/payment', (req, res) => {
     res.render('payment');
 });
-<<<<<<< HEAD
 /* search button transaction */
 router.get('/transactionH/dashboardID', ensureAuthenticated,(req, res) => {
     let dashboardId = req.params.id;
@@ -50,15 +44,6 @@ router.get('/transactionH/dashboardID', ensureAuthenticated,(req, res) => {
 router.get('/transactionH', ensureAuthenticated,(req, res) => {
     Dashboard.findAll({
         raw:true 
-=======
-router.get('/overdue', (req, res) => {
-    res.render('overdue');
-});
-
-router.get('/transactionH', ensureAuthenticated,(req, res) => {
-    Dashboard.findAll({
-        raw: true
->>>>>>> 23041df3ebc1f5e129e735c6b9af44402868ded8
     }).then((dashboard) => {
         res.render('transactionH', {
             dashboard: dashboard

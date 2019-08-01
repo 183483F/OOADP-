@@ -21,11 +21,7 @@ router.get('/dashboard', (req, res) =>{
 
 
 router.post('/dashboard', (req, res) => {
-<<<<<<< HEAD
     let {Name, Amount, Tags, Notes} = req.body;
-=======
-    let {Name, Amount, Tags, Notes,  } = req.body;
->>>>>>> 23041df3ebc1f5e129e735c6b9af44402868ded8
     let Date = moment(req.body.Date, 'DD/MM/YYYY');
     Dashboard.create({
         Name,
