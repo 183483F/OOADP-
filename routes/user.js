@@ -357,11 +357,11 @@ router.put('/saveEditedProfile/:id', ensureAuthenticated, (req, res) => {
                 if (errors.length > 0) {
                     res.render('user/profile', { errors, users: item })
                 }
-                if(id.email == email)
+                if(item.email == email)
                 {
                     User.update({
                         "name": name,
-                        "imgURL": imgUrl
+                        "imgURL": imgURL
                     },{
                         where:{
                             id:id
