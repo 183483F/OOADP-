@@ -14,23 +14,11 @@ const Op = Sequelize.Op;
 //const upload = require('../helpers/imageUpload');
 
 
-<<<<<<< HEAD
-router.get('/retirement', (req, res) => {
-    res.render('BudgetandRetirement/retirement');
-});
-
-router.get('/budget', (req, res) => {
-    res.render('BudgetandRetirement/budget');
-});
-
-router.get('/budget2', (req, res) => {
-=======
 router.get('/budget', ensureAuthenticated, (req, res) => {
     res.render('BudgetandRetirement/budget');
 });
 
 router.get('/budget2', ensureAuthenticated, (req, res) => {
->>>>>>> 6994fff9352c2d7f027572e3f68022c2b7348e04
     User.findAll({
         raw: true
     }).then((users) => {
@@ -337,14 +325,10 @@ router.get('/edit/:id', ensureAuthenticated, (req, res) => {
 });
 
 router.put('/saveEditedProfile/:id', ensureAuthenticated, (req, res) => {
-<<<<<<< HEAD
     let errors = []
-=======
->>>>>>> 6994fff9352c2d7f027572e3f68022c2b7348e04
     let name = req.body.name;
     let imgURL = req.body.imgURL;
     let email = req.body.email;
-<<<<<<< HEAD
     let id = req.params.id;
     User.findOne({
         where: {
@@ -404,21 +388,6 @@ router.put('/saveEditedProfile/:id', ensureAuthenticated, (req, res) => {
             }
         }).catch(err => { console.log(err) });
     }).catch(err => { console.log(err) });
-=======
-    var userID = req.params.id;
-    User.update({
-        name,
-        userId,
-        imgURL,
-        email,
-    }, {
-            where: {
-                id: userID
-            }
-        }).then(() => {
-            res.redirect('/showProfile');
-        }).catch(err => console.log(err));
->>>>>>> 6994fff9352c2d7f027572e3f68022c2b7348e04
 });
 
 
