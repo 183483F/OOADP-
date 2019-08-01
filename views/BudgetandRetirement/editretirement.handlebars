@@ -1,0 +1,26 @@
+<link rel="stylesheet" href="/css/ZhiJian.css">
+
+<div id="container">
+    <div class="row">
+        <div class="col-md-6 mx-auto">
+            <div class="card card-body">
+                <h2 class="text-center">Update Retirement Plan</h2>
+                <form action="/retire/saveeditretire/{{retire.id}}?_method=PUT" method="post">
+                    <div class="form-group">
+                        <label for="name">Monthly income</label>
+                        <input type="text" class="" name="MonthlyIncome" value="{{MonthlyIncome}}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="name">Monthly living expense</label>
+                        <input type="text" class="" name="RetirementAge" value="{{RetirementAge}}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="name">Hobbies/Others</label>
+                        <input type="text" class="" name="RetirementGoal" value="{{RetirementGoal}}" required>
+                    </div>
+                        <button type="submit" class="btn btn-primary">Submit</button> 
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

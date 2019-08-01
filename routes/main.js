@@ -2,19 +2,31 @@ const express = require('express');
 const router = express.Router();
 const User = require('../models/User');
 const ensureAuthenticated = require('../helpers/auth');
+<<<<<<< HEAD
 const Dashboard = require('../models/Dashboard');
 const feedback = require('../models/feedback');
 const alertMessage = require('../helpers/messenger');
 const Sequelize = require('sequelize');
 /* >>>>>>> b6b08cd6e17409d1fd72f6296fdd7809040a387f */
+=======
+const Dashboard = require('../models/Dashboard')
+const Feedback = require('../models/Feedback')
+>>>>>>> 23041df3ebc1f5e129e735c6b9af44402868ded8
 
 router.get('/', (req, res) => {
-    res.render('index');
+    Feedback.findAll({ /* from models */
+        raw: true
+    }).then((feedbacks) => {
+        res.render('index', {
+            feedbacks: feedbacks,  /* models feedback */
+        });
+    }).catch(err => console.log(err));
 });
 
-router.get('/payment', (req, res) =>{
+router.get('/payment', (req, res) => {
     res.render('payment');
 });
+<<<<<<< HEAD
 /* search button transaction */
 router.get('/transactionH/dashboardID', ensureAuthenticated,(req, res) => {
     let dashboardId = req.params.id;
@@ -38,6 +50,15 @@ router.get('/transactionH/dashboardID', ensureAuthenticated,(req, res) => {
 router.get('/transactionH', ensureAuthenticated,(req, res) => {
     Dashboard.findAll({
         raw:true 
+=======
+router.get('/overdue', (req, res) => {
+    res.render('overdue');
+});
+
+router.get('/transactionH', ensureAuthenticated,(req, res) => {
+    Dashboard.findAll({
+        raw: true
+>>>>>>> 23041df3ebc1f5e129e735c6b9af44402868ded8
     }).then((dashboard) => {
         res.render('transactionH', {
             dashboard: dashboard
@@ -82,8 +103,8 @@ router.get('/alex', (req, res) => {
     res.render('alex/dashboard');
 });
 
-router.get('/showProfile',ensureAuthenticated, (req, res) =>{
-	//findone*
+router.get('/showProfile', ensureAuthenticated, (req, res) => {
+    //findone*
     User.findAll({
         where: {
             id: req.user.id
@@ -101,27 +122,27 @@ router.get('/showProfile',ensureAuthenticated, (req, res) =>{
 });
 
 router.get('/showLogin', (req, res) => {
-	res.render('user/login') // renders views/user/login.handlebars
+    res.render('user/login') // renders views/user/login.handlebars
 });
 
 router.get('/showRegister', (req, res) => {
-	res.render('user/register') // renders views/register.handlebars
+    res.render('user/register') // renders views/register.handlebars
 });
- 
-router.get('/feedback', (req, res) =>{
+
+router.get('/feedback', (req, res) => {
     feedback.findAll({
-        raw:true
+        raw: true
     }).then((feedback) => {
         res.render('Feedback', {
             feedback: feedback
         });
     }).catch(err => console.log(err));
 
-}); 
+});
 
 router.get('/logout', (req, res) => {
-	req.logout();
-	res.redirect('/');
+    req.logout();
+    res.redirect('/');
 });
 
 module.exports = router;

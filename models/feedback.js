@@ -23,6 +23,3 @@ const Feedback = db.define('feedbacks', {
  
 });
 module.exports = Feedback;
-/* verified: {
-    type: Sequelize.BOOLEAN
-   } */

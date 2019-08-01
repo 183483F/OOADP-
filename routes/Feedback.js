@@ -10,14 +10,46 @@ const Sequelize = require('sequelize');
 /* get from table and display on allfeedback */
 router.get('/AllFeedback', (req, res) => {
     Feedback.findAll({ /* from models */
+<<<<<<< HEAD
         raw:true
     }).then((feedbacks) => { 
+=======
+
+     /*    where : {
+            userId: req.user.id, 
+            Title: Sequelize.where(Sequelize.fn('LOWER', Sequelize.col("Title")),{ $like: ` %${req.query.AllFeedback}% `} )
+        }, 
+
+     /*    LOWER(Title) LIKE %INPUT%;*/
+
+        raw:true
+    }).then((feedbacks) => {
+
+>>>>>>> 23041df3ebc1f5e129e735c6b9af44402868ded8
         res.render('feedback/AllFeedback', {
             feedbacks: feedbacks  /* models feedback */
         });
     }).catch(err => console.log(err));
 });
 
+<<<<<<< HEAD
+=======
+router.get('/AllFeedback',(req, res) => {
+    Feedback.findAll({ /* from models */
+        group:["Rating"],
+        attributes: ['Rating', [Sequelize.fn('COUNT', ' Rating'), 'TagCount']],
+         
+       raw:true
+    }).then((counts) => { //suppose to be (counts)
+       let p = counts[0].dataValue
+
+       return res.json(counts)
+    })
+});
+
+
+// get inputs on addfeedback
+>>>>>>> 23041df3ebc1f5e129e735c6b9af44402868ded8
 router.get('/Addfeedback',(req, res) => {
     res.render('feedback/Addfeedback', { // pass object to listVideos.handlebar
         feedbacks: 'list of feedback'
@@ -26,6 +58,7 @@ router.get('/Addfeedback',(req, res) => {
 
 
 // get Ratings
+<<<<<<< HEAD
 router.get('/AllFeedbackAjax',(req, res) => {
     
     Feedback.findAll({
@@ -33,11 +66,20 @@ router.get('/AllFeedbackAjax',(req, res) => {
         order:[
             ['Rating', 'desc']
         ],
+=======
+router.get('/AllFeedback',(req, res) => {
+    feedbacks.findAll({
+        group: ['Rating'],
+>>>>>>> 23041df3ebc1f5e129e735c6b9af44402868ded8
         attributes: ['Rating', [Sequelize.fn('COUNT', 'Rating'), 'TagCount']],
     }).then((counts) => {
         let p = counts[0].dataValue
         return res.json(counts)
+<<<<<<< HEAD
     })
+=======
+    });
+>>>>>>> 23041df3ebc1f5e129e735c6b9af44402868ded8
 });
 
 //post to table/db and create
@@ -61,6 +103,7 @@ router.post('/Addfeedback', (req, res) => {
 
 });
 
+<<<<<<< HEAD
 /* 
 // Shows edit video page
 router.get('/edit/:id', ensureAuthenticated, (req, res) => {
@@ -125,3 +168,7 @@ router.put('/saveEditedVideo/:id', ensureAuthenticated, (req, res) => {
  */
 
 module.exports = router;
+=======
+   
+module.exports = router;
+>>>>>>> 23041df3ebc1f5e129e735c6b9af44402868ded8

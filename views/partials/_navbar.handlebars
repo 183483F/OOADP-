@@ -7,7 +7,7 @@
 			<span class="navbar-toggler-icon"></span>
 		</button>
 		<div class="collapse navbar-collapse" id="navbarNav">
-			<ul class="navbar-nav">
+			<ul class="navbar-nav ml-auto">
 				<li class="nav-item">
 					<a class="nav-link" href="/dashboard/dashboard">Dashboard</a>
 				</li>
@@ -19,15 +19,28 @@
 							{{!-- Note: ".." move 1 folder up. "." is the current folder. start with the "/" to indicte root directory --}}
 							<a href="/bills/payment" class="dropdown-item">Bills</a>
 							<a href="/bills/addbills" class="dropdown-item">Add Bills</a>
+							<a href="/bills/overdue" class="dropdown-item">Overdue Bills</a>
 						</div>
 					</li>
 				</ul>
 				<li class="nav-item">
 					<a class="nav-link" href="/payment">Expenditure</a>
 				</li>
+				<ul class="navbar-nav ml-auto">
+					<li class="nav-item dropdown">
+						<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown"
+							id="navbarDropdownMenuLink">Budgeting</a>
+						<div class="dropdown-menu">
+							{{!-- Note: ".." move 1 folder up. "." is the current folder. start with the "/" to indicte root directory --}}
+							<a href="/user/budget2" class="dropdown-item">View Budget</a>
+							<a href="/user/editbudget/{{user.id}}" class="dropdown-item">Update Budgeting</a>
+						</div>
+					</li>
+				</ul>
 				<li class="nav-item">
-					<a class="nav-link" href="/user/budget">Budgeting</a>
+					<a class="nav-link" href="/retire/retirement">Retirement</a>
 				</li>
+				
 				<li class="nav-item">
 					<a class="nav-link" href="/transactionH">Transaction History</a>
 				</li>
@@ -45,9 +58,15 @@
 				</ul>
 			</ul>
 			<ul class="navbar-nav ml-auto">
-				<li class="nav-item dropdown">
+				<li class="nav-item">
+					<a href="/showProfile" class="nav-link">
+						<img src="{{user.imgURL}}" style="width: 9%; float:right">
+					</a>
+				</li>
+				<li class="nav-item">
 					<a href="/showProfile" class="nav-link">Profile
 					</a>
+				</li>
 				<li class="nav-item">
 					<a href="/logout" class="nav-link">Logout</a>
 				</li>

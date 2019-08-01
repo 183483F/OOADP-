@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 {{!-- <script>
 	$('divA'.removeClass("container"));
 </script> --}}
@@ -5,13 +6,34 @@
 	<script type="text/javascript" src="js/Chart.min.js"></script>
     <script type="text/javascript" src="js/app.js"></script>  --}}
 <script src="/js/chart.js"></script>
+=======
+<script>
+	$('divA'.removeClass("container"));
+</script>
+
+
+<h1> test</h1> 
+<!--.col-	.col-sm-	.col-md-	.col-lg-	.col-xl- -->
+>>>>>>> 23041df3ebc1f5e129e735c6b9af44402868ded8
 
 <body style="background-color:#5cdb95;">
 	<h1> test</h1>
 	<!--.col-	.col-sm-	.col-md-	.col-lg-	.col-xl- -->
 
+<<<<<<< HEAD
 
 	{{#if feedbacks}} {{!-- from models feedback ,db.define('feedback') --}}
+=======
+	{{#if feedbacks}}    {{!-- from models feedback ,db.define('feedback') --}}
+	<div class="card card-body">
+		
+		<h3 class="text-primary">All Feedbacks</h3>
+
+		<div>
+        	<canvas id="myChart" width="500" height="500"></canvas>
+    	</div>
+  
+>>>>>>> 23041df3ebc1f5e129e735c6b9af44402868ded8
 
 	<div class="card card-body" style="background-color:#ebeae4;">
 
@@ -37,7 +59,11 @@
 				<div class="row">
 
 					<div class="col-sm-12 col-md-12 col-lg-12">
+<<<<<<< HEAD
 						<div class="row">
+=======
+						<div class="row"> 
+>>>>>>> 23041df3ebc1f5e129e735c6b9af44402868ded8
 							<div class="col-sm-12 col-md-6 col-lg-1">
 								<p class="font-italic">Title</p>
 								<p class="text-info" id="titles">
@@ -47,15 +73,26 @@
 							<div class="col-sm-12 col-md-6 col-lg-4">
 								<p class="font-italic">Body</p>
 								<p class="text-info"> {{Textfeed}} </p>
+<<<<<<< HEAD
+=======
+								
+>>>>>>> 23041df3ebc1f5e129e735c6b9af44402868ded8
 							</div>
 							<div class="col-sm-12 col-md-6 col-lg-4">
 								<p class="font-italic">Suggestion</p>
 								<p class="text-info">{{Suggestion}}</p>
 							</div>
+<<<<<<< HEAD
 							{{!-- ratings  --}}
 							<div class="col-sm-12 col-md-6 col-lg-1">
 								<p class="font-italic">Ratings</p>
 								<p class="text-info" id="myChart">{{Rating}} / 5</p>
+=======
+						{{!-- ratings  --}}
+							<div class="col-sm-12 col-md-6 col-lg-1">
+								<p class="font-italic">Ratings</p>
+								<p class="text-info">{{Rating}} / 5</p>
+>>>>>>> 23041df3ebc1f5e129e735c6b9af44402868ded8
 							</div>
 
 
@@ -89,6 +126,7 @@
 	</div>
 	{{else}}
 	<h3>No Transaction History</h3>
+<<<<<<< HEAD
 
 	{{/if}}
 
@@ -119,4 +157,36 @@
 		xhttp.open("GET", "gethint.asp?q=" + str, true);
 		xhttp.send();
 	}
+=======
+
+	{{/if}}
+
+<div class="btn-toolbar" role="toolbar" style="margin: 0;">
+    <div class="btn-group">
+        <button type="button" class="btn btn-default color-blue"><i class="fa fa-fast-backward"></i></button>
+        <button type="button" class="btn btn-default color-blue"><i class="fa fa-step-backward"></i></button>
+        <button type="button" class="btn btn-default text-faded">1 of 12</button>
+        <button type="button" class="btn btn-default color-blue"><i class="fa fa-step-forward"></i></button>
+        <button type="button" class="btn btn-default color-blue"><i class="fa fa-fast-forward"></i></button>
+    </div>
+</div>
+
+{{!-- 
+<script>
+function showHint(str) {
+  var xhttp;
+  if (str.length == 0) { 
+    document.getElementById("titles").innerHTML = "";
+    return;
+  }
+  xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+      document.getElementById("titles").innerHTML = this.responseText;
+    }
+  };
+  xhttp.open("GET", "gethint.asp?q="+str, true);
+  xhttp.send();
+}
+>>>>>>> 23041df3ebc1f5e129e735c6b9af44402868ded8
 </script> --}}

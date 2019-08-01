@@ -6,18 +6,19 @@ var bcrypt = require('bcryptjs');
 const passport = require('passport');
 const sgMail = require('@sendgrid/mail');
 const jwt = require('jsonwebtoken');
+const ensureAuthenticated = require('../helpers/auth');
+const fs = require('fs')
+const Sequelize = require('sequelize')
+const upload = require('../helpers/imageUpload')
+const Op = Sequelize.Op;
 //const upload = require('../helpers/imageUpload');
 
 
-router.get('/retirement', (req, res) =>{
-    res.render('BudgetandRetirement/retirement');
-});
-
-router.get('/budget', (req, res) =>{
+router.get('/budget', ensureAuthenticated, (req, res) => {
     res.render('BudgetandRetirement/budget');
 });
 
-router.get('/budget2', (req, res) =>{
+router.get('/budget2', ensureAuthenticated, (req, res) => {
     User.findAll({
         raw: true
     }).then((users) => {
@@ -30,7 +31,7 @@ router.get('/budget2', (req, res) =>{
 
 
 
-router.post('/budgetretire', (req, res) => {
+router.post('/budgetretire', ensureAuthenticated, (req, res) => {
     //let Age = req.body.Age;
     //let MonthlyIncome = req.body.MonthlyIncome;
     //let MonthlySave = req.body.MonthlySave;
@@ -55,6 +56,85 @@ router.post('/budgetretire', (req, res) => {
 
 });
 
+router.get('/editbudget/:id', ensureAuthenticated, (req, res) => {
+    User.findOne({
+        where: {
+            id: req.params.id
+        }
+    }).then((user) => {
+        if (req.user.id === user.id) {
+            // call views/video/editVideo.handlebar to render the edit video page
+
+            res.render('budgetandretirement/editbudget', {
+                user // passes video object to handlebar
+            });
+        } else {
+            alertMessage(res, 'danger', 'Access denied', 'fas fa-exclamation-circle', true);
+            res.redirect('/');
+        }
+    }).catch(err => console.log(err)); // To catch no video ID
+});
+
+router.put('/saveeditbudget/:id', ensureAuthenticated, (req, res) => {
+    let errors = [];
+    let Age = req.body.Age;
+    let MonthlyIncome = req.body.MonthlyIncome;
+    let MonthlySave = req.body.MonthlySave;
+    let Living = req.body.Living;
+    let Food = req.body.Food;
+    let Hobbies = req.body.Hobbies;
+    let userId = req.user.id;
+    var userID = req.params.id;
+    if (Age % 1 != 0) {
+        errors.push({ text: 'Please enter a whole number for your age' });
+    }
+    if (Age > 120) {
+        errors.push({ text: 'Please enter a number below 120' });
+    }
+    if (MonthlyIncome % 1 != 0) {
+        errors.push({ text: 'Please enter a whole number for your Monthly Income' });
+    }
+    if (MonthlySave % 1 != 0) {
+        errors.push({ text: 'Please enter a whole number for your Monthly Savings' });
+    }
+    if (Living % 1 != 0) {
+        errors.push({ text: 'Please enter a whole number for your Living Expenses' });
+    }
+    if (Food % 1 != 0) {
+        errors.push({ text: 'Please enter a whole number for your Food Expenses' });
+    }
+    if (Hobbies % 1 != 0) {
+        errors.push({ text: 'Please enter a whole number for hobby spendings' });
+    }
+    if (errors.length > 0) {
+        res.render('BudgetandRetirement/editbudget', {
+            errors,
+            Age,
+            MonthlyIncome,
+            MonthlySave,
+            Living,
+            Food,
+            Hobbies
+        });
+    } else {
+        User.update({
+            Age,
+            MonthlyIncome,
+            MonthlySave,
+            Living,
+            Food,
+            Hobbies,
+            userId,
+        }, {
+                where: {
+                    id: userID
+                }
+            }).then(() => {
+                res.redirect('../budget2');
+            }).catch(err => console.log(err));
+    }
+});
+
 // Login Form POST => /user/login
 router.post('/login', (req, res, next) => {
     User.findOne({
@@ -76,16 +156,16 @@ router.post('/login', (req, res, next) => {
                 alertMessage(res, 'error', 'User is not verified', 'fas fa-exclamation-circle', true);
                 res.redirect('/showLogin');
             }
-        }else{
+        } else {
             alertMessage(res, 'error', 'User is non existing, please create an account.', 'fas fa-exclamation-circle', true);
             res.redirect('/showLogin');
         }
     })
-         // Route to /video/listVideos URL
+    // Route to /video/listVideos URL
 
-        /* Setting the failureFlash option to true instructs Passport to flash an error
-        message using the message given by the strategy's verify callback, if any.
-        When a failure occur passport passes the message object as error */
+    /* Setting the failureFlash option to true instructs Passport to flash an error
+    message using the message given by the strategy's verify callback, if any.
+    When a failure occur passport passes the message object as error */
 });
 
 
@@ -95,6 +175,7 @@ router.post('/register', (req, res) => {
     let errors = [];
     // Retrieves fields from register page from request body
     let { name, email, password, password2 } = req.body;
+    let { imgURL } = ""
 
     // Checks if both passwords entered are the same
     if (password !== password2) {
@@ -111,7 +192,8 @@ router.post('/register', (req, res) => {
             name,
             email,
             password,
-            password2
+            password2,
+            imgURL
         });
     } else {
         // If all is well, checks if user is already registered
@@ -125,7 +207,8 @@ router.post('/register', (req, res) => {
                         name,
                         email,
                         password,
-                        password2
+                        password2,
+                        imgURL
                     });
                 } else {
                     // Encrypt the password
@@ -139,7 +222,7 @@ router.post('/register', (req, res) => {
                     password = hashedPassword;
 
                     // Create new user record
-                    User.create({ name, email, password, verified: 0, })
+                    User.create({ name, email, password, verified: 0, imgURL: "/img/no-image.jpg", })
                         .then(user => {
                             sendEmail(user.id, user.email, token)
                                 .then(msg => {
@@ -194,14 +277,15 @@ router.get('/verify/:userId/:token', (req, res, next) => {
 
 
 function sendEmail(userId, email, token) {
-    sgMail.setApiKey('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');
+    sgMail.setApiKey('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');
 
     const message = {
+        cc: "",
         to: email,
         from: 'Do Not Reply <admin@StrawberryMoneyTracker.sg>',
         subject: 'Verify Strawberry Money Tracker Account',
         text: 'Strawberry Money Tracker Email Verification',
-        html: `Thank you registering with Video Jotter.<br><br>
+        html: `Thank you registering with Strawberry Money.<br><br>
             Please <a href="http://localhost:5000/user/verify/${userId}/${token}">
                 <strong>verify</strong></a> your account by clicking the link.`
     };
@@ -213,7 +297,7 @@ function sendEmail(userId, email, token) {
     });
 }
 
-router.post('/profile', (req, res)=>{
+router.post('/profile', (req, res) => {
     res.render('profile');
 })
 router.get('/', (req, res) => {
@@ -221,5 +305,153 @@ router.get('/', (req, res) => {
     res.render('index', { title: title }) // renders views/index.handlebars
 });
 
+<<<<<<< HEAD
+=======
+router.get('/edit/:id', ensureAuthenticated, (req, res) => {
+    User.findOne({
+        where: {
+            id: req.params.id
+        }
+    }).then((user) => {
+        if (req.user.id === user.id) {
+            // call views/video/editVideo.handlebar to render the edit video page
+
+            res.render('user/updateprofile', {
+                user // passes video object to handlebar
+            });
+        } else {
+            alertMessage(res, 'danger', 'Access denied', 'fas fa-exclamation-circle', true);
+            res.redirect('/');
+        }
+    }).catch(err => console.log(err)); // To catch no video ID
+});
+
+router.put('/saveEditedProfile/:id', ensureAuthenticated, (req, res) => {
+    let errors = []
+    let name = req.body.name;
+    let imgURL = req.body.imgURL;
+    let email = req.body.email;
+    let id = req.params.id;
+    User.findOne({
+        where: {
+            id: id
+        }
+    }).then((item) => {
+        User.findOne({
+            where: {
+                [Op.and]: [
+                    {
+                        id: {
+                            [Op.ne]: id
+                        }
+                    },
+                    {
+                        email: email
+                    }
+                ]
+            }
+        }).then((duplicate) => {
+            if (duplicate != null) {
+                errors.push({ text: 'Email ' + email + ' has already been registered' })
+                res.render('user/profile', { errors, users: item});
+            }
+            else {
+                if (errors.length > 0) {
+                    res.render('user/profile', { errors, users: item })
+                }
+                if(id.email == email)
+                {
+                    User.update({
+                        "name": name,
+                        "imgURL": imgUrl
+                    },{
+                        where:{
+                            id:id
+                        }
+                    }).then(() =>{
+                        res.redirect('/showProfile');
+                    }).catch(err => { console.log(err) });
+                }
+                else {
+                    User.update({
+                        "name": name,
+                        "imgURL": imgURL,
+                        "email": email,
+                        "verified": 0
+                    }, {
+                            where: {
+                                id: id
+                            }
+                        }).then((user) => {
+                            let token;
+                            jwt.sign(email, 's3cr3Tk3y', (err, jwtoken) => {
+                                if (err) console.log('Error generating Token: ' + err);
+                                token = jwtoken
+                            });
+                            sendEmail(user.id, user.email, token)
+                            res.redirect('/logout')
+                                .then(msg => {
+                                    alertMessage(res, 'success', user.name + ' added. Please login to ' + user.email + ' to verify account.',
+                                        'fas fa-sign-in-alt', true);
+                                }).catch(err =>{console.log(err)});
+                        }).catch(err => {
+                            alertMessage(res, 'warning', 'Error sending to ' + email, 'fas fa-sign-in-alert', true);
+                            res.redirect('/showProfile')
+                            console.log(err);
+                        });
+                }
+            }
+        }).catch(err => { console.log(err) });
+    }).catch(err => { console.log(err) });
+});
+
+
+
+router.post('/upload', ensureAuthenticated, (req, res) => {
+    // Creates user id directory for upload if not exist
+    if (!fs.existsSync('./public/uploads/' + req.user.id)) {
+        fs.mkdirSync('./public/uploads/' + req.user.id);
+    }
+
+    upload(req, res, (err) => {
+        if (err) {
+            res.json({ file: '/img/no-image.jpg', err: err });
+        } else {
+            if (req.file === undefined) {
+                res.json({ file: '/img/no-image.jpg', err: err });
+            }
+            else {
+                res.json({ file: `/uploads/${req.user.id}/${req.file.filename}` });
+            }
+        }
+    });
+})
+
+router.get('/delete/:id', ensureAuthenticated, (req, res) => {
+    let userId = req.user.id;
+    User.findOne({
+        where: {
+            id: userId
+        }
+    }).then((user) => {
+        if (user) {
+            User.destroy({
+                where: {
+                    id: userId
+                }
+            }).then((user) => {
+                alertMessage(res, 'success', 'User deleted', 'fas fa-exclamation-circle', true)
+                res.redirect("/logout")
+            }).catch((err) => { console.log(err) })
+        } else {
+            alertMessage(res, 'danger', 'Unauthorized access to account', 'fas fa-exclamation-circle', true)
+            res.redirect("/logout")
+        }
+    }).catch((err) => {
+        console.log(err)
+    })
+});
+
+>>>>>>> 23041df3ebc1f5e129e735c6b9af44402868ded8
 
 module.exports = router;

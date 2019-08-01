@@ -2,18 +2,25 @@ const Bills = require('../models/Bills');
 const express = require('express');
 const router = express.Router();
 const moment = require('moment');
-moment().format();
+const ensureAuthenticated = require('../helpers/auth');
 const alertMessage = require('../helpers/messenger')
+const sequelize = require('sequelize');
+const getDate = require('../helpers/hbs');
+const { Op } = require('sequelize')
+
 // List videos belonging to current logged in user
-router.get('/payment',(req, res) => {
+router.get('/payment',ensureAuthenticated,(req, res) => {
+    let today = moment().tz("Asia/Singapore").toDate();
     Bills.findAll({
-        /*where: {
-            user: req.user.id
-        },*/
+        where: {
+            userId: req.user.id,
+            dateDue: { [Op.gte] : today }// sequelize.col('date')}
+          
+        },
         order: [
-            ['title', 'ASC']
+            ['dateDue', 'asc']
         ],
-        raw: true
+        // raw: true
     }).then((bills) => {
         // pass object to listVideos.handlebar
         res.render('bills/payment', {
@@ -21,25 +28,67 @@ router.get('/payment',(req, res) => {
         });
     }).catch(err => console.log(err));
 });
+/* not confirm */
+router.get("/bills/payment/search/:query", ensureAuthenticated, (req, res) => {     /*  search/ajax/:query */
+    let query = req.params.query;
+    Bills.findAll({ // select * from video where userid = ... and title like '%dark%';
+        where : {
+            /* userId: req.user.id, */
+            title: sequelize.where(sequelize.fn('LOWER', sequelize.col("title")), 'LIKE', '%' + query + '%')
+          /*   Date: Sequelize.where(Sequelize.fn(Sequelize.col("Date"))) */
+        },
+        order: [
+            ['title', 'ASC']
+        ],
+        raw: true
+    }).then((bills) => {
+        res.json({
+            bills : bills /* from transaction handlebar */
+
+        })
+    }).catch(err => console.log(err));
+})
+
+router.get('/overdue',ensureAuthenticated,(req, res) => {
+    let today = moment().tz("Asia/Singapore").toDate();
+    Bills.findAll({
+        where: {
+            userId: req.user.id,
+            dateDue: { [Op.lte] : today }// sequelize.col('date')}
+          
+        },
+        order: [
+            ['dateDue', 'asc']
+        ],
+        // raw: true
+    }).then((bills) => {
+        // pass object to listVideos.handlebar
+        res.render('bills/overdue', {
+            bills: bills
+        });
+    }).catch(err => console.log(err));
+});
 
 // Route to the page for User to add a new video
-router.get('/addbills',(req, res) => {
+router.get('/addbills',ensureAuthenticated,(req, res) => {
     res.render('bills/addbills', { // pass object to listVideos.handlebar
         bills: 'List of bills'
     });
 });
 
 // Adds new video jot from /video/addVideo
-router.post('/addbills',(req, res) => {
+router.post('/addbills',ensureAuthenticated,(req, res) => {
     let title = req.body.title;
     let billCost = req.body.billCost.slice(0, 50);
-    let dateDue = moment(req.body.dateDue, 'DD/MM/YYYY');
-    /*let userId = req.user.id;*/
+    let dateDue = moment(req.body.dateDue, 'DD/MM/YYYY').tz('Asia/Singapore');
+    //dateDue = moment().add(1,'days');
+    let userId = req.user.id;
     // Multi-value components return array of strings or undefined
     Bills.create({
         title,
         billCost,
         dateDue,
+        userId
         
     }).then((bills) => {
         res.redirect('/bills/payment');
@@ -49,7 +98,7 @@ router.post('/addbills',(req, res) => {
 });
 
 // Shows edit video page
-router.get('/edit/:id', (req, res) => {
+router.get('/edit/:id',ensureAuthenticated, (req, res) => {
     Bills.findOne({
         where: {
             id: req.params.id
@@ -58,34 +107,24 @@ router.get('/edit/:id', (req, res) => {
         res.render('bills/editbills',{
             bills
         });
-    })
-});
-        /*if (req.user.id === bills.userId) {
-            checkOptions(bills);
-            // call views/video/editVideo.handlebar to render the edit video page
-            res.render('bills/editbills', {
-                bills // passes video object to handlebar
-            });
-        } else {
-            // Video does not belong to the current user
-            alertMessage(res, 'danger', 'Unauthorized Access.', 'fas fa-exclamation-circle', true);
-            req.logout();
-            res.redirect('/');
-        }
+    
     }).catch(err => console.log(err)); // To catch no bills id*/
+});
 
 // Save edited video
-router.put('/saveEditedBills/:id',(req, res) => {
+router.put('/saveEditedBills/:id',ensureAuthenticated,(req, res) => {
     let title = req.body.title;
     let billCost = req.body.billCost.slice(0, 50);
-    let dateDue = moment(req.body.dateDue, 'DD MM');
+    let dateDue = moment(req.body.dateDue, 'DD/MM/YYYY');
     var billID = req.params.id;
+    let userId = req.user.id;
     // Retrieves edited values from req.body
     Bills.update({
         // Set variables here to save to the videos table
         title,
         billCost,
         dateDue,
+        userId
     }, {
             where: {
                 id: billID
@@ -97,7 +136,8 @@ router.put('/saveEditedBills/:id',(req, res) => {
         }).catch(err => console.log(err));
 });
 
-router.get('/delete/:id',(req, res) => {
+router.get('/delete/:id',ensureAuthenticated,(req, res) => {
+    var billsId = req.params.id;
     Bills.findOne({
         where: {
             id: req.params.id
@@ -112,7 +152,7 @@ router.get('/delete/:id',(req, res) => {
                 }
             }).then((bills) => {
                 // For icons to use, go to https://glyphsearch.com/
-                alertMessage(res, 'success', 'Bills ID ' + billsId + ' successfully deleted.', 'fa fa-hand-peace-o', true);
+                alertMessage(res, 'success', 'Bills ID ' + billsId + ' successfully deleted.', true);
                 res.redirect('/bills/payment');
             }).catch(err => console.log(err));
         } else {
