@@ -25,9 +25,21 @@
 				<li class="nav-item">
 					<a class="nav-link" href="/payment">Expenditure</a>
 				</li>
+				<ul class="navbar-nav ml-auto">
+					<li class="nav-item dropdown">
+						<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown"
+							id="navbarDropdownMenuLink">Budgeting</a>
+						<div class="dropdown-menu">
+							{{!-- Note: ".." move 1 folder up. "." is the current folder. start with the "/" to indicte root directory --}}
+							<a href="/user/budget2" class="dropdown-item">View Budget</a>
+							<a href="/user/editbudget/{{user.id}}" class="dropdown-item">Update Budgeting</a>
+						</div>
+					</li>
+				</ul>
 				<li class="nav-item">
-					<a class="nav-link" href="/user/budget">Budgeting</a>
+					<a class="nav-link" href="/retire/retirement">Retirement</a>
 				</li>
+				
 				<li class="nav-item">
 					<a class="nav-link" href="/transactionH">Transaction History</a>
 				</li>
