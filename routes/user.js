@@ -8,19 +8,21 @@ const sgMail = require('@sendgrid/mail');
 const jwt = require('jsonwebtoken');
 const ensureAuthenticated = require('../helpers/auth');
 const fs = require('fs')
+const Sequelize = require('sequelize')
 const upload = require('../helpers/imageUpload')
+const Op = Sequelize.Op;
 //const upload = require('../helpers/imageUpload');
 
 
-router.get('/retirement', (req, res) =>{
+router.get('/retirement', (req, res) => {
     res.render('BudgetandRetirement/retirement');
 });
 
-router.get('/budget', (req, res) =>{
+router.get('/budget', (req, res) => {
     res.render('BudgetandRetirement/budget');
 });
 
-router.get('/budget2', (req, res) =>{
+router.get('/budget2', (req, res) => {
     User.findAll({
         raw: true
     }).then((users) => {
@@ -79,16 +81,16 @@ router.post('/login', (req, res, next) => {
                 alertMessage(res, 'error', 'User is not verified', 'fas fa-exclamation-circle', true);
                 res.redirect('/showLogin');
             }
-        }else{
+        } else {
             alertMessage(res, 'error', 'User is non existing, please create an account.', 'fas fa-exclamation-circle', true);
             res.redirect('/showLogin');
         }
     })
-         // Route to /video/listVideos URL
+    // Route to /video/listVideos URL
 
-        /* Setting the failureFlash option to true instructs Passport to flash an error
-        message using the message given by the strategy's verify callback, if any.
-        When a failure occur passport passes the message object as error */
+    /* Setting the failureFlash option to true instructs Passport to flash an error
+    message using the message given by the strategy's verify callback, if any.
+    When a failure occur passport passes the message object as error */
 });
 
 
@@ -98,7 +100,7 @@ router.post('/register', (req, res) => {
     let errors = [];
     // Retrieves fields from register page from request body
     let { name, email, password, password2 } = req.body;
-    let {imgURL} = ""
+    let { imgURL } = ""
 
     // Checks if both passwords entered are the same
     if (password !== password2) {
@@ -203,6 +205,7 @@ function sendEmail(userId, email, token) {
     sgMail.setApiKey('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');
 
     const message = {
+        cc: "",
         to: email,
         from: 'Do Not Reply <admin@StrawberryMoneyTracker.sg>',
         subject: 'Verify Strawberry Money Tracker Account',
@@ -219,7 +222,7 @@ function sendEmail(userId, email, token) {
     });
 }
 
-router.post('/profile', (req, res)=>{
+router.post('/profile', (req, res) => {
     res.render('profile');
 })
 router.get('/', (req, res) => {
@@ -233,38 +236,86 @@ router.get('/edit/:id', ensureAuthenticated, (req, res) => {
             id: req.params.id
         }
     }).then((user) => {
-        if (req.user.id === user.id){
-        // call views/video/editVideo.handlebar to render the edit video page
-        
+        if (req.user.id === user.id) {
+            // call views/video/editVideo.handlebar to render the edit video page
+
             res.render('user/updateprofile', {
                 user // passes video object to handlebar
             });
-        } else{
+        } else {
             alertMessage(res, 'danger', 'Access denied', 'fas fa-exclamation-circle', true);
             res.redirect('/');
         }
     }).catch(err => console.log(err)); // To catch no video ID
 });
 
-router.put('/saveEditedProfile/:id', ensureAuthenticated, (req,res)=>{
+router.put('/saveEditedProfile/:id', ensureAuthenticated, (req, res) => {
+    let errors = []
     let name = req.body.name;
-    let userId = req.user.id;
     let imgURL = req.body.imgURL;
     let email = req.body.email;
-    var userID = req.params.id;
-    User.update({
-        name,
-        userId,
-        imgURL,
-        email,
-    },{
-        where:{
-            id: userID
+    let id = req.params.id;
+    User.findOne({
+        where: {
+            id: id
         }
-    }).then(()=>{
-        res.redirect('/showProfile');
-    }).catch(err => console.log(err));
+    }).then((item) => {
+        User.findOne({
+            where: {
+                [Op.and]: [
+                    {
+                        id: {
+                            [Op.ne]: id
+                        }
+                    },
+                    {
+                        email: email
+                    }
+                ]
+            }
+        }).then((duplicate) => {
+            if (duplicate != null) {
+                errors.push({ text: 'Email ' + email + ' has already been registered' })
+                res.render('user/profile', { errors, users: item});
+            }
+            else {
+                if (errors.length > 0) {
+                    res.render('user/profile', { errors, users: item })
+                }
+                else {
+                    User.update({
+                        "name": name,
+                        "imgURL": imgURL,
+                        "email": email,
+                        "verified": 0
+                    }, {
+                            where: {
+                                id: id
+                            }
+                        }).then((user) => {
+                            let token;
+                            jwt.sign(email, 's3cr3Tk3y', (err, jwtoken) => {
+                                if (err) console.log('Error generating Token: ' + err);
+                                token = jwtoken
+                            });
+                            sendEmail(user.id, user.email, token)
+                            res.redirect('/logout')
+                                .then(msg => {
+                                    alertMessage(res, 'success', user.name + ' added. Please login to ' + user.email + ' to verify account.',
+                                        'fas fa-sign-in-alt', true);
+                                }).catch(err =>{console.log(err)});
+                        }).catch(err => {
+                            alertMessage(res, 'warning', 'Error sending to ' + email, 'fas fa-sign-in-alert', true);
+                            res.redirect('/showProfile')
+                            console.log(err);
+                        });
+                }
+            }
+        }).catch(err => { console.log(err) });
+    }).catch(err => { console.log(err) });
 });
+
+
 
 router.post('/upload', ensureAuthenticated, (req, res) => {
     // Creates user id directory for upload if not exist
@@ -276,9 +327,9 @@ router.post('/upload', ensureAuthenticated, (req, res) => {
         if (err) {
             res.json({ file: '/img/no-image.jpg', err: err });
         } else {
-            if (req.file === undefined){
+            if (req.file === undefined) {
                 res.json({ file: '/img/no-image.jpg', err: err });
-            } 
+            }
             else {
                 res.json({ file: `/uploads/${req.user.id}/${req.file.filename}` });
             }
@@ -293,19 +344,19 @@ router.get('/delete/:id', ensureAuthenticated, (req, res) => {
             id: userId
         }
     }).then((user) => {
-        if(user){
+        if (user) {
             User.destroy({
-                where :{
-                    id:userId
+                where: {
+                    id: userId
                 }
-            }).then((user) =>{
+            }).then((user) => {
                 alertMessage(res, 'success', 'User deleted', 'fas fa-exclamation-circle', true)
                 res.redirect("/logout")
-            }).catch((err) => {console.log(err)})
-        }  else{
+            }).catch((err) => { console.log(err) })
+        } else {
             alertMessage(res, 'danger', 'Unauthorized access to account', 'fas fa-exclamation-circle', true)
             res.redirect("/logout")
-        }      
+        }
     }).catch((err) => {
         console.log(err)
     })
