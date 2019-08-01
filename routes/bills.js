@@ -4,16 +4,22 @@ const router = express.Router();
 const moment = require('moment');
 const ensureAuthenticated = require('../helpers/auth');
 const alertMessage = require('../helpers/messenger')
+const sequelize = require('sequelize');
+const getDate = require('../helpers/hbs');
 
-moment().format();
+
+
+
 // List videos belonging to current logged in user
 router.get('/payment',ensureAuthenticated,(req, res) => {
     Bills.findAll({
         where: {
-            userId: req.user.id
+            userId: req.user.id,
+            dateDue:{ $lt : sequelize.col('date')}
+          
         },
         order: [
-            ['dateDue', 'ASC']
+            ['dateDue', 'desc']
         ],
         raw: true
     }).then((bills) => {
@@ -36,12 +42,14 @@ router.post('/addbills',ensureAuthenticated,(req, res) => {
     let title = req.body.title;
     let billCost = req.body.billCost.slice(0, 50);
     let dateDue = moment(req.body.dateDue, 'DD/MM/YYYY');
+    let date = moment().format();
     let userId = req.user.id;
     // Multi-value components return array of strings or undefined
     Bills.create({
         title,
         billCost,
         dateDue,
+        date,
         userId
         
     }).then((bills) => {
@@ -61,27 +69,15 @@ router.get('/edit/:id',ensureAuthenticated, (req, res) => {
         res.render('bills/editbills',{
             bills
         });
-    })
-});
-        /*if (req.user.id === bills.userId) {
-            checkOptions(bills);
-            // call views/video/editVideo.handlebar to render the edit video page
-            res.render('bills/editbills', {
-                bills // passes video object to handlebar
-            });
-        } else {
-            // Video does not belong to the current user
-            alertMessage(res, 'danger', 'Unauthorized Access.', 'fas fa-exclamation-circle', true);
-            req.logout();
-            res.redirect('/');
-        }
+    
     }).catch(err => console.log(err)); // To catch no bills id*/
+});
 
 // Save edited video
 router.put('/saveEditedBills/:id',ensureAuthenticated,(req, res) => {
     let title = req.body.title;
     let billCost = req.body.billCost.slice(0, 50);
-    let dateDue = moment(req.body.dateDue, 'DD MM');
+    let dateDue = moment(req.body.dateDue, 'DD/MM/YYYY');
     var billID = req.params.id;
     let userId = req.user.id;
     // Retrieves edited values from req.body
@@ -103,6 +99,7 @@ router.put('/saveEditedBills/:id',ensureAuthenticated,(req, res) => {
 });
 
 router.get('/delete/:id',ensureAuthenticated,(req, res) => {
+    var billsId = req.params.id;
     Bills.findOne({
         where: {
             id: req.params.id
@@ -117,7 +114,7 @@ router.get('/delete/:id',ensureAuthenticated,(req, res) => {
                 }
             }).then((bills) => {
                 // For icons to use, go to https://glyphsearch.com/
-                alertMessage(res, 'success', 'Bills ID ' + billsId + ' successfully deleted.', 'fa fa-hand-peace-o', true);
+                alertMessage(res, 'success', 'Bills ID ' + billsid + ' successfully deleted.', true);
                 res.redirect('/bills/payment');
             }).catch(err => console.log(err));
         } else {
