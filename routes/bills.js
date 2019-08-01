@@ -6,25 +6,64 @@ const ensureAuthenticated = require('../helpers/auth');
 const alertMessage = require('../helpers/messenger')
 const sequelize = require('sequelize');
 const getDate = require('../helpers/hbs');
-
-
-
+const { Op } = require('sequelize')
 
 // List videos belonging to current logged in user
 router.get('/payment',ensureAuthenticated,(req, res) => {
+    let today = moment().tz("Asia/Singapore").toDate();
     Bills.findAll({
         where: {
             userId: req.user.id,
-            dateDue:{ $lt : sequelize.col('date')}
+            dateDue: { [Op.gte] : today }// sequelize.col('date')}
           
         },
         order: [
-            ['dateDue', 'desc']
+            ['dateDue', 'asc']
         ],
-        raw: true
+        // raw: true
     }).then((bills) => {
         // pass object to listVideos.handlebar
         res.render('bills/payment', {
+            bills: bills
+        });
+    }).catch(err => console.log(err));
+});
+/* not confirm */
+router.get("/bills/payment/search/:query", ensureAuthenticated, (req, res) => {     /*  search/ajax/:query */
+    let query = req.params.query;
+    Bills.findAll({ // select * from video where userid = ... and title like '%dark%';
+        where : {
+            /* userId: req.user.id, */
+            title: sequelize.where(sequelize.fn('LOWER', sequelize.col("title")), 'LIKE', '%' + query + '%')
+          /*   Date: Sequelize.where(Sequelize.fn(Sequelize.col("Date"))) */
+        },
+        order: [
+            ['title', 'ASC']
+        ],
+        raw: true
+    }).then((bills) => {
+        res.json({
+            bills : bills /* from transaction handlebar */
+
+        })
+    }).catch(err => console.log(err));
+})
+
+router.get('/overdue',ensureAuthenticated,(req, res) => {
+    let today = moment().tz("Asia/Singapore").toDate();
+    Bills.findAll({
+        where: {
+            userId: req.user.id,
+            dateDue: { [Op.lte] : today }// sequelize.col('date')}
+          
+        },
+        order: [
+            ['dateDue', 'asc']
+        ],
+        // raw: true
+    }).then((bills) => {
+        // pass object to listVideos.handlebar
+        res.render('bills/overdue', {
             bills: bills
         });
     }).catch(err => console.log(err));
@@ -41,15 +80,14 @@ router.get('/addbills',ensureAuthenticated,(req, res) => {
 router.post('/addbills',ensureAuthenticated,(req, res) => {
     let title = req.body.title;
     let billCost = req.body.billCost.slice(0, 50);
-    let dateDue = moment(req.body.dateDue, 'DD/MM/YYYY');
-    let date = moment().format();
+    let dateDue = moment(req.body.dateDue, 'DD/MM/YYYY').tz('Asia/Singapore');
+    //dateDue = moment().add(1,'days');
     let userId = req.user.id;
     // Multi-value components return array of strings or undefined
     Bills.create({
         title,
         billCost,
         dateDue,
-        date,
         userId
         
     }).then((bills) => {
@@ -114,7 +152,7 @@ router.get('/delete/:id',ensureAuthenticated,(req, res) => {
                 }
             }).then((bills) => {
                 // For icons to use, go to https://glyphsearch.com/
-                alertMessage(res, 'success', 'Bills ID ' + billsid + ' successfully deleted.', true);
+                alertMessage(res, 'success', 'Bills ID ' + billsId + ' successfully deleted.', true);
                 res.redirect('/bills/payment');
             }).catch(err => console.log(err));
         } else {
