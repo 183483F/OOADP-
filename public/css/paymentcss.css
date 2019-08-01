@@ -32,3 +32,27 @@
     font-family: Quicksand;
     font-style: oblique;
 }
+.searchArea{
+    float:right;
+}
+#myInput{
+    border-radius: 25px;
+    border: 2px solid black;
+    padding: 20px; 
+    width: 200px;
+    height: 50px;  
+    font-family: Quicksand;
+    background-image: url('http://www.pngmart.com/files/8/Search-Button-PNG-Image-Free-Download.png');
+    background-position: 10px 12px;
+    background-repeat: no-repeat; 
+}
+#myUL li {
+    list-style-type: none;
+}
+.overdueArea{
+    float: right;
+}
+.overdue a{
+    text-decoration: none;
+    color: white;
+}

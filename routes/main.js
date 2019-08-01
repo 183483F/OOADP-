@@ -18,6 +18,9 @@ router.get('/', (req, res) => {
 router.get('/payment', (req, res) => {
     res.render('payment');
 });
+router.get('/overdue', (req, res) => {
+    res.render('overdue');
+});
 
 router.get('/transactionH', ensureAuthenticated,(req, res) => {
     Dashboard.findAll({

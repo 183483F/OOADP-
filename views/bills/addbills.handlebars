@@ -29,10 +29,10 @@
 <script>
 	$('#datepicker').datepicker({
 		format: 'dd/mm/yyyy',
-		value: new Date().toLocaleDateString('en-SG'),
+		value: new Date().toLocaleDateString('en-SG'),//new Date().moment().tz('Asia/Singapore')new Date().toLocaleDateString('en-SG'),
 		uiLibrary: 'bootstrap4',
 	});
-	/*var dateDue = document.getElementById('dateDue')
-	compareDate(dateDue)
-	return dateDue.toLocaleDateString('en-SG')*/
+	$('input[type=text]').val (function () {
+    return this.value.toUpperCase();
+	})
 </script>
