@@ -5,7 +5,7 @@ Note that Sequelize automatically pleuralizes the entity name as the table name
 */
 const User = db.define('user', {
     Age: {
-        type: Sequelize.STRING
+        type: Sequelize.INTEGER
     },
     MonthlyIncome: {
         type: Sequelize.STRING
