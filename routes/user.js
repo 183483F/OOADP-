@@ -14,6 +14,7 @@ const Op = Sequelize.Op;
 //const upload = require('../helpers/imageUpload');
 
 
+<<<<<<< HEAD
 router.get('/retirement', (req, res) => {
     res.render('BudgetandRetirement/retirement');
 });
@@ -23,6 +24,13 @@ router.get('/budget', (req, res) => {
 });
 
 router.get('/budget2', (req, res) => {
+=======
+router.get('/budget', ensureAuthenticated, (req, res) => {
+    res.render('BudgetandRetirement/budget');
+});
+
+router.get('/budget2', ensureAuthenticated, (req, res) => {
+>>>>>>> 6994fff9352c2d7f027572e3f68022c2b7348e04
     User.findAll({
         raw: true
     }).then((users) => {
@@ -35,7 +43,7 @@ router.get('/budget2', (req, res) => {
 
 
 
-router.post('/budgetretire', (req, res) => {
+router.post('/budgetretire', ensureAuthenticated, (req, res) => {
     //let Age = req.body.Age;
     //let MonthlyIncome = req.body.MonthlyIncome;
     //let MonthlySave = req.body.MonthlySave;
@@ -58,6 +66,85 @@ router.post('/budgetretire', (req, res) => {
     })
         .catch(err => console.log(err))
 
+});
+
+router.get('/editbudget/:id', ensureAuthenticated, (req, res) => {
+    User.findOne({
+        where: {
+            id: req.params.id
+        }
+    }).then((user) => {
+        if (req.user.id === user.id) {
+            // call views/video/editVideo.handlebar to render the edit video page
+
+            res.render('budgetandretirement/editbudget', {
+                user // passes video object to handlebar
+            });
+        } else {
+            alertMessage(res, 'danger', 'Access denied', 'fas fa-exclamation-circle', true);
+            res.redirect('/');
+        }
+    }).catch(err => console.log(err)); // To catch no video ID
+});
+
+router.put('/saveeditbudget/:id', ensureAuthenticated, (req, res) => {
+    let errors = [];
+    let Age = req.body.Age;
+    let MonthlyIncome = req.body.MonthlyIncome;
+    let MonthlySave = req.body.MonthlySave;
+    let Living = req.body.Living;
+    let Food = req.body.Food;
+    let Hobbies = req.body.Hobbies;
+    let userId = req.user.id;
+    var userID = req.params.id;
+    if (Age % 1 != 0) {
+        errors.push({ text: 'Please enter a whole number for your age' });
+    }
+    if (Age > 120) {
+        errors.push({ text: 'Please enter a number below 120' });
+    }
+    if (MonthlyIncome % 1 != 0) {
+        errors.push({ text: 'Please enter a whole number for your Monthly Income' });
+    }
+    if (MonthlySave % 1 != 0) {
+        errors.push({ text: 'Please enter a whole number for your Monthly Savings' });
+    }
+    if (Living % 1 != 0) {
+        errors.push({ text: 'Please enter a whole number for your Living Expenses' });
+    }
+    if (Food % 1 != 0) {
+        errors.push({ text: 'Please enter a whole number for your Food Expenses' });
+    }
+    if (Hobbies % 1 != 0) {
+        errors.push({ text: 'Please enter a whole number for hobby spendings' });
+    }
+    if (errors.length > 0) {
+        res.render('BudgetandRetirement/editbudget', {
+            errors,
+            Age,
+            MonthlyIncome,
+            MonthlySave,
+            Living,
+            Food,
+            Hobbies
+        });
+    } else {
+        User.update({
+            Age,
+            MonthlyIncome,
+            MonthlySave,
+            Living,
+            Food,
+            Hobbies,
+            userId,
+        }, {
+                where: {
+                    id: userID
+                }
+            }).then(() => {
+                res.redirect('../budget2');
+            }).catch(err => console.log(err));
+    }
 });
 
 // Login Form POST => /user/login
@@ -250,10 +337,14 @@ router.get('/edit/:id', ensureAuthenticated, (req, res) => {
 });
 
 router.put('/saveEditedProfile/:id', ensureAuthenticated, (req, res) => {
+<<<<<<< HEAD
     let errors = []
+=======
+>>>>>>> 6994fff9352c2d7f027572e3f68022c2b7348e04
     let name = req.body.name;
     let imgURL = req.body.imgURL;
     let email = req.body.email;
+<<<<<<< HEAD
     let id = req.params.id;
     User.findOne({
         where: {
@@ -313,6 +404,21 @@ router.put('/saveEditedProfile/:id', ensureAuthenticated, (req, res) => {
             }
         }).catch(err => { console.log(err) });
     }).catch(err => { console.log(err) });
+=======
+    var userID = req.params.id;
+    User.update({
+        name,
+        userId,
+        imgURL,
+        email,
+    }, {
+            where: {
+                id: userID
+            }
+        }).then(() => {
+            res.redirect('/showProfile');
+        }).catch(err => console.log(err));
+>>>>>>> 6994fff9352c2d7f027572e3f68022c2b7348e04
 });
 
 

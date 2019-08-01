@@ -19,6 +19,7 @@ const billRoute = require('./routes/bills');
 const dashboardRoute = require('./routes/dashboard')
 /* const transactionH = require('./user/transactionH') */
 const feedback = require('./routes/Feedback')
+const retireRoute = require('./routes/retire')
 
 app.engine('handlebars', exphbs({
 	helpers: {
@@ -87,6 +88,7 @@ app.use('/user', userRoute);
 app.use('/dashboard', dashboardRoute)
 /* app.use('/transactionH', transactionH) */
 app.use('/Feedback', feedback)
+app.use('/retire', retireRoute)
 
 const port = 5000;
 
