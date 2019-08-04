@@ -167,9 +167,9 @@
 				type: "GET",
 				success: function (data) {
 					console.log(data);
-					var billsS = data.bills;
+					var bill = data.bills;
 					$("#card").html("");
-					$.each(billsS, function (index, bills) {
+					$.each(bill, function (index, bills) {
 						var row = `
 							<div class="card-header">
 								<h5 class="card-title">${bills.title}</h5>
