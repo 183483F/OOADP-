@@ -24,15 +24,7 @@
             </div>
             <div id="accordion">
                 <div class="card">
-                    <div class="card-header" id="headingOne">
-                        <h5 class="mb-0">
-                            <button class="btn" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true"
-                                aria-controls="collapseOne" style="text-align: center">
-                                Bank Account (Total Amount)
-                                <!--Insert Total Amount here -->
-                            </button>
-                        </h5>
-                    </div>
+                   
 
                     <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
 
@@ -41,7 +33,7 @@
                         <div class="card border-primary mb-2 w-100 mx-auto">
                             <div class="card-header">
                                 <p class="card-title">Savings</p>
-                                <p class="card-title">Amount: ${{sum}}</p>
+                                <p class="card-title">Total Amount: ${{sum}}</p>
                             </div>
                         </div>
                         {{!-- {{/each}} --}}
@@ -51,20 +43,6 @@
 
 
                         {{/if}}
-                        {{!--   <div class="card-body">
-                            <h5 class="card-title">Checking</h5>
-                            <p class="card-text">$145.00</p>
-                            <!--  ===When user clicks to add something under Bank Account===
-        </div>
-                </div>
-               <div class="card-body">
-            <h5 class="card-title">Checking</h5>
-            <p class="card-text">$145.00</p>
-           
-        </div>
-        -->
-                        </div> --}}
-
                     </div>
                 </div>
 
@@ -76,15 +54,15 @@
     <div id="NewTransactionBox">
         <!-- Tab links -->
         <div class="tab">
-            <button class="tablinks" onclick="openCity(event, 'Expense')">Expense</button>
+            <button class="tablinks" onclick="openCity(event, 'Expense')">Deposit</button>
             <div class="buttonspacing"></div>
 
-            <button class="tablinks" onclick="openCity(event, 'Income')">Income</button>
+            <button class="tablinks" onclick="openCity(event, 'Income')">Expenditure</button>
         </div>
 
         <!-- Tab content -->
         <div id="Expense" class="tabcontent">
-            <form method="post" action="../dashboard/dashboard">
+            <form method="post" action="../dashboard/dashboardplus">
                 <div class="form-group">
                     <label for="name">Name</label>
                     <input type="text" class="" name="Name" value="{{Name}}" required>
@@ -112,7 +90,7 @@
 
         <!-- Tab content -->
         <div id="Income" class="tabcontent">
-            <form method="post" action="../dashboard/dashboard">
+            <form method="post" action="../dashboard/dashboardminus">
                 <div class="form-group">
                     <label for="name">Name</label>
                     <input type="text" class="" name="Name" value="{{Name}}" required>
@@ -140,7 +118,69 @@
         </div>
 
     </div>
+        <!-- ========================================================================================================== -->
+{{#if dashboard}}
 
+
+<div class="card card-body" style="background-color:#ebeae4;" {{!-- outer grey colored box --}}>
+
+
+    <div class="panel panel-default panel-table">
+        <div class="panel-heading">
+            <div class="row">
+                <div class="col col-xs-6">
+                    <h3 class="panel-title">Recent Transactions</h3>
+                </div>
+            </div>
+        </div>
+
+        <table class="table table-striped table-bordered table-list table-responsive">
+            <thead>
+                <tr>
+                    <th><em class="fa fa-cog"></em></th>
+                    <th>Name</th>
+                    <th>Notes</th>
+                    <th>Tags</th>
+                    <th>Amount</th>
+                    <th>Date</th>
+                    <th>Type</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                {{!-- table below --}}
+                {{#each dashboard}}
+
+                <tr>
+                    <td align="center">
+
+                        <a href="/dashboard/delete2/{{id}}" class="card-link" data-toggle="confirmation"
+                            data-title="Confirm delete?">
+                            <i class="far fa-trash-alt" style="color:red;"></i>
+                    </td>
+                    <th>{{Name}}</th>
+                    <th>{{Notes}}</th>
+                    <th>{{Tags}}</th>
+                    <th>${{Amount}}</th>
+                    <th>{{formatDate Date 'DD/MM/YYYY'}}</th>
+                    <th>{{PlusMinus}}</th>
+                </tr>
+
+                {{/each}}
+            </tbody>
+        </table>
+    </div>
+    {{!-- </div>  --}}
+</div>
+
+
+{{!-- </div> --}}
+
+
+{{else}} <h3>No Transaction History</h3>
+{{/if}}
+
+<!-- ================================================================================================================================== -->
 </div>
 <script>
     $('#datepicker').datepicker({

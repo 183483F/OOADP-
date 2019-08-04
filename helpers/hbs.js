@@ -90,7 +90,7 @@ module.exports = {
         }*/
         
     },
-
+  
     getDate: function (date) {
         return moment(date).format("dddd MMMM Do YYYY");
     },

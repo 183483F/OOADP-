@@ -19,6 +19,9 @@ const Dashboard = db.define('dashboard', {
     Name: {
         type: Sequelize.STRING
     },
+    PlusMinus: {
+        type: Sequelize.STRING
+    }
     
 });
 module.exports = Dashboard;
