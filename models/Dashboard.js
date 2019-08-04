@@ -5,7 +5,7 @@ Note that Sequelize automatically pleuralizes the entity name as the table name
 */
 const Dashboard = db.define('dashboard', {
     Amount: {
-        type: Sequelize.STRING
+        type: Sequelize.INTEGER
     },
     Tags: {
         type: Sequelize.STRING
@@ -19,6 +19,9 @@ const Dashboard = db.define('dashboard', {
     Name: {
         type: Sequelize.STRING
     },
+    PlusMinus: {
+        type: Sequelize.STRING
+    }
     
 });
 module.exports = Dashboard;

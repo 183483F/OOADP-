@@ -106,3 +106,4 @@ const authenticate = require('./config/passport');
 authenticate.localStrategy(passport);
 app.use(passport.initialize());
 app.use(passport.session());
+
