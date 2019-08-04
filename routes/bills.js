@@ -26,6 +26,7 @@ router.get('/payment',ensureAuthenticated,(req, res) => {
         // pass object to listVideos.handlebar
         var total = getSum(bills)
         res.render('bills/payment', {
+            sum : total,
             bills: bills
         });
     }).catch(err => console.log(err));
@@ -35,7 +36,7 @@ router.get("/payment/search/:query", ensureAuthenticated, (req, res) => {     /*
     let query = req.params.query;
     Bills.findAll({
         where : {
-            /* userId: req.user.id, */
+            userId: req.user.id,
             title: Sequelize.where(Sequelize.fn('LOWER', Sequelize.col("title")), 'LIKE', '%' + query + '%')
           /*   Date: Sequelize.where(Sequelize.fn(Sequelize.col("Date"))) */
         },
@@ -249,6 +250,15 @@ router.get('/unUpdate/:id',ensureAuthenticated,(req, res) => {
         }
     })
 });
+
+function getSum(bills){
+    var sum = 0;
+    for(var i = 0; i < bills.length; i++){
+            sum += bills[i].billCost;
+    }
+    return sum
+}
+
 
 
 

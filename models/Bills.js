@@ -8,7 +8,7 @@ const Bills = db.define('bills', {
         type: Sequelize.STRING
     },
     billCost: {
-        type: Sequelize.STRING
+        type: Sequelize.INTEGER
     },
     dateDue: {
         type: Sequelize.DATE
