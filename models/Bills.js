@@ -13,6 +13,12 @@ const Bills = db.define('bills', {
     dateDue: {
         type: Sequelize.DATE
     },
+    link:{
+        type: Sequelize.STRING
+    },
+    paid:{
+        type: Sequelize.STRING
+    }
 });
 
 module.exports = Bills;

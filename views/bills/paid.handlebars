@@ -25,22 +25,18 @@
         <div id="collapseCredit" class="collapse show" aria-labelledby="headingcredit" data-parent="#accordion">
         <div class="card-body">
             <h5 class="card-title">Total Amount due:</h5>
-            <p class="card-text">{{SUM}}</p>
+            <p class="card-text">lopre ipsum</p>
         </div>
         </div>
     </div>
     </div>
     </div>
 </div>
-
 <div class="overdueArea">
-    <button type="button" class="overdue btn btn-danger"><a href="/bills/overdue">Overdue</a></button>
+    <button type="button"class="overdue btn btn-success"><a href="/bills/payment">Back to Bills</a></button>
 </div>
-<div class="paidArea">
-    <button type="button" class="paid btn btn-success"><a href="/bills/paid">Paid</a></button>
-</div>
-
 <div class="container">
+    
     <div class="row">
         <div class="input-group mb-3">
             <input type="text" id="query" class="form-control" placeholder="Bill's Name" aria-label="Bill's Name" aria-describedby="basic-addon2">
@@ -49,20 +45,19 @@
         </div>
         </div>
 	</div>
-
-	<div class="card card-body">
+    <div class="card card-body">
 		<h3 class="text-success">Bills</h3>
 		<div id="card" class="card border-success mb-2 w-100 mx-auto">
 			{{!-- search output shown here --}}
 		</div>
 	</div>
+
 	{{#if bills}}
 	<div class="card card-body">
-		<h3 class="text-success">Bills</h3>		
+		<h3 class="text-success">Bills</h3>
             {{#each bills}}
                 <div class="card border border-success mb-2 w-100 mx-auto">
                     <div class="card-header">
-                        <h5 class="card-title" id="titleArea">{{title}}</h5>
                     </div>
                     <div class="card-body">
                         <div class="row">
@@ -76,9 +71,9 @@
                             </div>
                             <div class="col-sm-12 col-md-12 col-lg-9">
                                 <p class="titlename">Link for payment</p>
-                                <a href="{{link}}" class="text-info">{{link}}</a>
+                                <p class="text-info">{{link}}</p>
                             </div>
-                            <div class="col-sm-12 col-md-12 col-lg-2">
+                           <div class="col-sm-12 col-md-12 col-lg-2">
                                 <p class="font-italic"></p>
                                 <a href="/bills/edit/{{id}}" class="card-link icons">
                                     <i class="fas fa-pencil-alt"></i>
@@ -92,15 +87,14 @@
                                      <i class="fas fa-tasks"></i>
                                     Paid
                                 </a> 
-                            </div> 
+                            </div>
                         </div>
                     </div>
                 </div>
             {{/each}}
-        </ul>
         </div>
 	    {{else}}
-	    <h3>No bills registered</h3>
+	    <h3>No bills paid</h3>
 	{{/if}}
 </div>
 
@@ -138,9 +132,7 @@
 											</div>
                                             <div class="col-sm-12 col-md-6 col-lg-9">
 												<p class="font-italic">Link for payment</p>
-												<p class="text-info">
-													${bills.link}
-												</p>
+												<p class="text-info">${bills.link}</p>
 											</div>
                                             <div class="col-sm-12 col-md-12 col-lg-2">
                                                 <p class="font-italic"></p>
@@ -156,7 +148,7 @@
                                                     <i class="fas fa-tasks"></i>
                                                     Paid
                                                 </a> 
-                                            </div>  
+                                            </div>
 										</div>
 									</div >
 								</div >
@@ -170,3 +162,4 @@
 			})
 		})
 </script>
+
