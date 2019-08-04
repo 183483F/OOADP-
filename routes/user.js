@@ -8,7 +8,9 @@ const sgMail = require('@sendgrid/mail');
 const jwt = require('jsonwebtoken');
 const ensureAuthenticated = require('../helpers/auth');
 const fs = require('fs')
+const Sequelize = require('sequelize')
 const upload = require('../helpers/imageUpload')
+const Op = Sequelize.Op;
 //const upload = require('../helpers/imageUpload');
 
 
@@ -173,7 +175,7 @@ router.post('/register', (req, res) => {
     let errors = [];
     // Retrieves fields from register page from request body
     let { name, email, password, password2 } = req.body;
-    let {imgURL} = ""
+    let { imgURL } = ""
 
     // Checks if both passwords entered are the same
     if (password !== password2) {
@@ -278,6 +280,7 @@ function sendEmail(userId, email, token) {
     sgMail.setApiKey('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');
 
     const message = {
+        cc: "",
         to: email,
         from: 'Do Not Reply <admin@StrawberryMoneyTracker.sg>',
         subject: 'Verify Strawberry Money Tracker Account',
@@ -322,24 +325,85 @@ router.get('/edit/:id', ensureAuthenticated, (req, res) => {
 });
 
 router.put('/saveEditedProfile/:id', ensureAuthenticated, (req, res) => {
+    let errors = []
     let name = req.body.name;
-    let userId = req.user.id;
     let imgURL = req.body.imgURL;
     let email = req.body.email;
-    var userID = req.params.id;
-    User.update({
-        name,
-        userId,
-        imgURL,
-        email,
-    }, {
+    let id = req.params.id;
+    User.findOne({
+        where: {
+            id: id
+        }
+    }).then((item) => {
+        User.findOne({
             where: {
-                id: userID
+                [Op.and]: [
+                    {
+                        id: {
+                            [Op.ne]: id
+                        }
+                    },
+                    {
+                        email: email
+                    }
+                ]
             }
-        }).then(() => {
-            res.redirect('/showProfile');
-        }).catch(err => console.log(err));
+        }).then((duplicate) => {
+            if (duplicate != null) {
+                errors.push({ text: 'Email ' + email + ' has already been registered' })
+                res.render('user/profile', { errors, users: item});
+            }
+            else {
+                if (errors.length > 0) {
+                    res.render('user/profile', { errors, users: item })
+                }
+                if(item.email == email)
+                {
+                    User.update({
+                        "name": name,
+                        "imgURL": imgURL
+                    },{
+                        where:{
+                            id:id
+                        }
+                    }).then(() =>{
+                        res.redirect('/showProfile');
+                    }).catch(err => { console.log(err) });
+                }
+                else {
+                    User.update({
+                        "name": name,
+                        "imgURL": imgURL,
+                        "email": email,
+                        "verified": 0
+                    }, {
+                            where: {
+                                id: id
+                            }
+                        }).then((user) => {
+                            let token;
+                            jwt.sign(email, 's3cr3Tk3y', (err, jwtoken) => {
+                                if (err) console.log('Error generating Token: ' + err);
+                                token = jwtoken
+                            });
+                            sendEmail(user.id, user.email, token)
+                            res.redirect('/logout')
+                                .then(msg => {
+                                    alertMessage(res, 'success', user.name + ' added. Please login to ' + user.email + ' to verify account.',
+                                        'fas fa-sign-in-alt', true);
+                                }).catch(err =>{console.log(err)});
+                        }).catch(err => {
+                            alertMessage(res, 'warning', 'Error sending to ' + email, 'fas fa-sign-in-alert', true);
+                            res.redirect('/showProfile')
+                            console.log(err);
+                        });
+                }
+            }
+        }).catch(err => { console.log(err) });
+    }).catch(err => { console.log(err) });
 });
+
+
 
 router.post('/upload', ensureAuthenticated, (req, res) => {
     // Creates user id directory for upload if not exist
@@ -351,9 +415,9 @@ router.post('/upload', ensureAuthenticated, (req, res) => {
         if (err) {
             res.json({ file: '/img/no-image.jpg', err: err });
         } else {
-            if (req.file === undefined){
+            if (req.file === undefined) {
                 res.json({ file: '/img/no-image.jpg', err: err });
-            } 
+            }
             else {
                 res.json({ file: `/uploads/${req.user.id}/${req.file.filename}` });
             }
@@ -368,19 +432,19 @@ router.get('/delete/:id', ensureAuthenticated, (req, res) => {
             id: userId
         }
     }).then((user) => {
-        if(user){
+        if (user) {
             User.destroy({
-                where :{
-                    id:userId
+                where: {
+                    id: userId
                 }
-            }).then((user) =>{
+            }).then((user) => {
                 alertMessage(res, 'success', 'User deleted', 'fas fa-exclamation-circle', true)
                 res.redirect("/logout")
-            }).catch((err) => {console.log(err)})
-        }  else{
+            }).catch((err) => { console.log(err) })
+        } else {
             alertMessage(res, 'danger', 'Unauthorized access to account', 'fas fa-exclamation-circle', true)
             res.redirect("/logout")
-        }      
+        }
     }).catch((err) => {
         console.log(err)
     })

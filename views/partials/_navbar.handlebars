@@ -7,7 +7,7 @@
 			<span class="navbar-toggler-icon"></span>
 		</button>
 		<div class="collapse navbar-collapse" id="navbarNav">
-			<ul class="navbar-nav">
+			<ul class="navbar-nav ml-auto">
 				<li class="nav-item">
 					<a class="nav-link" href="/dashboard/dashboard">Dashboard</a>
 				</li>
@@ -19,6 +19,7 @@
 							{{!-- Note: ".." move 1 folder up. "." is the current folder. start with the "/" to indicte root directory --}}
 							<a href="/bills/payment" class="dropdown-item">Bills</a>
 							<a href="/bills/addbills" class="dropdown-item">Add Bills</a>
+							<a href="/bills/overdue" class="dropdown-item">Overdue Bills</a>
 						</div>
 					</li>
 				</ul>
@@ -59,13 +60,13 @@
 			<ul class="navbar-nav ml-auto">
 				<li class="nav-item">
 					<a href="/showProfile" class="nav-link">
-						<img src="{{user.imgURL}}"
-							style="width: 10%; float:right">
+						<img src="{{user.imgURL}}" style="width: 9%; float:right">
 					</a>
 				</li>
-				<li class="nav-item" style="float:right">
+				<li class="nav-item">
 					<a href="/showProfile" class="nav-link">Profile
 					</a>
+				</li>
 				<li class="nav-item">
 					<a href="/logout" class="nav-link">Logout</a>
 				</li>

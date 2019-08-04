@@ -93,48 +93,112 @@
         </div>
     </div>
 </div> --}}
+<div class="overdueArea">
+    <button type="button" class="overdue btn btn-danger"><a href="/bills/overdue">Overdue</a></button>
+</div>
 
 <div class="container">
 	{{#if bills}}
 	<div class="card card-body">
 		<h3 class="text-success">Bills</h3>
-		{{#each bills}}
-		<div class="card border border-success mb-2 w-100 mx-auto">
-			<div class="card-header">
-				<h5 class="card-title">{{title}}</h5>
-			</div>
-			<div class="card-body">
-				<div class="row">
-                    <div class="col-sm-12 col-md-12 col-lg-2">
-						<p class="titlename">Bill Cost</p>
-						<p class="text-info">${{billCost}}</p>
-					</div>
-					<div class="col-sm-12 col-md-12 col-lg-2">
-						<p class="titlename">Date of Payment</p>
-						<p class="text-info">{{formatDate dateDue 'DD MMM '}}</p>
-					</div>
-					{{!-- Uncomment this to see the {{id}} tag values from Database --}}
-					{{!--<div class="col-sm-12 col-md-12 col-lg-2">
-						<p class="font-italic">ID</p>
-						<p class="text-info">{{id}}</p>
-					</div> --}}
-					<div class="col-sm-12 col-md-12 col-lg-2">
-						<p class="font-italic"></p>
-						<a href="/bills/edit/{{id}}" class="card-link icons">
-							<i class="fas fa-pencil-alt"></i>
-							Edit
-						</a>
-						<a href="/bills/delete/{{id}}" class="card-link text-danger icons" data-toggle="confirmation" data-title="Confirm delete?">
-							<i class="far fa-trash-alt"></i>
-							Delete
-						</a>
-					</div> 
-				</div>
-			</div>
-        	</div>
+{{!--         <input type="text" class="searchArea" id="myInput" onkeyup="myFunction()" placeholder="Search for names..">
+ --}}		
+    <div class="row">
+		<input id="query" class="col-sm-12 col-md-12 col-lg-2" placeholder="Search Name"></input>
+		<input id="search" type="button" value="search" />
+	</div>
+
+	<div class="card card-body">
+		<h3 class="text-primary">Bills</h3>
+		<div id="card" class="card border-primary mb-2 w-100 mx-auto">
+			{{!-- search output shown here --}}
+		</div>
+	</div>
+            {{#each bills}}
+                <div class="card border border-success mb-2 w-100 mx-auto">
+                    <div class="card-header">
+                        <h5 class="card-title" id="titleArea">{{title}}</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-sm-12 col-md-12 col-lg-2">
+                                <p class="titlename">Bill Cost</p>
+                                <p class="text-info">${{billCost}}</p>
+                            </div>
+                            <div class="col-sm-12 col-md-12 col-lg-2">
+                                <p class="titlename">Date of Payment</p>
+                                <p class="text-info">{{formatDate dateDue 'DD MMM '}}</p>
+                            </div>
+                            {{!-- Uncomment this to see the {{id}} tag values from Database --}}
+                            {{!--<div class="col-sm-12 col-md-12 col-lg-2">
+                                <p class="font-italic">ID</p>
+                                <p class="text-info">{{id}}</p>
+                            </div> --}}
+                            <div class="col-sm-12 col-md-12 col-lg-2">
+                                <p class="font-italic"></p>
+                                <a href="/bills/edit/{{id}}" class="card-link icons">
+                                    <i class="fas fa-pencil-alt"></i>
+                                    Edit
+                                </a>
+                                <a href="/bills/delete/{{id}}" class="card-link text-danger icons" data-toggle="confirmation" data-title="Confirm delete?">
+                                    <i class="far fa-trash-alt"></i>
+                                    Delete
+                                </a>
+                            </div> 
+                        </div>
+                    </div>
+                </div>
             {{/each}}
+        </ul>
         </div>
 	    {{else}}
 	    <h3>No bills registered</h3>
 	{{/if}}
 </div>
+
+<script>
+    $(document).ready(function () {
+
+		$("#search").click(function () {
+			console.log("hit");
+			var query = $("#query").val();
+			$.ajax({
+				url: "/bills/payment/search/" + query,
+				type: "GET",
+				success: function (data) {
+					console.log(data);
+					var billsS = data.bills;
+					$("#card").html("");
+					$.each(billsS, function (index, bills) {
+						var row = `
+							<div class="card-header">
+								<h5 class="card-title">${bills.title}</h5>
+							</div>
+							<div class="card-body">
+								<div class="row">
+									<div class="col-sm-12 col-md-12 col-lg-8">
+										<div class="row"> 
+											<div class="col-sm-12 col-md-6 col-lg-3">
+												<p class="font-italic">Bill Cost</p>
+												<p class="text-info">
+													${bills.billCost}
+												</p>
+											</div>
+											<div class="col-sm-12 col-md-6 col-lg-3">
+												<p class="font-italic">Date Due</p>
+												<p class="text-info">${bills.dateDue}</p>
+					
+											</div>
+										</div>
+									</div >
+								</div >
+							</div >
+                            `
+							console.log(row);
+							$("#card").append(row);
+						})
+					}
+				})
+			})
+		})
+</script>

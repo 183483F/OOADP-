@@ -7,10 +7,10 @@ $(document).ready(function () {
     var myChart = new Chart(ctx, {
         type: 'horizontalBar',
         data: {
-            labels: ['5', '4', '3', '2', '1', '0'],
+            labels: ['5 star', '4 star', '3 star', '2 star', '1 star', '0'],
             datasets: [{
                 label: '# Feedback Ratings',
-                data: [12, 19, 3, 5, 2, 3],
+                data: [5, 0, 0, 0, 0, 0],
                 backgroundColor: [
                     'rgba(255, 99, 132, 0.2)',
                     'rgba(54, 162, 235, 0.2)',
@@ -28,15 +28,15 @@ $(document).ready(function () {
                     'rgba(255, 159, 64, 1)'
                 ],
                 borderWidth: 2,
-                hoverBorderWidth:4,
-                
+                hoverBorderWidth: 4,
+
             }]
         },
         options: {
-            title:{
-                display:true,
-                text:'Reviews',
-                fontSize:25
+            title: {
+                display: true,
+                text: 'Reviews',
+                fontSize: 25
             },
             scales: {
                 yAxes: [{
@@ -45,40 +45,27 @@ $(document).ready(function () {
                     }
                 }]
             }
-            
+
         }
     });
-            /* datasets: [{
-                label: '# of Ratings'
-                data: [12, 19, 3, 5, 2, 3],
-
-                backgroundColor: ['rgba(55, 214, 87, 1.0'], //green
-                borderColor: ['rgba(255, 99, 132, 1'],  //red
-                borderWidth: 1
-            }]
-            
-        },
-        options: {
-            ticks: { beginAtZero: true}
-        }
-        */
+  
 
     $.ajax({
-        url: '/Feedback',   /* AllFeedback */
+        url: '/feedback/AllFeedbackAjax',   /* AllFeedback */
         type: 'GET',
-        success: function (counts){
+        success: function (counts) {
             let labelList = [];
             let dataValue = [];
-            for (var i = 0; i < counts.length; i++){
+            for (var i = 0; i < counts.length; i++) {
                 labelList.push(counts[i].Rating)
-                dataValue.push(parseInt(counts[i].TagCount))
+                dataValue.push(parseInt(counts[i].TagCount, "star"))
             };
 
             console.log(counts)
             var data = {
                 labels: labelList,
                 datasets: [{
-                    label: "Store Items",
+                    label: "# Number of Feedbacks",
                     data: dataValue,
                     backgroundColor: [
                         'rgba(255, 99, 132, 0.2)',
@@ -98,14 +85,30 @@ $(document).ready(function () {
                         'rgba(255, 159, 64, 1)',
                         'rgba(94, 159, 64, 0.2)'
                     ],
-                    borderWidth: 1
-                }]
+                    borderWidth: 2,
+                    hoverBorderWidth: 4,
+                }],
+                options: {
+                    title: {
+                        display: true,
+                        text: 'Reviews',
+                        fontSize: 25
+                    },
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }]
+                    }
+
+                }
             }
             myChart.data = data;
             myChart.update();
         }
-        
+
     })
 });
 
-   
+

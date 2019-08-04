@@ -56,14 +56,12 @@
 </style>
 <br>
 <br>
-{{#if users}}
-{{#each users}}
 <div>
     <!--left col-->
     <h6> Profile Image</h6>
     <div class="col-sm-12 col-md-12 col-lg-2" style=float:left>
-        <a href="{{imgURL}}" data-toggle="lightbox">
-            <img src="{{imgURL}}" alt="Image unavailable" class="img-thumbnail img-fluid">
+        <a href="{{user.imgURL}}" data-toggle="lightbox">
+            <img src="{{user.imgURL}}" alt="Image unavailable" class="img-thumbnail img-fluid">
         </a>
         <p>You can update your profile picture when you update your profile!</p>
     </div>
@@ -87,7 +85,7 @@
                         <label for="username">
                             <h4>Name</h4>
                         </label>
-                        <input type="text" class="form-control" name="name" id="name" value="{{name}}"
+                        <input type="text" class="form-control" name="name" id="name" value="{{user.name}}"
                             placeholder="Name" disabled="true">
                     </div>
                 </div>
@@ -99,7 +97,7 @@
                         <label for="email">
                             <h4>Email</h4>
                         </label>
-                        <input type="email" class="form-control" name="email" id="email" value="{{email}}"
+                        <input type="email" class="form-control" name="email" id="email" value="{{user.email}}"
                             placeholder="Email" size="60px" disabled="true">
                     </div>
                 </div>
@@ -110,7 +108,7 @@
                         <label for="password">
                             <h4>Password</h4>
                         </label>
-                        <input type="password" class="form-control" name="password" id="password" value="{{password}}"
+                        <input type="password" class="form-control" name="password" id="password" value="{{user.password}}"
                             placeholder="Password" disabled="true"> <input type="button" class="whew"
                             onclick="showPass()" value="Show/Hide Password"
                             style="background-color: white; border: none;">
@@ -120,11 +118,11 @@
                 <div class="form-group">
                     <div class="col-xs-12" style="float:right">
                         <br>
-                        <a href="/user/edit/{{id}}"><button class="btn btn-lg btn-success"><i
+                        <a href="/user/edit/{{user.id}}"><button class="btn btn-lg btn-success"><i
                                     class="fas fa-pencil-alt"></i>
                                 Edit Profile</button>
                         </a>
-                        <a href="/user/delete/{{id}}" class="btn btn-lg btn-success" data-toggle="confirmation"
+                        <a href="/user/delete/{{user.id}}" class="btn btn-lg btn-success" data-toggle="confirmation"
                             data-title="Confirm delete?">
                             <i class="far fa-trash-alt"></i>
                             Deactivate Account
@@ -134,13 +132,10 @@
             </div>
 
         </div>
-        {{/each}}
 
 
     </div>
-    {{else}}
-    <h3>nothing???wat</h3>
-    {{/if}}
+
 </div>
 
 
