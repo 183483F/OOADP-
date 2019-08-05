@@ -98,6 +98,28 @@ router.get('/paid',ensureAuthenticated,(req, res) => {
     }).catch(err => console.log(err));
 });
 
+router.get('/paid',ensureAuthenticated,(req, res) => {
+    let today = moment().tz("Asia/Singapore").toDate();
+    Bills.findAll({
+        where: {
+            userId: req.user.id,
+            paid: 1,
+        },
+        order: [
+            ['dateDue', 'asc']
+        ],
+        SUM: [
+            ['billCost']
+        ],
+        // raw: true
+    }).then((bills) => {
+        // pass object to listVideos.handlebar
+        res.render('bills/overdue', {
+            bills: bills
+        });
+    }).catch(err => console.log(err));
+});
+
 // Route to the page for User to add a new video
 router.get('/addbills',ensureAuthenticated,(req, res) => {
     res.render('bills/addbills', { // pass object to listVideos.handlebar
