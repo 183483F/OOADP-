@@ -8,19 +8,19 @@ const User = db.define('user', {
         type: Sequelize.INTEGER
     },
     MonthlyIncome: {
-        type: Sequelize.STRING
+        type: Sequelize.INTEGER
     },
     MonthlySave: {
-        type: Sequelize.STRING
+        type: Sequelize.INTEGER
     },
     Living: {
-        type: Sequelize.STRING
+        type: Sequelize.INTEGER
     },
     Food: {
-        type: Sequelize.STRING
+        type: Sequelize.INTEGER
     },
     Hobbies: {
-        type: Sequelize.STRING
+        type: Sequelize.INTEGER
     },
     name:{
         type: Sequelize.STRING

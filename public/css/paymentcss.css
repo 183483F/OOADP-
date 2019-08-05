@@ -56,3 +56,10 @@
     text-decoration: none;
     color: white;
 }
+.paidArea{
+    float: right;
+}
+.paid a{
+    text-decoration: none;
+    color: white;
+}

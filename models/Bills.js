@@ -8,11 +8,17 @@ const Bills = db.define('bills', {
         type: Sequelize.STRING
     },
     billCost: {
-        type: Sequelize.STRING
+        type: Sequelize.INTEGER
     },
-    dateDue: {
+    DateDue: {
         type: Sequelize.DATE
     },
+    link:{
+        type: Sequelize.STRING
+    },
+    paid:{
+        type: Sequelize.STRING
+    }
 });
 
 module.exports = Bills;

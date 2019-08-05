@@ -5,13 +5,13 @@ Note that Sequelize automatically pleuralizes the entity name as the table name
 */
 const Retire = db.define('retire', {
     MonthlyIncome: {
-        type: Sequelize.STRING
+        type: Sequelize.INTEGER
     },
     RetirementAge: {
-        type: Sequelize.STRING
+        type: Sequelize.INTEGER
     },
     RetirementGoal: {
-        type: Sequelize.STRING
+        type: Sequelize.INTEGER
     },
 });
 module.exports = Retire;

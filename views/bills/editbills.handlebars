@@ -12,13 +12,17 @@
 				<label class="font-italic" for="billCost">Bill Cost</label>
 				<input type="number" class="form-control" id="billCost" name="billCost" rows="7">{{bills.billCost}}</textarea>
 			</div>
+			<div class="form-group mb-4">
+				<label class="font-italic" for="bill">Link for payment</label>
+				<input type="url" class="form-control" id="link" name="link" rows="7" required>{{bills.link}}</textarea>
+			</div>
 
 			<div class="form-group">
 				<div class="row mb-2">
 					<div class="col-12 col-sm-12 col-md-12 col-lg-6 mb-4">
 						<label class="font-italic">Date of Payment</label>
-						<input id="datepicker" width="200" name="dateDue"
-							value="{{formatDate bills.dateDue 'DD MMM'}}" readonly />
+						<input id="datepicker" width="200" name="DateDue"
+							value={{bills.DateDue}} readonly />
 					</div>
 					</div>
 			</div>

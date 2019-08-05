@@ -19,6 +19,9 @@ const Feedback = db.define('feedbacks', {
     },
     Rating:{
 		type: Sequelize.STRING
+    },
+    UserName:{
+		type: Sequelize.STRING
 	}
  
 });

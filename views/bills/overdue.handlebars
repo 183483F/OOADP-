@@ -8,24 +8,10 @@
 
 <div id="containercredit">
     <div class="card text-center">
-    <div class="card-header">
-        Balance
-    </div>
-    <div id="accordion">
-    <div class="card">
-        <div class="card-header" id="headingOne">
-        <h5 class="mb-0">
-            <button class="btn" data-toggle="collapse" data-target="#collapseCredit" aria-expanded="false" aria-controls="collapsecredit" style="text-align: center">
-            Citybank Card
-            </button>
-            <p class="card-text balanceText">$11,235</p>
-        </h5>
-        </div>
-
         <div id="collapseCredit" class="collapse show" aria-labelledby="headingcredit" data-parent="#accordion">
         <div class="card-body">
             <h5 class="card-title">Total Amount due:</h5>
-            <p class="card-text">lopre ipsum</p>
+            <p class="card-text" >${{sum}}</p>
         </div>
         </div>
     </div>
@@ -33,18 +19,31 @@
     </div>
 </div>
 <div class="overdueArea">
-    <button type="button"class="overdue btn btn-success"><a href="/bills/payment">Back to Payment</a></button>
+    <button type="button"class="overdue btn btn-success"><a href="/bills/payment">Back to bills</a></button>
 </div>
 <div class="container">
+    <div class="row">
+        <div class="input-group mb-3">
+            <input type="text" id="query" class="form-control" placeholder="Bill's Name" aria-label="Bill's Name" aria-describedby="basic-addon2">
+        <div class="input-group-append">
+            <button class="btn btn-outline-secondary" id="search" value="search" type="button">Search</button>
+        </div>
+        </div>
+	</div>
+
+    <div class="card card-body">
+		<h3 class="text-success">Bills</h3>
+		<div id="card" class="card border-success mb-2 w-100 mx-auto">
+			{{!-- search output shown here --}}
+		</div>
+	</div>
 	{{#if bills}}
 	<div class="card card-body">
 		<h3 class="text-success">Bills</h3>
-        <input type="text" class="searchArea" id="myInput" onkeyup="myFunction()" placeholder="Search for names..">
-		<ul id="myUL">
             {{#each bills}}
                 <div class="card border border-success mb-2 w-100 mx-auto">
                     <div class="card-header">
-                        <li><a href='#' id="listName"><h5 class="card-title" id="titleArea">{{title}}</h5></a></li>
+                        <p id="listName"><h5 class="card-title" id="titleArea">{{title}}</h5>
                     </div>
                     <div class="card-body">
                         <div class="row">
@@ -54,13 +53,12 @@
                             </div>
                             <div class="col-sm-12 col-md-12 col-lg-2">
                                 <p class="titlename">Date of Payment</p>
-                                <p class="text-info">{{formatDate dateDue 'DD MMM '}}</p>
+                                <p class="text-info">{{formatDate DateDue 'DD MMM '}}</p>
                             </div>
-                            {{!-- Uncomment this to see the {{id}} tag values from Database --}}
-                            {{!--<div class="col-sm-12 col-md-12 col-lg-2">
-                                <p class="font-italic">ID</p>
-                                <p class="text-info">{{id}}</p>
-                            </div> --}}
+                            <div class="col-sm-12 col-md-12 col-lg-9">
+                                <p class="titlename">Link for payment</p>
+                                <p class="text-info">{{link}}</p>
+                            </div>
                             <div class="col-sm-12 col-md-12 col-lg-2">
                                 <p class="font-italic"></p>
                                 <a href="/bills/edit/{{id}}" class="card-link icons">
@@ -76,9 +74,75 @@
                     </div>
                 </div>
             {{/each}}
-        </ul>
         </div>
 	    {{else}}
 	    <h3>No bills overdue</h3>
 	{{/if}}
 </div>
+
+
+
+<script>
+    $(document).ready(function () {
+
+		$("#search").click(function () {
+			console.log("hit");
+			var query = $("#query").val();
+			$.ajax({
+				url: "/bills/payment/search/" + query,
+				type: "GET",
+				success: function (data) {
+					console.log(data);
+					var bill = data.bills;
+					$("#card").html("");
+					$.each(bill, function (index, bills) {
+						var row = `
+							<div class="card-header">
+								<h5 class="card-title">${bills.title}</h5>
+							</div>
+							<div class="card-body">
+								<div class="row">
+									<div class="col-sm-12 col-md-12 col-lg-8">
+										<div class="row"> 
+											<div class="col-sm-12 col-md-6 col-lg-3">
+												<p class="font-italic">Bill Cost</p>
+												<p class="text-info">
+													${bills.billCost}
+												</p>
+											</div>
+											<div class="col-sm-12 col-md-6 col-lg-3">
+												<p class="font-italic">Date Due</p>
+												<p class="text-info">
+                                                    ${bills.DateDue}
+                                                </p>
+											</div>
+                                            <div class="col-sm-12 col-md-6 col-lg-9">
+												<p class="font-italic">Link for payment</p>
+												<p class="text-info">
+													${bills.link}
+												</p>
+                                            </div>
+                                             <div class="col-sm-12 col-md-12 col-lg-2">
+                                                <p class="font-italic"></p>
+                                                <a href="/bills/edit/{{id}}" class="card-link icons">
+                                                    <i class="fas fa-pencil-alt"></i>
+                                                    Edit
+                                                </a>
+                                                <a href="/bills/delete/{{id}}" class="card-link text-danger icons" data-toggle="confirmation" data-title="Confirm delete?">
+                                                    <i class="far fa-trash-alt"></i>
+                                                    Delete
+                                                </a>
+                                            </div> 
+										</div>
+									</div >
+								</div >
+							</div >
+                            `
+							console.log(row);
+							$("#card").append(row);
+						})
+					}
+				})
+			})
+		})
+</script>

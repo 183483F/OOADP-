@@ -11,12 +11,15 @@ router.get('/dashboard', ensureAuthenticated, (req, res) => {
         where: {
             userId: userId
         },
+        
         raw: true
     }).then((dashboard) => {
         var total = getSum(dashboard)
+        var recent = recentTransaction(dashboard)
         res.render('alex/dashboard', {
-            sum : total, 
-            dashboard: dashboard
+            sum : total,
+            dashboard: recent,
+            /*dashboard: dashboard */
             /* dashboard: dashboard[dashboard.length - 1] */
         });
   
@@ -81,20 +84,20 @@ function getSum(dashboard){
 }
 
 
-
+/*  */
 /* delete for transaction history */
-router.get('/delete2/:id', ensureAuthenticated, (req, res) => {
+router.get('/dashboard/delete/:id', ensureAuthenticated, (req, res) => {
     let dashboardId = req.params.id;
     // Select * from videos where videos.id=videoID and videos.userId=userID
     Dashboard.findOne({
         where: {
             id: dashboardId,
-        },
-        attributes: ['id', 'Name']
+        }
+        /* attributes: ['id', 'Name'] */
     }).then((dashboard) => {
         // if record is found, user is owner of video
-        if (dashboard != null) {
-            dashboard.destroy({
+        if (dashboard.userId === req.user.id) {
+            Dashboard.destroy({
                 where: {
                     id: dashboardId
                 }
@@ -109,31 +112,24 @@ router.get('/delete2/:id', ensureAuthenticated, (req, res) => {
 });
 
 
-/* delete for transaction history */
-router.get('/delete/:id', ensureAuthenticated, (req, res) => {
-    let dashboardId = req.params.id;
-    // Select * from videos where videos.id=videoID and videos.userId=userID
-    Dashboard.findOne({
-        where: {
-            id: dashboardId,
-        },
-        attributes: ['id', 'Name']
-    }).then((dashboard) => {
-        // if record is found, user is owner of video
-        if (dashboard != null) {
-            dashboard.destroy({
-                where: {
-                    id: dashboardId
-                }
-            }).then(() => {
-                alertMessage(res, 'info', 'Transaction deleted', 'far fa-trash-alt', true);
-                res.redirect('/transactionH'); // To retrieve all videos again
-            }).catch(err => console.log(err));
-        } else {
-            alertMessage(res, 'danger', 'No such video', 'fas fa-exclamation-circle', true);
-        }
-    });
-});
+function recentTransaction(dashboard){
+    var list = []
+    
+    for (let i = 0; i < dashboard.length ; i++){
+            var dictionary = {}
+            dictionary["id"] = dashboard[i].id;
+            dictionary["Name"] = dashboard[i].Name;
+            dictionary["Notes"] = dashboard[i].Notes;
+            dictionary["Tags"] = dashboard[i].Tags;
+            dictionary["Amount"] = dashboard[i].Amount;
+            dictionary["Date"] = dashboard[i].Date;
+            dictionary["Type"] = dashboard[i].PlusMinus;
+            list.push(dictionary)
+    }
+    list.reverse();
+    return list
+}
+
 
 
 module.exports = router;

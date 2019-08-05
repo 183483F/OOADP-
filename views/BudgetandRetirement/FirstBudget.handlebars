@@ -4,10 +4,10 @@
     <div class="row">
         <div class="col-md-6 mx-auto">
             <div class="card card-body">
-                <h2 class="text-center">Budgeting</h2>
+                <h2 class="text-center">Complete your account (Budgeting)</h2>
                 <p>Fill up this form to allow us to manage and compare your budget.</p>
                 <p>We will keep track of your progress and notify you if you are going off budget.</p>
-                <form method="post" action="../user/budgetretire"> 
+                <form action="/user/saveeditbudget/{{user.id}}?_method=PUT" method="post">
                     <div class="form-group">
                         <label for="name">Age</label>
                         <input type="text" class="" name="Age" value="{{Age}}" required>
@@ -37,6 +37,9 @@
 						<input id="datepicker" width="200" name="dateDue" value="{{dateDue}}" readonly required/>
 					</div>
                         <button type="submit" class="btn btn-primary">Submit</button> 
+                        <form action="/user/">
+                        <a class="btn btn-primary" href="/user/budgetskip">Complete you account later</a>
+                        </form>
                 </form>
             </div>
         </div>

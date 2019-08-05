@@ -18,6 +18,10 @@
                         <label for="name">Goal for retirement</label>
                         <input type="text" class="" name="RetirementGoal" value="{{RetirementGoal}}" required>
                     </div>
+                    <div class="col-12 col-sm-12 col-md-12 col-lg-6 mb-4">
+						<label class="font-italic">Date of payment</label>
+						<input id="datepicker" width="200" name="dateDue" value="{{dateDue}}" readonly required/>
+					</div>
                     <button type="submit" class="btn btn-primary">Submit</button>
                 </form>
             </div>

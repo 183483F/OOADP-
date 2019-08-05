@@ -5,6 +5,10 @@
 <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
 <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>  --}}
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.js"
+	integrity="sha256-H9jAz//QLkDOy/nzE9G4aYijQtkLt9FvGmdUTwBk6gs=" crossorigin="anonymous"></script>
 <!------ Include the above in your HEAD tag ---------->
 {{!-- 
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css" rel='stylesheet'
@@ -39,11 +43,31 @@
 		}
 	}
 </script> --}}
-<body style="background-color:#5cdb95;">
-{{!-- <div class="container"> --}}
-{{#if dashboard}}
-<!-- Trigger/Open The Modal -->
-{{!-- <button id="myBtn">Open Modal</button>
+<style>
+a.button {
+    appearance: button;
+
+    text-decoration: none;
+   
+	padding:5px 5px 5px 5px;
+	background-color:rgb(0, 140, 255);
+	color:white;
+	border-radius: 8px;
+}
+a.button:hover {
+  background-color:rgb(0, 4, 255); 
+  color: white;
+}
+
+
+
+</style>
+
+<body>
+	{{!-- <div class="container"> --}}
+	{{#if dashboard}}
+	<!-- Trigger/Open The Modal -->
+	{{!-- <button id="myBtn">Open Modal</button>
 
 <!-- The Modal -->
 <div id="myModal" class="modal">
@@ -56,156 +80,142 @@
 
 </div> --}}
 
-<div class="card card-body" style="background-color:#ebeae4;"{{!-- outer grey colored box --}}>
+	<div class="card card-body" style="background-color:white;" {{!-- outer grey colored box --}}>
 
-	<h3 class="text-primary">Transaction History</h3>
-	<div class="form-group">
-		<div class="row mb-2">
-			<div class="col-12 col-sm-12 col-md-12 col-lg-3 mb-4">
-				<label class="font-italic">Date </label>
-				<input style="border-color:blue;" id="datepicker" width="200" name="Date" value="{{Date}}" readonly required />
-			</div>
-			{{!-- in between --}}
-			<div class="col-12 col-sm-12 col-md-12 col-lg-3 mb-4">
-				<label class="font-italic">Date </label>
-				<input style="border-color:blue;" id="datepicker2" width="200" name="Date" value="{{Date}}" readonly required />
+		<h3 class="text-primary">Transaction History</h3>
+		<div class="form-group">
+			<div class="row mb-2">
+				{{!-- <div class="col-12 col-sm-12 col-md-12 col-lg-3 mb-4">
+					<label class="font-italic"> Start Date </label>
+					<input style="border-color:blue;" id="StartDate" class="datepicker" width="200" name="StartDate"
+						value="{{Date}}" readonly required />
+				</div> --}}
+				{{!-- in between --}}
+				<div class="col-12 col-sm-12 col-md-12 col-lg-3 mb-4">
+					<label class="font-italic"> End Date / Show All Transactions (before) this input date. </label>
+					<input title="( Show All Transactions (till) this input date. )"style="border-color:blue;" id="EndDate" class="datepicker2" width="200" name="EndDate"
+						value="{{Date}}" readonly required />
+				</div>
 			</div>
 		</div>
-	</div>
 
-	{{!-- 	<div class="mb-2">
+		{{!-- 	<div class="mb-2">
 			<input type="Search" id="titles" onkeyup="showHint(this.value)">
 		</div>
 		 --}}
-	<div class="row">
-		<input id="query" class="col-sm-12 col-md-12 col-lg-2" placeholder="Search Name"></input>
-		<input id="search" type="button" value="search" />
-	</div>
-
-	<div class="card card-body">
-		<h3 class="text-primary">Video Jodts</h3>
-		<div id="card" class="card border-primary mb-2 w-100 mx-auto">
-			{{!-- search output shown here --}}
+		<div class="row">
+			<input id="query" class="col-sm-12 col-md-12 col-lg-2" placeholder="Search Name"></input>
+			<input id="search" type="button" value="search" />
 		</div>
-	</div>
 
-	{{!-- 
+
+
+		{{!-- <div class="card card-body"> --}}
+			<h3 class="text-primary">Transactions</h3>
+			<div id="card" >
+				{{!-- search output shown here --}}
+
+			</div>
+		{{!-- </div> --}}
+
+		{{!-- 
 <div class="col-md-10 col-md-offset-1"> --}}
 
-	<div class="panel panel-default panel-table">
-		<div class="panel-heading">
-			<div class="row">
-				<div class="col col-xs-6">
-					<h3 class="panel-title">Panel Heading</h3>
-				</div>
-				<div class="col col-xs-6 text-right">
-					<button type="button" class="btn btn-sm btn-primary btn-create">Create New</button>
+		<div class="panel panel-default panel-table">
+			<div class="panel-heading">
+				<div class="row">
+					<div class="col col-xs-6">
+						<h3 class="panel-title">Panel Heading</h3>
+					</div>
+					<div class="col col-xs-6 text-right">
+						
+						<a href="/dashboard/dashboard" class="button">Create New</a>
+					</div>
 				</div>
 			</div>
-		</div>
 
-		<table class="table table-striped table-bordered table-list table-responsive">
-			<thead>
-				<tr>
-					<th><em class="fa fa-cog"></em></th>
-					<th>Name</th>
-					<th>Notes</th>
-					<th>Tags</th>
-					<th>Amount</th>
-					<th>Date</th>
-				</tr>
-			</thead>
-			<tbody>
+			<table style="display: block; height: 300px; overflow-y: auto;" class="table table-striped table-bordered table-list table-responsive">
+				<thead>
+					<tr>
+						<th><em class="fa fa-cog"></em></th>
+						<th>Name</th>
+						<th>Notes</th>
+						<th>Tags</th>
+						<th>Amount</th>
+						<th>Type</th>
+						<th>Date</th>
+					</tr>
+				</thead>
+				<tbody>
 
-				{{!-- table below --}}
-				{{#each dashboard}}
+					{{!-- table below --}}
+					{{#each dashboard}}
 
-				<tr>
-					<td align="center">
-						{{!-- <i>
+					<tr>
+						<td align="center">
+							{{!-- <i>
 							<a href="/dashboard/delete/{{id}}"  data-toggle="confirmation"
                             data-title="Confirm delete?" class="btn btn-danger"><em class="fa fa-trash"></em></a>
 						</i> --}}
-						<a href="/dashboard/delete/{{id}}" class="card-link" data-toggle="confirmation"
-							data-title="Confirm delete?">
-							<i class="far fa-trash-alt" style="color:red;"></i>
-					</td>
-					<th>{{Name}}</th>
-					<th>{{Notes}}</th>
-					<th>{{Tags}}</th>
-					<th>${{Amount}}</th>
-					<th>{{formatDate Date 'DD/MM/YYYY'}}</th>
-				</tr>
+							<a href="/delete/{{id}}" class="card-link" data-toggle="confirmation"
+								data-title="Confirm delete?">
+								<i class="far fa-trash-alt" style="color:red;"></i>
+						</td>
+						<th>{{Name}}</th>
+						<th>{{Notes}}</th>
+						<th>{{Tags}}</th>
+						<th>${{Amount}}</th>
+						<th>{{PlusMinus}}</th>
+						<th>{{formatDate Date 'DD/MM/YYYY'}}</th>
+					</tr>
 
-				{{/each}}
-			</tbody>
-		</table>
-	</div>
-	{{!-- </div>  --}}
-</div>
-
-<div class="panel-footer">
-	<div class="row">
-		<div class="col col-xs-4">Page 1 of 5
+					{{/each}}
+				</tbody>
+			</table>
 		</div>
-		<div class="col col-xs-8">
-			<ul class="pagination hidden-xs pull-right">
-				<li><a href="#">1</a></li>
-				<li><a href="#">2</a></li>
-				<li><a href="#">3</a></li>
-				<li><a href="#">4</a></li>
-				<li><a href="#">5</a></li>
-			</ul>
-			<ul class="pagination visible-xs pull-right">
-				<li><a href="#">«</a></li>
-				<li><a href="#">»</a></li>
-			</ul>
-		</div>
+		{{!-- </div>  --}}
 	</div>
-</div>
-{{!-- </div> --}}
+
+	
+	{{!-- </div> --}}
 
 
-{{else}} <h3>No Transaction History</h3>
-{{/if}}
+	{{else}} <h3>No Transaction History</h3>
+	{{/if}}
 
 </body>
 
-
-{{!-- 	<input id="query"></input>
-	<input id="search" type="button" value="search"/>
-	<div class="card card-body">
-		<h3 class="text-primary">Video Jodts</h3>
-		<div id="card" class="card border-primary mb-2 w-100 mx-auto">
-		{{!-- search output shown here --}}
-</div>
-</div> --}}
-
 {{!-- "/video/search/ajax/" + query --}}
-
+{{!-- class datepicker --}}
 <script>
-	$('#datepicker').datepicker({
+	$('.datepicker').datepicker({
+		format: 'dd/mm/yyyy',
+		value: new Date().toLocaleDateString('en-SG'),
+		uiLibrary: 'bootstrap4',
+	});
+	$('.datepicker2').datepicker({
 		format: 'dd/mm/yyyy',
 		value: new Date().toLocaleDateString('en-SG'),
 		uiLibrary: 'bootstrap4',
 	});
 </script>
-<script>
-	$('#datepicker2').datepicker({
-		format: 'dd/mm/yyyy',
-		value: new Date().toLocaleDateString('en-SG'),
-		uiLibrary: 'bootstrap4',
-	});
-</script>
 
 <script>
+
+	function format_date(string) {
+		// moment.locale('en-SG');
+		var formattedDate = moment(string, 'DD/MM/YYYY').add(1, 'days');// new Date(string, "dd/mm/yyyy");		input // moment(string,'DD/MM/YYYY')
+		return formattedDate.format("YYYY-MM-DD");			// output
+	}
 	$(document).ready(function () {
 
 		$("#search").click(function () {
 			console.log("hit");
 			var query = $("#query").val();
+			var StartDate = format_date($("#StartDate").val());  // fprmat it to yyyy-mm-dd
+			var EndDate = format_date($("#EndDate").val());
 			$.ajax({
-				url: "/transactionH/search/" + query,
+				url: "/transactionH/search/" + query + "/" + StartDate + "/" + EndDate,
 				type: "GET",
 				success: function (data) {
 					console.log(data);
@@ -213,73 +223,43 @@
 					$("#card").html("");
 					$.each(dashboards, function (index, dashboard) {
 						var row = `
-							<div class="card-header">
-								<h5 class="card-title">${dashboard.Name}</h5>
-							</div>
-							<div class="card-body">
-								{{!-- Practical 09 Exercise 02 --}}
-								<div class="row">
-									
-									<div class="col-sm-12 col-md-12 col-lg-8">
-										<div class="row"> {{!-- subtitles, language... --}}
-											<div class="col-sm-12 col-md-6 col-lg-3">
-												<p class="font-italic">Subtitles</p>
-												<p class="text-info">
-													${dashboard.Notes}
-												</p>
-											</div>
-											<div class="col-sm-12 col-md-6 col-lg-4">
-												<p class="font-italic">Language</p>
-												<p class="text-info">
-													${dashboard.Tags}
-												</p>
-											</div>
-											<div class="col-sm-12 col-md-6 col-lg-2">
-												<p class="font-italic">Class</p>
-												<p class="text-info">${dashboard.Amount}</p>
-											</div>
-											<div class="col-sm-12 col-md-6 col-lg-3">
-												<p class="font-italic">Date Release</p>
-												<p class="text-info">${dashboard.Date}</p>
-					
-											</div >
-										</div >
-						<div class="row">
-							<div class="col-sm-12 col-md-6 col-lg-10">
-								<p class="font-italic">Starring</p>
-								<p class="text-info">${dashboard.Name}</p>
-							</div>
-						</div>
-						<div class="row">
-							<div class="col-sm-12 col-md-6 col-lg-10">
-								<p class="font-italic">Type</p>
-								<p class="text-info">{{PlusMinus}}</p>
-							</div>
-						</div>
-					</div>
-					<div class="col-sm-12 col-md-6 col-lg-2">
-						<p class="font-italic"></p>
-						<a href="/video/edit/{{id}}" class="card-link">
-							<i class="fas fa-pencil-alt"></i>
-							Edit
-						</a>
-						<a href="/transactionH/delete/{{id}}" class="card-link" data-toggle="confirmation"
-							data-title="Confirm delete?">
-							<i class="far fa-trash-alt"></i>
-							Delete
-						</a>
-					</div>
-				</div>
-			</div>
-
+							
+						<table class="table table-striped table-bordered table-list table-responsive">
+							<thead>
+								<tr>
+									<th><em class="fa fa-cog"></em></th>
+									<th>Name</th>
+									<th>Notes</th>
+									<th>Tags</th>
+									<th>Amount</th>
+									<th>Type</th>
+									<th>Date</th>
+								</tr>
+							</thead>
+							<tbody>		
+								<tr>
+									<td align="center">
+										<a href="/dashboard/delete/{{id}}" class="card-link" data-toggle="confirmation"
+											data-title="Confirm delete?">
+											<i class="far fa-trash-alt" style="color:red;"></i>
+									</td>
+									<th>${dashboard.Name}</th>
+									<th>${dashboard.Notes}</th>
+									<th>${dashboard.Tags}</th>
+									<th>${dashboard.Amount}</th>
+									<th>${dashboard.PlusMinus}</th>
+									<th>${dashboard.Date}</th>
+								</tr>
+							</tbody>
+						</table>	
 							`
-							console.log(row);
-							$("#card").append(row);
-						})
-					}
-				})
+						console.log(row);
+						$("#card").append(row);
+					})
+				}
 			})
 		})
+	})
 </script>
 
 

@@ -60,7 +60,7 @@
     <!--left col-->
     <h6> Profile Image</h6>
     <div class="col-sm-12 col-md-12 col-lg-2" style=float:left>
-        <a href="{{user.imgURL}}" data-toggle="lightbox">
+        <a href="{{user.imgURL}}" data-toggle="lightbox" >
             <img src="{{user.imgURL}}" alt="Image unavailable" class="img-thumbnail img-fluid">
         </a>
         <p>You can update your profile picture when you update your profile!</p>
@@ -99,19 +99,6 @@
                         </label>
                         <input type="email" class="form-control" name="email" id="email" value="{{user.email}}"
                             placeholder="Email" size="60px" disabled="true">
-                    </div>
-                </div>
-
-                <div class="form-group">
-
-                    <div class="col-xs-6">
-                        <label for="password">
-                            <h4>Password</h4>
-                        </label>
-                        <input type="password" class="form-control" name="password" id="password" value="{{user.password}}"
-                            placeholder="Password" disabled="true"> <input type="button" class="whew"
-                            onclick="showPass()" value="Show/Hide Password"
-                            style="background-color: white; border: none;">
                     </div>
                 </div>
 

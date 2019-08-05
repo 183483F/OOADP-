@@ -5,20 +5,20 @@
         <div class="col-md-6 mx-auto">
             <div class="card card-body">
                 <h2 class="text-center">Update Retirement Plan</h2>
-                <form action="/retire/saveeditretire/{{retire.id}}?_method=PUT" method="post">
+                <form action="/retire/saveeditretire/{{retires.id}}?_method=PUT" method="post">
                     <div class="form-group">
                         <label for="name">Monthly income</label>
-                        <input type="text" class="" name="MonthlyIncome" value="{{MonthlyIncome}}" required>
+                        <input type="text" class="" name="MonthlyIncome" value="{{retires.MonthlyIncome}}" required>
                     </div>
                     <div class="form-group">
                         <label for="name">Monthly living expense</label>
-                        <input type="text" class="" name="RetirementAge" value="{{RetirementAge}}" required>
+                        <input type="text" class="" name="RetirementAge" value="{{retires.RetirementAge}}" required>
                     </div>
                     <div class="form-group">
                         <label for="name">Hobbies/Others</label>
-                        <input type="text" class="" name="RetirementGoal" value="{{RetirementGoal}}" required>
+                        <input type="text" class="" name="RetirementGoal" value="{{retires.RetirementGoal}}" required>
                     </div>
-                        <button type="submit" class="btn btn-primary">Submit</button> 
+                        <button type="submit" class="btn btn-primary">Submit</button>
                 </form>
             </div>
         </div>

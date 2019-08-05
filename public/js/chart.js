@@ -1,4 +1,3 @@
-
 $(document).ready(function () {
     Chart.defaults.global.defaultFontFamily = 'Lato';
     Chart.defaults.global.defaultFontSize = 18;
@@ -35,15 +34,21 @@ $(document).ready(function () {
         options: {
             title: {
                 display: true,
-                text: 'Reviews',
+                text: 'Star Rating Reviews',
                 fontSize: 25
             },
             scales: {
+                xAxes: [{
+                    ticks: {
+                        beginAtZero: true
+                    }
+                }],
                 yAxes: [{
                     ticks: {
                         beginAtZero: true
                     }
                 }]
+
             }
 
         }
@@ -51,21 +56,21 @@ $(document).ready(function () {
   
 
     $.ajax({
-        url: '/feedback/AllFeedbackAjax',   /* AllFeedback */
+        url: '/Feedback/AllFeedbackAjax',   /* AllFeedback */
         type: 'GET',
         success: function (counts) {
             let labelList = [];
             let dataValue = [];
             for (var i = 0; i < counts.length; i++) {
-                labelList.push(counts[i].Rating)
-                dataValue.push(parseInt(counts[i].TagCount, "star"))
+                labelList.push(counts[i].Rating + " star")
+                dataValue.push(parseInt(counts[i].TagCount))
             };
 
             console.log(counts)
             var data = {
                 labels: labelList,
                 datasets: [{
-                    label: "# Number of Feedbacks",
+                    label: "# Number of feedback ratings ",
                     data: dataValue,
                     backgroundColor: [
                         'rgba(255, 99, 132, 0.2)',
@@ -95,10 +100,12 @@ $(document).ready(function () {
                         fontSize: 25
                     },
                     scales: {
-                        yAxes: [{
+                        xAxes: [{
                             ticks: {
-                                beginAtZero: true
-                            }
+                                beginAtZero: true,
+                                min: 0
+                            },
+                            minBarLength: 0,
                         }]
                     }
 
@@ -110,5 +117,3 @@ $(document).ready(function () {
 
     })
 });
-
-

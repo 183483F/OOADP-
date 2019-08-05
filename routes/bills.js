@@ -4,7 +4,7 @@ const router = express.Router();
 const moment = require('moment');
 const ensureAuthenticated = require('../helpers/auth');
 const alertMessage = require('../helpers/messenger')
-const sequelize = require('sequelize');
+const Sequelize = require('sequelize');
 const getDate = require('../helpers/hbs');
 const { Op } = require('sequelize')
 
@@ -14,36 +14,39 @@ router.get('/payment',ensureAuthenticated,(req, res) => {
     Bills.findAll({
         where: {
             userId: req.user.id,
-            dateDue: { [Op.gte] : today }// sequelize.col('date')}
+            paid:0,
+            DateDue: { [Op.gte] : today }// sequelize.col('date')}
           
         },
         order: [
-            ['dateDue', 'asc']
+            ['DateDue', 'asc']
         ],
         // raw: true
     }).then((bills) => {
         // pass object to listVideos.handlebar
+        var total = getSum(bills)
         res.render('bills/payment', {
+            sum : total,
             bills: bills
         });
     }).catch(err => console.log(err));
 });
 /* not confirm */
-router.get("/bills/payment/search/:query", ensureAuthenticated, (req, res) => {     /*  search/ajax/:query */
+router.get("/payment/search/:query", ensureAuthenticated, (req, res) => {     /*  search/ajax/:query */
     let query = req.params.query;
-    Bills.findAll({ // select * from video where userid = ... and title like '%dark%';
+    Bills.findAll({
         where : {
-            /* userId: req.user.id, */
-            title: sequelize.where(sequelize.fn('LOWER', sequelize.col("title")), 'LIKE', '%' + query + '%')
+            userId: req.user.id,
+            title: Sequelize.where(Sequelize.fn('LOWER', Sequelize.col("title")), 'LIKE', '%' + query + '%')
           /*   Date: Sequelize.where(Sequelize.fn(Sequelize.col("Date"))) */
         },
         order: [
-            ['title', 'ASC']
+            ['title', 'asc']
         ],
         raw: true
     }).then((bills) => {
         res.json({
-            bills : bills /* from transaction handlebar */
+            bills : bills 
 
         })
     }).catch(err => console.log(err));
@@ -54,16 +57,42 @@ router.get('/overdue',ensureAuthenticated,(req, res) => {
     Bills.findAll({
         where: {
             userId: req.user.id,
-            dateDue: { [Op.lte] : today }// sequelize.col('date')}
+            DateDue: { [Op.lte] : today }// sequelize.col('date')}
           
         },
         order: [
-            ['dateDue', 'asc']
+            ['DateDue', 'asc']
         ],
         // raw: true
     }).then((bills) => {
+        var total = getSum(bills)
         // pass object to listVideos.handlebar
         res.render('bills/overdue', {
+            sum: total,
+            bills: bills
+        });
+    }).catch(err => console.log(err));
+});
+
+router.get('/paid',ensureAuthenticated,(req, res) => {
+    let today = moment().tz("Asia/Singapore").toDate();
+    Bills.findAll({
+        where: {
+            userId: req.user.id,
+            paid: 1,
+        },
+        order: [
+            ['DateDue', 'asc']
+        ],
+        SUM: [
+            ['billCost']
+        ],
+        // raw: true
+    }).then((bills) => {
+        var total = getSum(bills)
+        // pass object to listVideos.handlebar
+        res.render('bills/paid', {
+            sum: total,
             bills: bills
         });
     }).catch(err => console.log(err));
@@ -80,14 +109,16 @@ router.get('/addbills',ensureAuthenticated,(req, res) => {
 router.post('/addbills',ensureAuthenticated,(req, res) => {
     let title = req.body.title;
     let billCost = req.body.billCost.slice(0, 50);
-    let dateDue = moment(req.body.dateDue, 'DD/MM/YYYY').tz('Asia/Singapore');
-    //dateDue = moment().add(1,'days');
+    let DateDue = moment(req.body.DateDue, 'DD/MM/YYYY').tz('Asia/Singapore');
+    let link = req.body.link;
     let userId = req.user.id;
     // Multi-value components return array of strings or undefined
     Bills.create({
         title,
         billCost,
-        dateDue,
+        DateDue,
+        paid: 0,
+        link,
         userId
         
     }).then((bills) => {
@@ -115,7 +146,8 @@ router.get('/edit/:id',ensureAuthenticated, (req, res) => {
 router.put('/saveEditedBills/:id',ensureAuthenticated,(req, res) => {
     let title = req.body.title;
     let billCost = req.body.billCost.slice(0, 50);
-    let dateDue = moment(req.body.dateDue, 'DD/MM/YYYY');
+    let DateDue = moment(req.body.DateDue, 'DD/MM/YYYY');
+    let link = req.body.link;
     var billID = req.params.id;
     let userId = req.user.id;
     // Retrieves edited values from req.body
@@ -123,7 +155,8 @@ router.put('/saveEditedBills/:id',ensureAuthenticated,(req, res) => {
         // Set variables here to save to the videos table
         title,
         billCost,
-        dateDue,
+        DateDue,
+        link,
         userId
     }, {
             where: {
@@ -138,9 +171,11 @@ router.put('/saveEditedBills/:id',ensureAuthenticated,(req, res) => {
 
 router.get('/delete/:id',ensureAuthenticated,(req, res) => {
     var billsId = req.params.id;
+    
     Bills.findOne({
         where: {
-            id: req.params.id
+            id: req.params.id,
+            
         }
     }).then((bills) => {
         console.log("billsIDToDelete.userId : " + bills.userId);
@@ -152,7 +187,7 @@ router.get('/delete/:id',ensureAuthenticated,(req, res) => {
                 }
             }).then((bills) => {
                 // For icons to use, go to https://glyphsearch.com/
-                alertMessage(res, 'success', 'Bills ID ' + billsId + ' successfully deleted.', true);
+                alertMessage(res, 'success', 'Bill' + ' successfully deleted.', true);
                 res.redirect('/bills/payment');
             }).catch(err => console.log(err));
         } else {
@@ -163,6 +198,73 @@ router.get('/delete/:id',ensureAuthenticated,(req, res) => {
         }
     })
 });
+
+router.get('/update/:id',ensureAuthenticated,(req, res) => {
+    var billsId = req.params.id;
+    Bills.findOne({
+        where: {
+            id: req.params.id
+        }
+    }).then((bills) => {
+        console.log("billsIDToUpdate.userId : " + bills.userId);
+        console.log("req.user.id : " + req.user.id);
+        if (bills.userId === req.user.id) {
+            Bills.update({
+                paid: 1 },{
+                where: {
+                    id: billsId
+                }
+            }).then((bills) => {
+                // For icons to use, go to https://glyphsearch.com/
+                alertMessage(res, 'success', 'Bill'+ ' paid', true);
+                res.redirect('/bills/paid');
+            }).catch(err => console.log(err));
+        } else {
+            // Video does not belong to the current user
+            alertMessage(res, 'danger', 'Unauthorized Access.', 'fas fa-exclamation-circle', true);
+            req.logout();
+            res.redirect('/');
+        }
+    })
+});
+
+router.get('/unUpdate/:id',ensureAuthenticated,(req, res) => {
+    var billsId = req.params.id;
+    Bills.findOne({
+        where: {
+            id: req.params.id
+        }
+    }).then((bills) => {
+        console.log("billsIDToUpdate.userId : " + bills.userId);
+        console.log("req.user.id : " + req.user.id);
+        if (bills.userId === req.user.id) {
+            Bills.update({
+                paid: 0 },{
+                where: {
+                    id: billsId
+                }
+            }).then((bills) => {
+                // For icons to use, go to https://glyphsearch.com/
+                alertMessage(res, 'success', 'Bill' + ' changed to unpaid', true);
+                res.redirect('/bills/payment');
+            }).catch(err => console.log(err));
+        } else {
+            // Video does not belong to the current user
+            alertMessage(res, 'danger', 'Unauthorized Access.', 'fas fa-exclamation-circle', true);
+            req.logout();
+            res.redirect('/');
+        }
+    })
+});
+
+function getSum(bills){
+    var sum = 0;
+    for(var i = 0; i < bills.length; i++){
+            sum += bills[i].billCost;
+    }
+    return sum
+}
+
 
 
 

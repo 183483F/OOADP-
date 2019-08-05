@@ -1,24 +1,29 @@
 <!--.col-	.col-sm-	.col-md-	.col-lg-	.col-xl- -->
-
-<div class="container">
+<style>
+    h3 {
+        color:red
+    }
+</style>
+<div class="0">
 	{{#if users}}
-	<div class="card card-body">
-		<h3 class="text-primary">Budget</h3>
+	<div>
+		<h3>Budget</h3>
+        <h4>The average monthly savings of our users is {{sum}}.</h4>
 {{!-- 		{{#each users}} --}}
 		<div class="card border-primary mb-2 w-100 mx-auto">
 			<div class="card-header">
-				<h5 class="card-title">Age: {{users.Age}}</h5>
-                <h5 class="card-title">Monthly income: {{users.MonthlyIncome}}</h5>
-                <h5 class="card-title">Plan to save monthly: {{users.MonthlySave}}</h5>
-                <h5 class="card-title">Living expense: {{users.Living}}</h5>
-                <h5 class="card-title">Food expense: {{users.Food}}</h5>
-                <h5 class="card-title">Hobbies/Others: {{users.Hobbies}}</h5>
+				<h5 class="card-title">Age: {{user.Age}}</h5>
+                <h5 class="card-title">Monthly income: {{user.MonthlyIncome}}</h5>
+                <h5 class="card-title">Plan to save monthly: {{user.MonthlySave}}</h5>
+                <h5 class="card-title">Living expense: {{user.Living}}</h5>
+                <h5 class="card-title">Food expense: {{user.Food}}</h5>
+                <h5 class="card-title">Hobbies/Others: {{user.Hobbies}}</h5>
 		    </div>
         </div>
 		<div class="form-group">
                     <div class="col-xs-12">
                         <br>
-                        <a href="/user/editbudget/{{users.id}}">
+                        <a href="/user/editbudget/{{user.id}}">
 						<button class="btn btn-lg btn-success"> <i class="glyphicon glyphicon-ok-sign"></i>Edit Budget</button>
                         </a>
                     </div>
